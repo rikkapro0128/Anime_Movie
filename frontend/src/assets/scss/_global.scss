@@ -1,0 +1,128 @@
+body {
+    background: url('~@/assets/img/bg_pattern1.png');
+    user-select: none;
+    -webkit-user-drag: none;
+}
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    font-family: 'Roboto', sans-serif;
+}
+.loading {
+    font-size: 1.2rem;
+    color: $base-color;
+    display: block;
+    text-align: center;
+    margin: 1rem 0;
+    &--failed {
+        color: red;
+    }
+}
+.tl-ani {
+    font-size: 1rem;
+    color: $tl-color;
+    font-style: italic;
+    transition: color 0.1s ease-in-out;
+    &.tl-ani-hov:hover {
+        color: $tl-color-hov;
+    }
+}
+table {
+    width: 100%;
+    margin-top: 0.8rem;
+    color: $base-color;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    box-sizing: border-box;
+    border-radius: 10px;
+    overflow: hidden;
+    background-color: rgba(255, 255, 255, 0.575);
+    tr {
+        transition: background-color 0.1s ease-in-out;
+        position: relative;
+        th {
+            padding: 0.8rem;
+            background-color: $tl-color;
+            color: #fff;
+        }
+        td {
+            transition: color 0.1s ease-in-out;
+            padding: 0.8rem;
+            text-align: center;
+            &.name {
+                display: block;
+                width: 18.75rem;
+                overflow: hidden;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+            }
+            &.stt {
+                text-align: center;
+            }
+            &.eps {
+                text-align: center;
+            }
+        }
+        &:not(:first-child):hover {
+            background-color: $tl-color;
+            cursor: pointer;
+            td {
+                color: #fff;
+            }
+        }
+        a {
+            display: block;
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+        }
+    }
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+img {
+    -webkit-user-drag: none;
+}
+
+.btn {
+    display: block;
+    background-color: $tl-color;
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    padding: 0.6rem;
+    cursor: pointer;
+    font-size: 1rem;
+    border: 2px solid $tl-color;
+    transition: all 0.1s ease-in-out;
+    width: fit-content;
+    white-space: nowrap;
+    &:hover {
+        color: $tl-color;
+        background-color: #fff;
+    }
+    &.t-green {
+        background-color: $text-green;
+        border: 2px solid $text-green;
+        &:hover {
+            color: $text-green;
+            background-color: #fff;
+        }
+    }
+}
+
+.box-sd {
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+.hov-remove {
+    transition: background-color 0.1s ease-in-out;
+    &:hover {
+        background-color: $bg-green;
+    }
+}

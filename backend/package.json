@@ -1,0 +1,26 @@
+{
+  "name": "backend",
+  "type": "module",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon ./app.js localhost 5000 -e js,json"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "formidable": "^1.2.2",
+    "method-override": "^3.0.0",
+    "mongoose": "^6.0.4",
+    "morgan": "^1.10.0",
+    "nodemon": "^2.0.12",
+    "promise-fs": "^2.1.1",
+    "uniqid": "^5.4.0"
+  },
+  "description": ""
+}
