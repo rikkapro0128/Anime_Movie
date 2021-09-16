@@ -1,11 +1,11 @@
 <template>
     <div class="movie-view">
-        <h1 class="tl-ani ls-anime">Bạn đang xem {{ data.movie.name }} | tập {{ esp }}</h1>
+        <h1 class="tl-ani ls-anime">Bạn đang xem <span>{{ data.movie.name }}</span> | tập {{ esp }}</h1>
             <!-- poster="//vjs.zencdn.net/v/oceans.png" -->
-            <div class="movie-view__video">
+            <div class="movie-view__video box__sd--pink">
                 <Video :link_mv="linkVideo" />
             </div>
-        <div class="movie-view__ls-esp">
+        <div class="movie-view__ls-esp box__sd--pink">
             <span>Các Tập :</span>
             <router-link v-for="(video, index) in data.videos" :key="index" class="btn t-green" :to="`/view-movie/${label}?esp=${video.esp}`">{{ video.esp }}</router-link>
         </div>
@@ -76,7 +76,6 @@
             border-radius: 5px;
             display: flex;
             align-items: center;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
             span {
                 color: #fff;
                 display: block;
@@ -95,7 +94,6 @@
             background-color: $tl-color;
             border-radius: 5px;
             margin: 1rem 0;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
         }
     }
 </style>

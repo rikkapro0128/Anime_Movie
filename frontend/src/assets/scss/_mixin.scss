@@ -55,6 +55,7 @@
             padding: 1rem;
             background: rgb(0,0,0);
             background: linear-gradient(0deg, rgba(0, 0, 0, 0.884) 0%, rgba(255,255,255,0) 100%);
+            text-transform: capitalize;
         }
         &:hover {
             .card__img {
@@ -77,5 +78,112 @@
         color: $tl-color;
         font-size: 1.6rem;
         font-style: italic;
+        span {
+            text-transform: capitalize;
+        }
+    }
+}
+
+@mixin sign {
+    .sign {
+        width: 100%;
+        margin: 5rem 0;
+        &__form {
+            width: 30rem;
+            margin: 0 auto;
+            background-color: $light;
+            box-sizing: border-box;
+            padding: 1rem;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            position: relative;
+            // animation: login_scale 1s 1 ease-in-out;
+            span {
+                color: $tl-color;
+                line-height: 1.4rem;
+            }
+            h1, h4, h2, h3 {
+                text-align: center;
+                color: $base-color;
+                font-size: 1rem;
+                margin: 0.5rem 0;
+            }
+            h4 {
+                font-size: 1.2rem;
+                color: $tl-color;
+            }
+            h2 > a {
+                color: $tl-color;
+                &:hover {
+                    text-decoration: underline;
+                }
+            }
+            h3 {
+                font-size: 1.6rem;
+                color: $tl-color;
+            }
+            button {
+                display: block;
+                font-size: 1.4rem;
+                color: #fff;
+                border: none;
+                text-align: center;
+                width: 100%;
+                padding: 0.6rem 0;
+                border-radius: 10px;
+                margin: 0.5rem 0;
+                cursor: pointer;
+                transition: all 0.2s ease-in-out;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+                position: relative;
+                z-index: 1;
+                &:hover {
+                    opacity: 0.8;
+                }
+            }
+            .log {
+                background-color: $tl-color;
+                box-shadow: 0 0 10px rgba(255, 0, 157, 0.5);
+            }
+            .google {
+                background-color: #25bd25;
+                box-shadow: 0 0 10px rgba(0, 255, 85, 0.5);
+            }
+            .facebook {
+                background-color: #5f1dff;
+                box-shadow: 0 0 10px rgba(97, 24, 192, 0.5);
+
+            }
+            &::before {
+                content: '';
+                display: block;
+                position: absolute;
+                width: 20rem;
+                height: 36rem;
+                left: 80%;
+                top: 0%;
+                background-size: 100%;
+                background-image: url('~@/assets/img/login_right.png');
+                background-repeat: no-repeat;
+                animation: 
+                    ani_char 4s 1s infinite ease-in-out, 
+                    ani_char_right_side 1s 1 ease-in-out;
+            }
+            &::after {
+                content: '';
+                display: block;
+                position: absolute;
+                width: 20rem;
+                height: 38.1rem;
+                right: 78%;
+                bottom: 0%;
+                background-size: 100%;
+                background-image: url('~@/assets/img/login_left.png');
+                background-repeat: no-repeat;
+                animation: 
+                    ani_char 4s 2s infinite ease-in-out, 
+                    ani_char_left_side 1s 1 ease-in-out;
+            }
+        }
     }
 }

@@ -5,6 +5,9 @@ const movie = createStore({
         return {
             movies: [],
             movie: {},
+            dataForm: {
+                
+            }
         };
     },
     mutations: {

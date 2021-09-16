@@ -3,7 +3,7 @@
         <h1 class="tl-ani">Quản lí</h1>
         <div class="admin__sidebar">
             <div class="admin__sidebar--left">
-                <div class="box-sd" v-for="(option, index) in optionSideBar" :key="index">
+                <div class="box__sd--pink" v-for="(option, index) in optionSideBar" :key="index">
                     <router-link :to="`/admin/${option.path}`">{{ option.name }}</router-link>
                 </div>
             </div>

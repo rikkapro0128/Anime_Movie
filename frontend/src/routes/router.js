@@ -1,6 +1,8 @@
 import { createRouter, createWebHistory } from "vue-router";
 
 import Home from '../views/Home';
+import Login from '../views/Login';
+import Register from '../views/Register';
 import Admin from '../views/Admin';
 import ListAnime from '../views/LS-Anime';
 import ReportAnime from '../views/Report-Anime';
@@ -12,6 +14,8 @@ import ViewMovie from '../views/View-Movie';
 
 const routes = [
     { path: '/', name: 'trang-chu', component: Home },
+    { path: '/dang-nhap', name: 'dang-nhap', component: Login },
+    { path: '/dang-ky', name: 'dang-ky', component: Register },
     { 
       path: '/movie/:label_anime',
       name: 'movie-by-label',

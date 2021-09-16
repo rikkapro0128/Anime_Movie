@@ -46,7 +46,7 @@ class Admin {
         const ext = path.extname(`${process.env.PATH_MOVIE}\\${pathVideo}`);
         const check = fs.existsSync(`${process.env.PATH_MOVIE}\\${label_ani}`);
         if(!check) { fs.mkdirSync(`${process.env.PATH_MOVIE}\\${label_ani}`, { recursive: true }); }
-        fs.renameSync(`${process.env.PATH_MOVIE}\\${pathVideo}`, `${process.env.PATH_MOVIE}\\${label_ani}\\esp-${Movie.videos.length + 1}${ext}`, (err) => new Error(err));
+        fs.renameSync(`${process.env.PATH_UPLOAD_MOVIE}\\${pathVideo}`, `${process.env.PATH_MOVIE}\\${label_ani}\\esp-${Movie.videos.length + 1}${ext}`, (err) => new Error(err));
         const Video = new VideoModel({
             label: label_ani,
             esp: Movie.videos.length + 1,

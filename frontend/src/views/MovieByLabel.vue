@@ -16,11 +16,11 @@
         </div>
         <div class="tool">
             <div class="ls-btn">
-                <router-link class="btn" :to="`/movie/${label}?esp=1`">Xem Anime</router-link>
-                <router-link class="btn" to="/">Xem Trailer</router-link>
+                <router-link class="btn box__sd--pink" :to="`/movie/${label}?esp=1`">Xem Anime</router-link>
+                <router-link class="btn box__sd--pink" to="/">Xem Trailer</router-link>
             </div>
-            <div class="esp">
-                <h1>Tập =></h1>
+            <div class="esp box__sd--pink">
+                <h1>Tập</h1>
                 <div class="esp--ls">
                     <router-link v-for="(video, index) in movie.videos" :key="index" class="btn t-green" :to="`/view-movie/${label}?esp=${video.esp}`">{{ video.esp }}</router-link>
                 </div>
@@ -57,6 +57,10 @@ export default {
     .movie {
         width: inherit;
         margin: 1rem 0;
+        padding: 0.5rem;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+        border-radius: 10px;
+        background-color: $light;
         @include tl-ani;
         &__details {
             display: flex;
@@ -80,6 +84,7 @@ export default {
                 h1 {
                     color: $base-color;
                     font-size: 1.3rem;
+                    text-transform: capitalize;
                     span {
                         font-size: 1.4rem;
                         color: $tl-color;
@@ -112,20 +117,24 @@ export default {
             }
             .esp {
                 width: 100%;
-                display: flex;
-                align-items: center;
                 margin-left: 1rem;
+                background-color: $tl-color;
+                border-radius: 10px;
                 &--ls {
-                    margin-left: 0.6rem;
                     display: flex;
+                    margin: 0 2rem;
+                    padding: 0.5rem 0;
                     a {
                         margin: 0 0.2rem;
                     }
                 }
                 h1 {
                     font-size: 1.2rem;
-                    color: $tl-color;
+                    color: $light;
                     white-space: nowrap;
+                    margin: 0.5rem 1rem;
+                    margin-bottom: 0;
+                    margin-left: 2rem;
                 }
                 span {
                     width: 100%;

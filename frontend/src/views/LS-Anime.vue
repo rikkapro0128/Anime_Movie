@@ -5,12 +5,12 @@
             <tr>
                 <th>STT</th>
                 <th>Tên</th>
-                <th>Tập</th>
+                <th>Tập hiện tại</th>
             </tr>
             <tr v-for="(data, index) in dataCard" :key="index">
                 <td class="stt">{{ index }}</td>
                 <td class="name">{{ data.name }}</td>
-                <td class="eps">Chưa cập nhật</td>
+                <td class="eps">{{ data.videos[(data.videos.length - 1)].esp }}</td>
                 <router-link :to="`/admin/danh-sach-anime/${data.label}`"></router-link>
             </tr>
         </table>

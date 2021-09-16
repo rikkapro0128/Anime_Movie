@@ -20,7 +20,7 @@
             </div>
             <div class="detail-ani__wrap--desc box-sd">
                 <span>Mô tả</span>
-                <textarea v-model="detailAnimeData.desc" :readonly="!state.editDesc"></textarea>
+                <textarea v-model="detailAnimeData.desc" :readonly="!state.editDesc" spellcheck="false"></textarea>
                 <div v-if="!state.editDesc" @click="state.editDesc = true" class="overlay"><span>Chỉnh sửa mô tả!</span></div>
                 <button v-else @click="saveInfo(detailAnimeData.desc, 'desc')" class="btn">Lưu</button>
             </div>

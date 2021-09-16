@@ -10,10 +10,10 @@
         <ul class="nav">
             <li class="nav__item">
                 <span class="nav__item--scan"></span>
-                <router-link to="/sign-in">Đăng nhập</router-link></li>
+                <router-link to="/dang-nhap">Đăng nhập</router-link></li>
             <li class="nav__item">
                 <span class="nav__item--scan"></span>
-                <router-link to="/sign-up">Đăng ký</router-link></li>
+                <router-link to="/dang-ky">Đăng ký</router-link></li>
             <li class="nav__item">
                 <span class="nav__item--scan"></span>
                 <router-link :to="`/admin/danh-sach-anime`">Quản lí</router-link></li>

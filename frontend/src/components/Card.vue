@@ -1,5 +1,5 @@
 <template>
-    <div class="card box-sd">
+    <div class="card box__sd">
         <router-link class="card__directly" :to="`/movie/${movie.label}`"></router-link>
         <img class="card__img" v-bind:src="`http://localhost:5000${movie.image}`" alt="card">
         <span class="card__rate">9.8</span>

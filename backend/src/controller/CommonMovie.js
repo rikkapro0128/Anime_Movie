@@ -3,7 +3,7 @@ import uniqid from 'uniqid';
 
 class Admin {
     async getMovies(req, res, next) {
-        const Movie = await MovieModel.find({}).exec();
+        const Movie = await MovieModel.find({}).populate('videos').exec();
         res.status(301).json(Movie);
     }
     async getMovieByLabel(req, res, next) {
