@@ -50,7 +50,7 @@
             top: -1px;
             background-size: 80%;
             background-position: 24px 0px;
-            font-size: 1rem;
+            font-size: 1.2rem;
             font-weight: 400;
             text-align: end;
             padding-right: 0.8rem;
@@ -63,12 +63,13 @@
             left: 0;
             right: 0;
             bottom: 0;
-            font-size: 1rem;
+            font-size: 1.2rem;
             color: $name-card;
             padding: 1rem;
             background: rgb(0,0,0);
             background: linear-gradient(0deg, $main-color 0%, rgba(255,255,255,0) 100%);
             text-transform: capitalize;
+            transition: all 1s ease-in-out;
         }
         &:hover {
             .card__img {
@@ -77,6 +78,9 @@
             }
             .card__play {
                 opacity: 1;
+            }
+            .card__name {
+                
             }
         }
     }

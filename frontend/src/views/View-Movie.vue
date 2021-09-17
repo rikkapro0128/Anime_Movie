@@ -1,6 +1,8 @@
 <template>
     <div class="movie-view">
-        <h1 class="tl-ani ls-anime">Bạn đang xem <span>{{ data.movie.name }}</span> | tập {{ esp }}</h1>
+        <h1 class="tl-ani ls-anime">
+            <span><i class="fas fa-heart"></i></span>
+            Bạn đang xem <span>{{ data.movie.name }}</span> | tập {{ esp }}</h1>
             <!-- poster="//vjs.zencdn.net/v/oceans.png" -->
             <div class="movie-view__video box__sd--pink">
                 <Video :link_mv="linkVideo" />
@@ -62,7 +64,7 @@
 <style lang="scss" scoped>
     .movie-view {
         width: inherit;
-        margin: 1rem 0;
+        margin: 2rem 0;
         @include tl-ani;
         #mv-player {
             display: block;

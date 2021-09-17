@@ -1,21 +1,25 @@
 <template>
   <div>
-    <video
-      ref="videoPlayer"
-      id="mv-player"
-      class="video-js"
-      width="960"
-      controls
-      preload="auto"
-      :src="`http://localhost:5000${link_mv}`"
-      type="video/*"
-      :autopictureinpicture="true"
-      @waiting="loading()"
-      @canplay="loaded()"
-      @loadedmetadata="loaded()"
-    ></video>
+    <!-- video element -->
+    <vue-plyr ref="player_ani">
+      <video
+        width="960"
+        height="540"
+        controls
+        crossorigin
+        playsinline
+        preload="auto"
+        size="720"
+        :src="`http://localhost:5000${link_mv}`"
+        type="video/*"
+        data-poster="https://i.pinimg.com/originals/23/d6/12/23d6122575e29debe94262e54d1ec09b.png"
+      >
+      </video>
+    </vue-plyr>
     <div class="loading" v-if="state"></div>
   </div>
+  <button @click="$refs.player_ani.player.currentTime -= 5">down second</button>
+  <button @click="$refs.player_ani.player.currentTime += 5">up second</button>
 </template>
 
 <script>
@@ -27,19 +31,21 @@ export default {
     },
   },
   setup() {
-    const state = ref(true);
+    const state = ref(false);
     return {
       state,
     }
-  }
-  ,
-  methods: {
-    loading() {
-      this.state = true;
-    },
-    loaded() {
+  },
+  mounted () {
+    this.$refs.player_ani.player.on('canplaythrough', () => {
       this.state = false;
-    },
+    });
+    this.$refs.player_ani.player.on('loadstart waiting', () => {
+      this.state = true;
+    });
+  },
+  methods: {
+
   }
 };
 </script>
@@ -47,12 +53,13 @@ export default {
 <style scoped lang="scss">
   div {
     width: fit-content;
-    margin: 0 auto;
+    margin: 0 1rem;
     border-radius: 5px;
     overflow: hidden;
     position: relative;
-    video {
-      display: block;
+    div {
+      width: initial;
+      aspect-ratio: 16 / 9;
     }
     .loading {
       width: 16rem;

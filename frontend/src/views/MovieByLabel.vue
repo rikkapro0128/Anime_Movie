@@ -56,7 +56,7 @@ export default {
 <style lang="scss" scoped>
     .movie {
         width: inherit;
-        margin: 1rem 0;
+        margin: 2rem 0;
         padding: 0.5rem;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
         border-radius: 10px;
@@ -113,6 +113,7 @@ export default {
             .ls-btn {
                 display: flex;
                 min-width: 14rem;
+                justify-content: space-around;
                 a {
                     margin: 0 0.2rem;
                 }

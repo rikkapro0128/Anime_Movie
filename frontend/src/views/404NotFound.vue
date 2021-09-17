@@ -1,8 +1,11 @@
 <template>
     <div class="not-found">
-        <div class="not-found__overlay"></div>
-        <h1 class="not-found__tl">404 Not Found!</h1>
-        <router-link class="not-found__redirect" to="/">Redirect Home Page!</router-link>
+        <div class="char">
+            <span class="not-found__react">Ara ara!</span>
+            <div class="char__ani"></div>
+        </div>
+        <h1 class="not-found__tl">Trang không có dữ liệu!</h1>
+        <router-link class="not-found__redirect" to="/">Quay trở lại trang chủ ->>!</router-link>
     </div>
 </template>
 
@@ -12,12 +15,11 @@
 
 <style lang="scss" scoped>
     .not-found {
-        background-image: url('~@/assets/img/404-not-found.jpg');
+        background-color: $main-color;
         width: inherit;
         height: 80vh;
         background-size: cover;
-        background-repeat: no-repeat;
-        margin: 1rem 0;
+        margin: 2rem 0;
         border-radius: 20px;
         overflow: hidden;
         display: flex;
@@ -25,23 +27,45 @@
         justify-content: center;
         align-items: center;
         position: relative;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-        &__overlay {
+        box-shadow: 0 0 10px $main-color;
+        background-image: url('~@/assets/img/bg_tr.png');
+        background-size: 5%;
+        .char {
             position: absolute;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.3);
+            top: 0px;
+            transform: translateY(25%);
+            span {
+                display: block;
+                width: 100px;
+                height: 72px;
+                background-repeat: no-repeat;
+                background-size: 100%;
+                background-image: url('~@/assets/img/box_mess.png');
+                line-height: 62px;
+                text-align: center;
+                color: #fff;
+                position: relative;
+                right: -100px;
+            }
+            &__ani {
+                width: 100px;
+                height: 170px;
+                background-repeat: no-repeat;
+                background-size: 100%;
+                background-image: url('~@/assets/img/main_sd_pc.png');
+            }
         }
         &__tl {
             position: relative;
             z-index: 1;
             font-size: 5rem;
-            color: #f18312;
+            color: #fff;
+            text-transform: capitalize;
         }
         &__redirect {
             position: relative;
             z-index: 1;
-            color: #3fff00;
+            color: #fff;
             font-size: 1.4rem;
             text-decoration: none;
             margin-top: 1rem;

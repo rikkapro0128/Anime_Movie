@@ -7,6 +7,12 @@
                     {{ item.name }}
                 </router-link></li>
         </ul>
+        <div class="nav__space">
+            <input type="text" placeholder="Tên anime?">
+            <button class="btn">Tìm kiếm
+                <i class="fas fa-search"></i>
+            </button>
+        </div>
         <ul class="nav">
             <li class="nav__item">
                 <span class="nav__item--scan"></span>
@@ -47,8 +53,40 @@
         background-color: $main-color;
         .nav {
             display: flex;
-            background-color: transparent;
+            &__space {
+                display: inline-block;
+                width: 100%;
+                border-bottom-left-radius: 20px;
+                border-bottom-right-radius: 20px;
+                background-color: #fff;
+                position: relative;
+                display: flex;
+                align-items: center;
+                input {
+                    display: inline-block;
+                    padding: 0.3rem 1rem;
+                    outline: none;
+                    border: 2px dotted $main-color;
+                    border-radius: 20px;
+                    width: 100%;
+                    margin: 0 0.5rem;
+                    font-size: 1.2rem;
+                    color: $base-color;
+                    font-weight: 600;
+                    font-style: italic;
+                    &::placeholder {
+                        color: #ccc;
+                    }
+                }
+                button {
+                    margin-right: 0.5rem;
+                    padding: 0.5rem;
+                    border-top-left-radius: 20px;
+                    border-bottom-right-radius: 20px;
+                }
+            }
             &__item {
+                background-color: $main-color;
                 position: relative;
                 a {
                     position: relative;
@@ -64,22 +102,10 @@
                     width: 100%;
                     height: 6px;
                     z-index: 1;
-                    transition: height 0.15s ease-in-out;
+                    transition: height 0.2s ease-in-out;
                 }
-                &:nth-child(1) > span {
-                    background-color: #ff8b46;
-                }
-                &:nth-child(2) > span {
-                    background-color: cadetblue;
-                }
-                &:nth-child(3) > span {
-                    background-color: #d4f00f;
-                }
-                &:nth-child(4) > span {
-                    background-color: #b1c6ff;
-                }
-                &:nth-child(5) > span {
-                    background-color: #acf0dc;
+                span {
+                    background-color: #fff;
                 }
                 &:not(:last-child) {
                     position: relative;
@@ -98,9 +124,11 @@
                 &:hover {
                     span {
                         height: 100%;
+                        border-bottom-left-radius: 20px;
+                        border-bottom-right-radius: 20px;
                     }
                     a {
-                        color: #000;
+                        color: $base-color;
                     }
                 }
             }

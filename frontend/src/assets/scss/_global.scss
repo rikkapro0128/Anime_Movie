@@ -7,7 +7,8 @@ body {
 .container {
     max-width: 1200px;
     margin: 0 auto;
-    font-family: 'Roboto', sans-serif;
+    font-family: 'Patrick Hand', cursive;
+    font-size: 1.2rem;
 }
 .loading {
     font-size: 1.2rem;
@@ -40,6 +41,10 @@ body {
 
 .t-warning {
     color: $warning;
+}
+
+.t-shadow-pink {
+    text-shadow: 0 0 5px $main-color;
 }
 
 table {
@@ -104,6 +109,7 @@ table {
 a {
     text-decoration: none;
     color: inherit;
+    white-space: nowrap;
 }
 
 img {
@@ -163,6 +169,7 @@ video {
     width: fit-content;
     white-space: nowrap;
     height: fit-content;
+    font-family: inherit;
     &:hover {
         color: $main-color;
         background-color: #fff;
@@ -173,6 +180,7 @@ video {
         border: 2px solid $base-color;
         margin: 0 0.2rem;
         box-shadow: 0 0 5px $base-color;
+        padding: 0.8rem 1rem;
         &:hover {
             border-color: $bg-esp;
             color: $bg-esp;
@@ -180,6 +188,10 @@ video {
             box-shadow: 0 0 5px $border-esp;
         }
     }
+}
+
+input {
+    font-family: inherit;
 }
 
 .box__sd {

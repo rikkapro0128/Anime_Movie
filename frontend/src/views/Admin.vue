@@ -40,7 +40,7 @@
 
 <style lang="scss" scoped>
     .admin {
-        margin: 1rem 0;
+        margin: 2rem 0;
         @include tl-ani;
         overflow: hidden;
         width: inherit;
