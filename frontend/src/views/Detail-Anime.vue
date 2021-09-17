@@ -26,7 +26,7 @@
             </div>
         </div>
         <div class="detail-ani__add-movie">
-            <input type="file" ref="inputPathFileVideo" accept="video/*" :multiple="false" @change="getPathFile($event)" hidden>
+            <input type="file" ref="inputPathFileVideo" accept="video/*" :multiple="true" @change="getPathFile($event)" hidden>
             <button class="btn box-sd" @click="$refs.inputPathFileVideo.click()">Thêm Video</button>
         </div>
         <table>
@@ -109,9 +109,11 @@ export default {
             }
         },
         async getPathFile(event) {
+            const arrayPath = [];
+            for(const file of event.target.files) { arrayPath.push(file.name); }
             const state = await this.$store.dispatch('sendNameVideo', {
                 url: `${process.env.VUE_APP_HOST_SERVER}/admin/post-video?label_ani=${this.labelAnime}`,
-                pathVideo: event.target.files[0].name,
+                pathVideo: arrayPath,
             });
             event.target.value = null;
             if(state) { this.reLoadData(); }
@@ -150,7 +152,7 @@ export default {
                 outline: none;
                 padding: 0.5rem;
                 border-radius: 10px;
-                border: 2px solid $tl-color;
+                border: 2px solid $main-color;
                 box-sizing: border-box;
             }
             .overlay {
@@ -192,7 +194,7 @@ export default {
             &--img {
                 min-width: 10rem;
                 height: 12rem;
-                border: 2px solid $tl-color;
+                border: 2px solid $main-color;
                 border-radius: 10px;
                 background-color: #fff;
                 cursor: pointer;
@@ -211,7 +213,7 @@ export default {
                     span {
                         display: block;
                         font-size: 1.2rem;
-                        color: $tl-color;
+                        color: $main-color;
                     }
                     label {
                         position: absolute;
@@ -228,8 +230,8 @@ export default {
                         border-radius: 10px;
                         margin-bottom: 0.4rem;
                         margin-right: 0.4rem;
-                        color: $tl-color;
-                        border: 2px solid $tl-color;
+                        color: $main-color;
+                        border: 2px solid $main-color;
                         transition: transform 0.1s ease-in-out;
                         &:active {
                             transform: scale(0.95);
@@ -247,7 +249,7 @@ export default {
             }
             &--desc {
                 margin-left: 1rem;
-                border: 2px solid $tl-color;
+                border: 2px solid $main-color;
                 border-radius: 10px;
                 background-color: #fff;
                 padding: 0.8rem;

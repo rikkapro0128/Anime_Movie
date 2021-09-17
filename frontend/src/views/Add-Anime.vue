@@ -133,7 +133,7 @@
                     transition: all 0.2s ease-in-out;
                     background-color: $light;
                     &:focus {
-                        border-color: $tl-color;
+                        border-color: $main-color;
                     }
                 }
                 textarea {
@@ -153,7 +153,7 @@
                     transition: all 0.2s ease-in-out;
                     background-color: $light;
                     &:focus {
-                        border-color: $tl-color;
+                        border-color: $main-color;
                     }
                 }
             }
@@ -168,8 +168,8 @@
                 transition: all 0.1s ease-in-out;
                 cursor: pointer;
                 &:hover {
-                    background-color: $tl-color;
-                    border-color: $tl-color;
+                    background-color: $main-color;
+                    border-color: $main-color;
                     color: #fff;
                 }
             }

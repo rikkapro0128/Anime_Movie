@@ -52,21 +52,21 @@
             &--left {
                 div {
                     margin: 0.4rem;
-                    border: 2px solid $tl-color;
+                    border: 2px solid $main-color;
                     border-radius: 20px;
                     background-color: #fff;
                     transition: all 0.1s ease-in-out;
                     a {
                         transition: color 0.1s ease-in-out;
                         display: block;
-                        color: $tl-color;
+                        color: $main-color;
                         text-decoration: none;
                         padding : 0.6rem 0.8rem;
                         white-space: nowrap;
                     }
                     &:hover {
-                        background-color: $tl-color;
-                        border-color: $tl-color;
+                        background-color: $main-color;
+                        border-color: $main-color;
                         a {
                             color: #fff;
                         }

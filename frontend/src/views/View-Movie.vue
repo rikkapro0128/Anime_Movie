@@ -7,7 +7,7 @@
             </div>
         <div class="movie-view__ls-esp box__sd--pink">
             <span>Các Tập :</span>
-            <router-link v-for="(video, index) in data.videos" :key="index" class="btn t-green" :to="`/view-movie/${label}?esp=${video.esp}`">{{ video.esp }}</router-link>
+            <router-link v-for="(video, index) in data.videos" :key="index" class="btn btn--esp" :to="`/view-movie/${label}?esp=${video.esp}`">{{ video.esp }}</router-link>
         </div>
     </div>
 </template>
@@ -71,7 +71,7 @@
             overflow: hidden;
         }
         &__ls-esp {
-            background-color: $tl-color;
+            background-color: $main-color;
             padding: 1rem;
             border-radius: 5px;
             display: flex;
@@ -80,18 +80,12 @@
                 color: #fff;
                 display: block;
             }
-            a {
-                border-color: #fff !important;
-                color: #fff;
-                margin: 0 0.3rem;
-                box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-            }
         }
         &__video {
             width: 100%;
             margin: 0 auto;
             padding: 1rem 0;
-            background-color: $tl-color;
+            background-color: $main-color;
             border-radius: 5px;
             margin: 1rem 0;
         }

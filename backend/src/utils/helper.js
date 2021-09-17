@@ -1,6 +1,7 @@
 import formidable from 'formidable';
 import os from 'os';
 import fsPromises from 'promise-fs';
+import uniqid from 'uniqid';
 
 function transferCharacterSpecial(str) {
     str = str.replace(/à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ/g,"a"); 
@@ -53,7 +54,13 @@ function uploadFile(Request, dirSave = '', reName = '', field = '', option = {
     })
 }
 
+function generrateLink(name) {
+    const label = transferCharacterSpecial(name);
+    return label.split(' ').join('-') + uniqid.time('-', '-movie');
+}
+
 export {
-    transferCharacterSpecial,
     uploadFile,
+    generrateLink,
+    transferCharacterSpecial,
 }

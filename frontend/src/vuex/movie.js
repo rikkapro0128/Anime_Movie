@@ -63,6 +63,20 @@ const movie = createStore({
             if(res.message === 'success!') { return true; }
             return false;
         },
+        async removeMovieByLabel(_, { label, options }) {
+            options.select = options.select ? 'select=' + options.select : '';
+            const data = await fetch(`${process.env.VUE_APP_HOST_SERVER}/admin/remove-movie/${label}/options?${options.esp}`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-type': 'application/json',
+                    'Cache-Control': 'no-cache',
+                },
+                mode: 'cors',
+            })
+            const res = await data.json();
+            if(res.message === 'success!') { return true; }
+            return false;
+        },
         async sendImage(_, { fieldImage, url, file }) {
             const formData = new FormData();
             formData.append(fieldImage, file);

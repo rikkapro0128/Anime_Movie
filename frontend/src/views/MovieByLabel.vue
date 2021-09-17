@@ -16,13 +16,13 @@
         </div>
         <div class="tool">
             <div class="ls-btn">
-                <router-link class="btn box__sd--pink" :to="`/movie/${label}?esp=1`">Xem Anime</router-link>
+                <router-link class="btn box__sd--pink" :to="`/view-movie/${label}?esp=${Object.keys(movie).includes('videos') ? movie.videos[0].esp : 'none'}`">Xem Anime</router-link>
                 <router-link class="btn box__sd--pink" to="/">Xem Trailer</router-link>
             </div>
             <div class="esp box__sd--pink">
                 <h1>Tập</h1>
                 <div class="esp--ls">
-                    <router-link v-for="(video, index) in movie.videos" :key="index" class="btn t-green" :to="`/view-movie/${label}?esp=${video.esp}`">{{ video.esp }}</router-link>
+                    <router-link v-for="(video, index) in movie.videos" :key="index" class="btn btn--esp" :to="`/view-movie/${label}?esp=${video.esp}`">{{ video.esp }}</router-link>
                 </div>
                 <span v-if="Object.keys(movie).includes('videos') ? !movie.videos.length : false">Vẫn chưa cập nhật tập nào!</span>
             </div>
@@ -68,6 +68,8 @@ export default {
             &--img {
                 min-width: 14rem;
                 height: 100%;
+                box-shadow: 0 0 10px $border-avatar;
+                border-radius: 10px;
                 img {
                     display: block;
                     box-sizing: border-box;
@@ -75,7 +77,7 @@ export default {
                     height: 100%;
                     object-fit: cover;
                     border-radius: 10px;
-                    border: 2px solid $base-color;
+                    border: 2px solid $border-avatar;
                 }
             }
             &--content {
@@ -87,7 +89,7 @@ export default {
                     text-transform: capitalize;
                     span {
                         font-size: 1.4rem;
-                        color: $tl-color;
+                        color: $main-color;
                     }
                 }
                 h3 {
@@ -99,7 +101,7 @@ export default {
                     overflow-y: scroll;
                     span {
                         font-size: 1.2rem;
-                        color: $tl-color;
+                        color: $main-color;
                     }
                 }
             }
@@ -118,15 +120,12 @@ export default {
             .esp {
                 width: 100%;
                 margin-left: 1rem;
-                background-color: $tl-color;
+                background-color: $main-color;
                 border-radius: 10px;
                 &--ls {
                     display: flex;
                     margin: 0 2rem;
                     padding: 0.5rem 0;
-                    a {
-                        margin: 0 0.2rem;
-                    }
                 }
                 h1 {
                     font-size: 1.2rem;
@@ -141,7 +140,7 @@ export default {
                     display: block;
                     text-align: center;
                     font-size: 1.2rem;
-                    color: $tl-color;
+                    color: $main-color;
                 }
             }
         }

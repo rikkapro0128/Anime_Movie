@@ -40,20 +40,20 @@
         width: inherit;
         display: flex;
         justify-content: space-between;
-        box-shadow: 0 0 10px#00000033;
+        box-shadow: 0 0 10px $main-color;
         border-bottom-left-radius: 20px;
         border-bottom-right-radius: 20px;
         overflow: hidden;
-        background-color: #fff;
+        background-color: $main-color;
         .nav {
             display: flex;
-            background-color: #fff;
+            background-color: transparent;
             &__item {
                 position: relative;
                 a {
                     position: relative;
                     display: block;
-                    color: $base-color;
+                    color: #fff;
                     text-decoration: none;
                     padding: 1rem 1rem;
                     z-index: 2;
@@ -100,7 +100,7 @@
                         height: 100%;
                     }
                     a {
-                        color: #fff;
+                        color: #000;
                     }
                 }
             }

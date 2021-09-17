@@ -1,5 +1,5 @@
 import { MovieModel, VideoModel } from '../model/movie.js';
-import { transferCharacterSpecial, uploadFile } from '../utils/helper.js';
+import { generrateLink, uploadFile } from '../utils/helper.js';
 import uniqid from 'uniqid';
 import path from 'path';
 import { dirname } from 'path';
@@ -9,11 +9,11 @@ import fs from 'fs';
 class Admin {
     async createMovie(req, res, next) {
         const { name, desc } = req.body;
-        const label = transferCharacterSpecial(name);
+        const label = generrateLink(name);
         const Movie = new MovieModel({
             name,
             desc,
-            label: label.split(' ').join('-') + uniqid.time('-', '-movie'),
+            label,
         });
         await Movie.save();
         res.status(301).json({ message: 'success!' });
@@ -25,7 +25,27 @@ class Admin {
             if(data.type === 'desc') {
                 await MovieModel.findOneAndUpdate({ label: label_ani}, { desc: data.value }).exec();
             }else if(data.type === 'name') {
-                await MovieModel.findOneAndUpdate({ label: label_ani}, { name: data.value }).exec();
+                const labelNew = generrateLink(data.value);
+                await MovieModel.findOneAndUpdate({ label: label_ani }, { label: labelNew, name: data.value, }).populate('videos').exec(async function(err, result) {
+                    const extImage = result.image.split('/')[2].split('.')[1];
+                    const imageOldPath = result.image.split('/')[2];
+                    const imageNewPath = `${labelNew}.${extImage}`;
+                    // variables
+                    result.image = `/img-mv/${imageNewPath}`;
+                    // change fields
+                    fs.renameSync(`${process.env.PATH_MOVIES_IMAGE}\\${imageOldPath}`, `${process.env.PATH_MOVIES_IMAGE}\\${imageNewPath}`);
+                    //change path directory
+                    await result.save();
+                    if(result.videos.length) {
+                        const pathOldVideo = result.videos[0].path.split('\\')[2];
+                        for(let index in result.videos) {
+                            const nameVideo = result.videos[index].path.split('\\')[3];
+                            await VideoModel.updateOne({ _id: result.videos[index]._id }, { label: labelNew, path: `\\video\\${labelNew}\\${nameVideo}` });
+                        }
+                        fs.renameSync(`${process.env.PATH_MOVIE}\\${pathOldVideo}`, `${process.env.PATH_MOVIE}\\${labelNew}`);
+                    }
+                    // save mongoose
+                });
             }
         }
         res.status(301).json({ message: 'success!' });
@@ -43,18 +63,21 @@ class Admin {
         const Movie = await MovieModel.findOne({ label: label_ani })
         .populate('videos')
         .exec();
-        const ext = path.extname(`${process.env.PATH_MOVIE}\\${pathVideo}`);
+        let ext;
         const check = fs.existsSync(`${process.env.PATH_MOVIE}\\${label_ani}`);
         if(!check) { fs.mkdirSync(`${process.env.PATH_MOVIE}\\${label_ani}`, { recursive: true }); }
-        fs.renameSync(`${process.env.PATH_UPLOAD_MOVIE}\\${pathVideo}`, `${process.env.PATH_MOVIE}\\${label_ani}\\esp-${Movie.videos.length + 1}${ext}`, (err) => new Error(err));
-        const Video = new VideoModel({
-            label: label_ani,
-            esp: Movie.videos.length + 1,
-            path: `\\video\\${label_ani}\\esp-${Movie.videos.length + 1}${ext}`,
-        });
-        Movie.videos.push(Video._id);
-        await Movie.save();
-        await Video.save();
+        for(let index in pathVideo) {
+            ext = path.extname(`${process.env.PATH_MOVIE}\\${pathVideo[index]}`);
+            fs.renameSync(`${process.env.PATH_UPLOAD_MOVIE}\\${pathVideo[index]}`, `${process.env.PATH_MOVIE}\\${label_ani}\\esp-${Movie.videos.length + 1}${ext}`, (err) => new Error(err));
+            const Video = new VideoModel({
+                label: label_ani,
+                esp: Movie.videos.length + 1,
+                path: `\\video\\${label_ani}\\esp-${Movie.videos.length + 1}${ext}`,
+            });
+            Movie.videos.push(Video._id);
+            await Movie.save();
+            await Video.save();
+        }
         res.status(301).json({ message: 'success!' });
     }
     async removeVideoByLabel(req, res, next) {
@@ -79,6 +102,26 @@ class Admin {
             }
         }
         res.status(301).json({ message: 'success!' });
+    }
+    async removeMovieByLabel(req, res, next) {
+        const { label_ani } = req.params;
+        const { select } = req.query;
+        try {
+            if(label_ani) {
+                if(select === 'all') {
+    
+                }else {
+                    await MovieModel.findOneAndDelete({ label: label_ani }).populate('videos').exec(async function(err, result) {
+                        await VideoModel.deleteMany({ label: label_ani });
+                    });
+                    fs.rmSync(`${process.env.PATH_MOVIE}\\${label_ani}`, { recursive: true, force: true });
+                }
+            }
+            res.status(301).json({ message: 'success!' });
+        } catch (error) {
+            console.log(error)
+            res.status(401).json({ message: error });
+        }
     }
 }
 

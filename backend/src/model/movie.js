@@ -6,14 +6,14 @@ const movie = new Schema({
     name: { type: String, required: true },
     desc: { type: String, default: '' },
     label: { type: String, required: true },
-    image: { type: String, },
+    image: { type: String, default: '' },
     videos: [{ type: Schema.Types.ObjectId, ref: 'videos' }],
 });
 
 const videos = new Schema({
-    label: { type: String, },
-    esp: { type: String },
-    path: { type: String, },
+    label: { type: String, required: true },
+    esp: { type: String, default: '' },
+    path: { type: String, default: '' },
     createAt: { type: Date, default: Date.now() }
 });
 

@@ -1,6 +1,8 @@
 <template>
     <div class="content">
-        <h1 class="tl-ani ls-anime">Danh sách Anime</h1>
+        <h1 class="tl-ani ls-anime">
+            <span><i class="fas fa-heart"></i></span>
+            Danh sách Anime</h1>
         <div class="ls-card">
             <Card v-for="(movie, index) in movies" v-bind:key="index" v-bind:movie="movie"/>
         </div>
