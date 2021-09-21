@@ -46,6 +46,7 @@
                 color: #fff;
                 position: relative;
                 right: -100px;
+                animation: ani_char infinite 4s ease-in-out;
             }
             &__ani {
                 width: 100px;
@@ -53,6 +54,7 @@
                 background-repeat: no-repeat;
                 background-size: 100%;
                 background-image: url('~@/assets/img/main_sd_pc.png');
+                animation: ani_char infinite 4s ease-in-out;
             }
         }
         &__tl {

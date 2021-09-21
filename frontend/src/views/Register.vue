@@ -6,7 +6,7 @@
                 - sau khi đăng ký sẽ có nhiều thứ để trải nghiệm lắm đó (^^) nyan~!
             </span>
             <Input v-for="(input, index) in setInput" :key="index" :ref="input.inputName" :data="input" @onChangeValueInput="changeValue"/>
-            <button @click="logValue" class="log">
+            <button @click="submitSignUp()" class="log">
                 <i class="fas fa-check-circle"></i>
                 Đăng Ký</button>
             <h4>Ngoài Ra</h4>
@@ -21,13 +21,21 @@
             </button>
         </div>
     </div>
+    <Overlay :toggle="loading || showPopup" :color_ol="'#00000059'" @changeToggle="showPopup = !showPopup" /> 
+    <Loading :toggle="loading" />
+    <Popup :toggle="showPopup" :message="message" @changeToggle="showPopup = !showPopup" />
 </template>
 
 <script>
     import Input from '../components/Input.vue';
+    import Popup from '../components/Popup.vue';
+    import Loading from '../components/Loading.vue';
+    import Overlay from '../components/Overlay.vue';
+    import helper from '../utils/helperLocalStorage.js';
     import { reactive, ref } from 'vue';
+    import { useStore } from 'vuex';
     export default {
-        components: { Input },
+        components: { Input, Popup, Loading, Overlay },
         setup() {
             const setInput = reactive([
                 {
@@ -68,11 +76,20 @@
                 email: '',
                 password: '',
                 re_password: '',
+                type: 'sign-up',
             });
+            const store = useStore();
+            const loading = ref(false);
             const checkErrorForm = ref(false);
+            const showPopup = ref(false);
+            const message = ref('')
             return {
+                store,
+                loading,
+                message,
                 setInput,
                 dataForm,
+                showPopup,
                 checkErrorForm,
             }
         },
@@ -151,9 +168,38 @@
                     this.setInput[3].permit = true;
                 }
             },
-            logValue() {
-                console.log(this.setInput)
+            async submitSignUp() {
+                this.setInput.forEach(({ permit }) => {
+                    if(!permit) {
+                        this.checkErrorForm = true;
+                        return;
+                    }else {
+                        this.checkErrorForm = false;
+                    }
+                    // if permit all array is true will pass!
+                });
+                if(!this.checkErrorForm) {
+                    // dispatch fetch API sing-up
+                    this.loading = true;
+                    const value = await this.store.dispatch('sendDataSign', { dataForm: this.dataForm });
+                    if(Object.keys(value).length) {
+                        this.loading = false;
+                        this.message = 'Bạn đã đăng ký thành công!';
+                        this.showPopup = true; // redirect to home page
+                        helper.signLocalStorage(value);
+                    }
+                }else {
+                    // show popup error
+                    this.message = 'Thông tin vẫn chưa hợp lệ mà!';
+                    this.showPopup = true;
+                }
             },
+        },
+        beforeRouteEnter(to, from, next) {
+            const isLogin = JSON.parse(localStorage.getItem('isLogin'));
+            if(isLogin) {
+                next({ name: '404-not-found' });
+            }else { next() }
         }
     }
 </script>

@@ -1,13 +1,12 @@
 import { createStore } from 'vuex';
+import VueCookies from 'vue-cookies'
+import jwt_decode from "jwt-decode";
 
 const movie = createStore({
     state() {
         return {
             movies: [],
             movie: {},
-            dataForm: {
-                
-            }
         };
     },
     mutations: {
@@ -16,9 +15,24 @@ const movie = createStore({
         },
         setMovie(state, data) {
             state.movie = data;
-        }
+        },
     },
     actions: {
+        async getPathDirStorage() {
+            const data = await fetch(`${process.env.VUE_APP_HOST_SERVER}/admin/path-dir-upload`, {
+                method: 'GET',
+                headers: {
+                    'Content-type': 'application/json',
+                    'Cache-Control': 'no-cache',
+                },
+                mode: 'cors',
+            })
+            const res = await data.json();
+            if(res.path) {
+                return res.path;
+            }
+            return '';
+        },
         async getMovies({ commit }) {
             const data = await fetch(`${process.env.VUE_APP_HOST_SERVER}/take-mv/ls`, {
                 method: 'GET',
@@ -46,7 +60,9 @@ const movie = createStore({
             const res = await data.json();
             if(res) {
                 commit('setMovie', res);
+                return true;
             }
+            return false;
         },
         async removeVideoByLabel(_, { label, options }) {
             options.esp = options.esp ? 'esp=' + options.esp : '';
@@ -111,7 +127,63 @@ const movie = createStore({
             const res = await data.json();
             if(res.message === 'success!') { return true; }
             return false;
-        }
+        },
+        async sendDataSign(_, { dataForm }) {
+            let data;
+            if(dataForm.type === 'sign-up') {
+                data = await fetch(`${process.env.VUE_APP_HOST_SERVER}/st-sign/act-up` , {
+                    method: 'POST',
+                    headers: {
+                        'Content-type': 'application/json',
+                    },
+                    body: JSON.stringify(dataForm),
+                });
+            }
+            else if(dataForm.type === 'sign-in') {
+                data = await fetch(`${process.env.VUE_APP_HOST_SERVER}/st-sign/act-in` , {
+                    method: 'POST',
+                    headers: {
+                        'Content-type': 'application/json',
+                    },
+                    body: JSON.stringify(dataForm),
+                });
+            }else if(dataForm.type === 'sign-out') {
+                data = await fetch(`${process.env.VUE_APP_HOST_SERVER}/st-sign/act-out` , {
+                    method: 'POST',
+                    headers: {
+                        'Content-type': 'application/json',
+                    },
+                    body: JSON.stringify(dataForm),
+                });
+            }
+            const res = await data.json();
+            if(res.message === 'success!') {
+                if(dataForm.type !== 'sign-out') {
+                    const decode_token = jwt_decode(res.token);
+                    const decode_refToken = jwt_decode(res.refToken);
+                    // console.log(exp_token, exp_refToken)
+                    VueCookies.set('token', res.token, new Date(decode_token.exp * 1000));
+                    VueCookies.set('ref_token', res.refToken, new Date(decode_refToken.exp * 1000));
+                    // (time * 1000 - new Date().getTime()) / 1000) to remain second expire token
+                    return { type: decode_refToken.type, name: decode_refToken.name, _id: decode_refToken._id };
+                } else {
+                    return true;
+                }
+            }
+            return false;
+        },
+        async refreshToken(_, { refToken }) {
+            const data = await fetch(`${process.env.VUE_APP_HOST_SERVER}/st-sign/ref-token`, {
+                method: 'POST',
+                headers: {
+                    'Content-type': 'application/json',
+                    'Authorization': refToken,
+                },
+            })
+            const res = await data.json();
+            if(res.message === 'success!') { return res.token; }
+            return null;
+        },
     },
     getters: {
         

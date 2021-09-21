@@ -1,15 +1,27 @@
+html {
+    height: fit-content;
+    scroll-behavior: smooth;
+}
+
 body {
     background: url('~@/assets/img/bg_pattern1.png');
     user-select: none;
     -webkit-user-drag: none;
     animation: bg_body 50s 4s infinite ease-in-out;
+    position: relative;
 }
+
 .container {
     max-width: 1200px;
     margin: 0 auto;
-    font-family: 'Patrick Hand', cursive;
+    font-family: 'Patrick Hand', cursive !important;
     font-size: 1.2rem;
+    position: relative;
+    section {
+        position: relative;
+    }
 }
+
 .loading {
     font-size: 1.2rem;
     color: $base-color;
@@ -112,6 +124,12 @@ a {
     white-space: nowrap;
 }
 
+button {
+    white-space: nowrap;
+    font-family: 'Patrick Hand', cursive !important;
+    font-size: 1.2rem;
+}
+
 img {
     -webkit-user-drag: none;
     -webkit-backface-visibility: hidden; 
@@ -181,6 +199,21 @@ video {
         margin: 0 0.2rem;
         box-shadow: 0 0 5px $base-color;
         padding: 0.8rem 1rem;
+        &:hover {
+            border-color: $bg-esp;
+            color: $bg-esp;
+            background-color: $base-color;
+            box-shadow: 0 0 5px $border-esp;
+        }
+    }
+    &--tool {
+        background-color: $bg-esp;
+        color: $base-color;
+        border: 2px solid $base-color;
+        margin: 0 0.2rem;
+        box-shadow: 0 0 5px $base-color;
+        padding: 0.5rem;
+        display: inline-block;
         &:hover {
             border-color: $bg-esp;
             color: $bg-esp;
@@ -278,5 +311,24 @@ input {
     }
     100% {
         transform: rotate(0deg) scale(1);  
+    }
+}
+
+@keyframes toast {
+    0% {
+        transform: skew(-8deg, 0) translateX(calc(100% + 20px));
+        opacity: 0;
+    }
+    20% {
+        transform: skew(-8deg, 0) translateX(0%);
+        opacity: 1;
+    }
+    70% {
+        transform: skew(-8deg, 0) translateX(0%);
+        opacity: 1;
+    }
+    100% {
+        transform: skew(-8deg, 0) translateX(calc(100% + 20px));
+        opacity: 0;
     }
 }

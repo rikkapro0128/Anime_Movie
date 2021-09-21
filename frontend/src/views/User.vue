@@ -1,51 +1,55 @@
 <template>
-    <div class="admin">
-        <h1 class="tl-ani">Quản lí</h1>
-        <div class="admin__sidebar">
-            <div class="admin__sidebar--left">
+    <div class="user">
+        <h1 class="tl-ani">Trang cá nhân</h1>
+        <div class="user__sidebar">
+            <div class="user__sidebar--left">
                 <div class="box__sd--pink" v-for="(option, index) in optionSideBar" :key="index">
-                    <router-link :to="`/admin/${option.path}`">{{ option.name }}</router-link>
+                    <router-link :to="`/user/${option.path}`">{{ option.name }}</router-link>
                 </div>
             </div>
-            <div class="admin__sidebar--right">
-                <router-view name="ListAnime"></router-view>
-                <router-view name="ReportAnime"></router-view>
-                <router-view name="AddAnime"></router-view>
-                <router-view name="DetailAnime"></router-view>
+            <div class="user__sidebar--right">
+                <router-view name="UserInfo"></router-view>
             </div>
         </div>
     </div>
 </template>
 
 <script>
-    import { onMounted, ref } from 'vue';
+    import { ref } from 'vue';
+    import { useStore } from 'vuex';
     export default {
     setup() {
         const routedemo = ref(null);
+        const store = useStore();
         const optionSideBar = ref([
-            { name: 'Danh sách anime', path: 'danh-sach-anime' },
-            { name: 'Phản hồi', path: 'phan-hoi' },
-            { name: 'Thêm Phim', path: 'them-anime' },
+            { name: 'Thông tin của bạn', path: 'thong-tin-cua-ban' },
+            { name: 'Tin nhắn', path: '' },
+            { name: 'Đổi mật khẩu', path: '' },
+            { name: 'Nhóm Chat', path: '' },
+            { name: 'Hộp phim', path: '' },
         ]);
-        onMounted(() => {
-            console.log()
-        })
         return {
+            store,
             routedemo,
             optionSideBar,
         };
     },
-    beforeRouteEnter(to, from, next) {
-        const isAdmin = JSON.parse(localStorage.getItem('isAdmin'));
-        if(!isAdmin) {
-            next({ name: '404-not-found' });
-        }else { next() }
+    async beforeRouteEnter(to, from, next) {
+        const isUser = JSON.parse(localStorage.getItem('isUser'));
+        if(isUser) {
+            next();
+        }else { next({ name: '404-not-found' }) }
+    },
+    methods: {
+        showPopup() {
+
+        }
     }
 }
 </script>
 
 <style lang="scss" scoped>
-    .admin {
+    .user {
         margin: 2rem 0;
         @include tl-ani;
         overflow: hidden;

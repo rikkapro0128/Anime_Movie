@@ -1,7 +1,7 @@
 import { MovieModel } from '../model/movie.js';
-import uniqid from 'uniqid';
+// import uniqid from 'uniqid';
 
-class Admin {
+class workMovie {
     async getMovies(req, res, next) {
         const Movie = await MovieModel.find({}).populate('videos').exec();
         res.status(301).json(Movie);
@@ -22,4 +22,4 @@ class Admin {
     }
 }
 
-export default new Admin;
+export default new workMovie;

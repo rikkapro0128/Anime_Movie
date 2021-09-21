@@ -26,6 +26,9 @@
             </div>
         </div>
         <div class="detail-ani__add-movie">
+            <h1>Để thêm video Admin vui lòng thêm video vào thư mục
+                <span>"{{ pathDirStorage.split('\\\\').join('\\') }}"</span>
+            </h1>
             <input type="file" ref="inputPathFileVideo" accept="video/*" :multiple="true" @change="getPathFile($event)" hidden>
             <button class="btn box-sd" @click="$refs.inputPathFileVideo.click()">Thêm Video</button>
         </div>
@@ -61,6 +64,7 @@ export default {
         const labelAnime = ref(route.params.label_anime);
         const detailAnimeData = ref({});
         const fileImage = ref({});
+        const pathDirStorage = ref('');
         const nameVideo = ref(null);
         const textImage = reactive({
             message: 'Tải ảnh',
@@ -72,16 +76,18 @@ export default {
         });
         (async () => {
             await store.dispatch('getMovieByLabel', { label: labelAnime.value, options: { esp: 'all' } });
+            pathDirStorage.value = await store.dispatch('getPathDirStorage');
             detailAnimeData.value = store.state.movie;
         })();
         return {
             state,
             store,
-            imageLocal,
-            labelAnime,
             fileImage,
             nameVideo,
             textImage,
+            imageLocal,
+            labelAnime,
+            pathDirStorage,
             detailAnimeData,
             stateButtonSaveImage,
         }
@@ -186,6 +192,8 @@ export default {
                 top: 50%;
                 right: 0.1rem;
                 transform: translateY(-50%) scale(0.8);
+                font-size: 1.4rem;
+                padding: 0.4rem 0.8rem;
             }
         }
         &__wrap {
@@ -302,9 +310,11 @@ export default {
                 }
                 button {
                     position: absolute;
-                    right: 0.6rem;
-                    top: 0.1rem;
+                    right: 0.5rem;
+                    top: -0.2rem;
                     transform: scale(0.8);
+                    font-size: 1.4rem;
+                    padding: 0.4rem 0.8rem;
                 }
             }
         }
@@ -313,6 +323,11 @@ export default {
             display: flex;
             justify-content: flex-end;
             margin-top: 0.8rem;
+            align-items: center;
+            h1 {
+                margin-right: 1rem;
+                color: $base-color;
+            }
         }
     }
 </style>

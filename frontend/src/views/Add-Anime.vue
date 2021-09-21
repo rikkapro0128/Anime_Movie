@@ -117,6 +117,9 @@
                     font-weight: 600;
                     font-style: italic;
                 }
+                input, textarea {
+                    box-shadow: 0 0 10px $main-color;
+                }
                 input {
                     box-sizing: border-box;
                     display: block;
@@ -126,14 +129,15 @@
                     margin: 0.4rem 0;
                     padding: 0.5rem 0.8rem;
                     font-style: italic;
-                    border: 2px solid $base-color;
+                    border: 2px solid $main-color;
                     border-radius: 20px;
                     color: $base-color;
                     font-weight: 600;
                     transition: all 0.2s ease-in-out;
                     background-color: $light;
                     &:focus {
-                        border-color: $main-color;
+                        border-color: $base-color;
+                        box-shadow: 0 0 10px $base-color;
                     }
                 }
                 textarea {
@@ -145,7 +149,7 @@
                     margin: 0.4rem 0;
                     padding: 0.5rem 0.8rem;
                     font-style: italic;
-                    border: 2px solid $base-color;
+                    border: 2px solid $main-color;
                     border-radius: 20px;
                     color: $base-color;
                     font-weight: 600;
@@ -153,7 +157,8 @@
                     transition: all 0.2s ease-in-out;
                     background-color: $light;
                     &:focus {
-                        border-color: $main-color;
+                        border-color: $base-color;
+                        box-shadow: 0 0 10px $base-color;
                     }
                 }
             }
@@ -161,16 +166,20 @@
                 display: block;
                 font-size: 1.2rem;
                 padding: 0.5rem 0.8rem;
-                color: $base-color;
                 background-color: #fff;
                 border: 2px solid $base-color;
                 border-radius: 20px;
                 transition: all 0.1s ease-in-out;
                 cursor: pointer;
+                box-shadow: 0 0 10px $main-color;
+                color: #fff;
+                background-color: $main-color;
+                border-color: $main-color;
                 &:hover {
-                    background-color: $main-color;
-                    border-color: $main-color;
-                    color: #fff;
+                    color: $base-color;
+                    box-shadow: 0 0 10px $base-color;
+                    background-color: transparent;
+                    border-color: $base-color;
                 }
             }
             .status-send {

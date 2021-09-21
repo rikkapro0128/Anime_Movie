@@ -59,8 +59,17 @@ function generrateLink(name) {
     return label.split(' ').join('-') + uniqid.time('-', '-movie');
 }
 
+async function testPromise() {
+    return new Promise((resolve) => {
+        setTimeout(() => {
+            resolve('null');
+        }, 3000);
+    })
+}
+
 export {
     uploadFile,
+    testPromise,
     generrateLink,
     transferCharacterSpecial,
 }

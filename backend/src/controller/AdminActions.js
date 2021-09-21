@@ -1,12 +1,15 @@
 import { MovieModel, VideoModel } from '../model/movie.js';
-import { generrateLink, uploadFile } from '../utils/helper.js';
-import uniqid from 'uniqid';
+import { generrateLink, uploadFile } from '../utils/commom.js';
+// import uniqid from 'uniqid';
 import path from 'path';
-import { dirname } from 'path';
-import { fileURLToPath } from 'url';
+// import { dirname } from 'path';
+// import { fileURLToPath } from 'url';
 import fs from 'fs';
 
 class Admin {
+    getPathDir(req, res, next) {
+        res.status(301).json({ path: process.env.PATH_UPLOAD_MOVIE });
+    }
     async createMovie(req, res, next) {
         const { name, desc } = req.body;
         const label = generrateLink(name);

@@ -33,23 +33,29 @@
             const label = ref(route.params.label_anime);
             const esp = ref(route.query.esp);
             const data = reactive({ videos: [], movie: {} });
-            const linkVideo = ref('');
-            function getLink(value) {
-                let state = data.videos.find((vd => vd.esp === value));
-                if(state) { return state.path.split('\\').join('/'); }
-            }
-            (async () => {
+            const linkVideo = reactive({ currentLink: '', nextLink: '' });
+            async function runNow() {
                 await store.dispatch('getMovieByLabel', {
                     label: label.value,
                     options: { esp: 'all', },
                 });
                 data.movie = store.state.movie;
                 data.videos = data.movie.videos;
-                linkVideo.value = getLink(esp.value);
-            })();
-            watch(() => route.query.esp, (newValue) => {
-                linkVideo.value = getLink(newValue);
-                esp.value = route.query.esp;
+                getLink(esp.value);
+            }
+            runNow();
+            function getLink(esp) {
+                data.videos.forEach((vd, index) => {
+                    if(vd.esp === esp) {
+                        linkVideo.currentLink = vd.path;
+                        linkVideo.nextLink = data.videos[index + 1] ? `/${route.name}/${data.movie.label}?esp=${data.videos[index + 1].esp}` : '';
+                    }
+                });
+            }
+            watch(() => route.query.esp, (newEsp) => {
+                runNow();
+                getLink(newEsp);
+                if(newEsp) { esp.value = newEsp; }
             })
             return {
                 esp,
