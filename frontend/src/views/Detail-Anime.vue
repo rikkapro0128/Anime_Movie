@@ -8,7 +8,7 @@
         </div>
         <div class="detail-ani__wrap">
             <div class="detail-ani__wrap--img box-sd">
-                <img v-if="detailAnimeData.image" :src="`http://localhost:5000${detailAnimeData.image}`" :alt="detailAnimeData.name">
+                <img v-if="imageLink" :src="`http://localhost:5000${imageLink}`" :alt="detailAnimeData.name">
                 <img v-if="imageLocal" :src="imageLocal" :alt="'load'">
                 <div class="no-img" @mouseenter="changeText" @mouseleave="changeText">
                     <span v-if="!textImage.state">{{ !detailAnimeData.image && !imageLocal ? 'Không có ảnh!' : 'Thay đổi!'}}</span>
@@ -66,6 +66,7 @@ export default {
         const fileImage = ref({});
         const pathDirStorage = ref('');
         const nameVideo = ref(null);
+        const imageLink = ref('');
         const textImage = reactive({
             message: 'Tải ảnh',
             state: false,
@@ -78,10 +79,12 @@ export default {
             await store.dispatch('getMovieByLabel', { label: labelAnime.value, options: { esp: 'all' } });
             pathDirStorage.value = await store.dispatch('getPathDirStorage');
             detailAnimeData.value = store.state.movie;
+            imageLink.value = detailAnimeData.value.image;
         })();
         return {
             state,
             store,
+            imageLink,
             fileImage,
             nameVideo,
             textImage,
@@ -99,26 +102,26 @@ export default {
         getFileImage(event) {
             this.fileImage = event.target.files[0];
             this.imageLocal = URL.createObjectURL(event.target.files[0]);
-            this.detailAnimeData.image = '';
+            this.imageLink = '';
             this.stateButtonSaveImage = true;
         },
         async sendImage() {
             const state = await this.$store.dispatch('sendImage', {
                 fieldImage: 'image', 
-                url: `${process.env.VUE_APP_HOST_SERVER}/admin/up-img-mv/options?label_ani=${this.labelAnime}`,
+                url: `admin/up-img-mv/options?label_ani=${this.labelAnime}`,
                 file: this.fileImage,
             });
             if(state) { 
                 this.imageLocal = '';
+                await this.reLoadData();
                 this.stateButtonSaveImage = !this.stateButtonSaveImage;
-                this.$router.go(0);
             }
         },
         async getPathFile(event) {
             const arrayPath = [];
             for(const file of event.target.files) { arrayPath.push(file.name); }
             const state = await this.$store.dispatch('sendNameVideo', {
-                url: `${process.env.VUE_APP_HOST_SERVER}/admin/post-video?label_ani=${this.labelAnime}`,
+                url: `admin/post-video?label_ani=${this.labelAnime}`,
                 pathVideo: arrayPath,
             });
             event.target.value = null;
@@ -139,6 +142,7 @@ export default {
         async reLoadData() {
             await this.$store.dispatch('getMovieByLabel', { label: this.labelAnime, options: { esp: 'all' } });
             this.detailAnimeData = this.store.state.movie;
+            this.imageLink = this.detailAnimeData.image;
         },
     }
 }

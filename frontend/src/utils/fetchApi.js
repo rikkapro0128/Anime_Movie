@@ -2,10 +2,9 @@ import helper from './helperToken.js'
 import VueCookies from 'vue-cookies';
 
 class fetchWorker {
-    constructor(hostName) {
-        this.hostName = hostName;
+    constructor() {
+        this.hostName = process.env.VUE_APP_HOST_SERVER;
         this.errFetch = 'CANT\'T FETCH API!';
-        this.Authorization = VueCookies.get('token');
     }
     async GET(url) {
         const state = await helper.checkTokenIsExpire();
@@ -15,28 +14,30 @@ class fetchWorker {
                 headers: {
                     'Content-type': 'application/json',
                     'Cache-Control': 'no-cache',
-                    'Authorization': this.Authorization,
+                    'Authorization': VueCookies.get('token'),
                 },
                 mode: 'cors',
             })
-            return data = await res.json();
+            return await res.json();
         }else {
             return this.errFetch;
         }
     }
-    async POST(url, value) {
+    async POST(url, value, type = 'json') {
         const state = await helper.checkTokenIsExpire();
+        const options = {
+            'Content-Type': 'application/json',
+            'Authorization': VueCookies.get('token'),
+        };
+        if(type === 'image') { delete options['Content-Type']; }
         if(state === 'NEXT!') {
             const res = await fetch(`${this.hostName}/${url}`, {
                 method: 'POST',
-                headers: {
-                    'Content-type': 'application/json',
-                    'Authorization': this.Authorization,
-                },
+                headers: options,
                 mode: 'cors',
-                body: JSON.stringify(value),
+                body: (type === 'image') ? value : JSON.stringify(value),
             })
-            return data = await res.json();
+            return await res.json();
         }else {
             return this.errFetch;
         }
@@ -48,12 +49,12 @@ class fetchWorker {
                 method: 'PATCH',
                 headers: {
                     'Content-type': 'application/json',
-                    'Authorization': this.Authorization,
+                    'Authorization': VueCookies.get('token'),
                 },
                 mode: 'cors',
                 body: JSON.stringify(value),
             })
-            return data = await res.json();
+            return await res.json();
         }else {
             return this.errFetch;
         }
@@ -65,11 +66,11 @@ class fetchWorker {
                 method: 'DELETE',
                 headers: {
                     'Content-type': 'application/json',
-                    'Authorization': this.Authorization,
+                    'Authorization': VueCookies.get('token'),
                 },
                 mode: 'cors',
             })
-            return data = await res.json();
+            return await res.json();
         }else {
             return this.errFetch;
         }

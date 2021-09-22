@@ -29,7 +29,7 @@ class SystemSign {
       newAccount.refToken.push(refToken);
       await newAccount.save();
       // console.log('Complete!');
-      res.status(301).json({ message: "success!", token, refToken });
+      res.status(301).json({ message: "SUCCESSFUL!", token, refToken });
     } catch (error) {
       console.log(error);
       res.status(401).json({ message: error });
@@ -65,7 +65,7 @@ class SystemSign {
       account.refToken.push(refToken);
       await account.save();
       // console.log('Invalid!');
-      res.status(301).json({ message: "success!", token, refToken });
+      res.status(301).json({ message: "SUCCESSFUL!", token, refToken });
     } catch (error) {
       console.log(error);
       res.status(401).json({ message: error });
@@ -76,7 +76,7 @@ class SystemSign {
     const account = await AccountModel.findById({ _id: id_user }).exec();
     if(account.refToken.length) { account.refToken = [] };
     await account.save();
-    res.status(301).json({ message: 'success!' });
+    res.status(301).json({ message: 'SUCCESSFUL!' });
   }
   async refToken(req, res, next) {
     try {

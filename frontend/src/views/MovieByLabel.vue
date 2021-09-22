@@ -2,7 +2,7 @@
     <div class="movie">
         <div class="movie__details">
             <div class="movie__details--img">
-                <img :src="`http://localhost:5000${movie.image}`" alt="">
+                <img :src="movie.image ? `http://localhost:5000${movie.image}` : 'http://localhost:5000/res-image/no_image.png'" :alt="movie.image ? `http://localhost:5000${movie.imag}` : 'http://localhost:5000/res-image/no_image.png'">
             </div>
             <div class="movie__details--content">
                 <h1 class="">
@@ -16,15 +16,15 @@
         </div>
         <div class="tool">
             <div class="ls-btn">
-                <router-link class="btn box__sd--pink" :to="`/view-movie/${label}?esp=${Object.keys(movie).includes('videos') ? movie.videos[0].esp : 'none'}`">Xem Anime</router-link>
+                <router-link class="btn box__sd--pink" :to="`${!movie.videos?.length ? '/' : `/view-movie/${label}?esp=${movie.videos?.[0]?.esp}`}`">Xem Anime</router-link>
                 <router-link class="btn box__sd--pink" to="/">Xem Trailer</router-link>
             </div>
             <div class="esp box__sd--pink">
                 <h1>Tập</h1>
-                <div class="esp--ls">
+                <div v-if="movie.videos?.length" class="esp--ls">
                     <router-link v-for="(video, index) in movie.videos" :key="index" class="btn btn--esp" :to="`/view-movie/${label}?esp=${video.esp}`">{{ video.esp }}</router-link>
                 </div>
-                <span v-if="Object.keys(movie).includes('videos') ? !movie.videos.length : false">Vẫn chưa cập nhật tập nào!</span>
+                <span v-else>Vẫn chưa cập nhật tập nào!</span>
             </div>
         </div>
     </div>
@@ -127,6 +127,7 @@ export default {
                     display: flex;
                     margin: 0 2rem;
                     padding: 0.5rem 0;
+                    flex-wrap: wrap;
                 }
                 h1 {
                     font-size: 1.2rem;
@@ -141,7 +142,8 @@ export default {
                     display: block;
                     text-align: center;
                     font-size: 1.2rem;
-                    color: $main-color;
+                    color: $light;
+                    margin-bottom: 1rem;
                 }
             }
         }

@@ -55,15 +55,16 @@ class helpSign {
     checkPermission(auth) {
         const context = this;
         return async function(req, res, next) {
+            // console.log(req.get('Authorization'))
             try {
-                // console.log(req.get('Authorization'))
                 const state = await context.verifyToken(req.get('Authorization'));
+                // console.log(state)
                 if(Object.keys(state).length) {
                     if(state.type === auth) { next(); }
                     else { res.status(403).json({ message: 'Forbidden!' }); }
                 }
             } catch (error) {
-                // console.log(error)
+                // console.log(error.message)
                 res.status(401).json({ message: error.message });
             }
         }

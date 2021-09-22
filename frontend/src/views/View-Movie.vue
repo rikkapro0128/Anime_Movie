@@ -84,9 +84,11 @@
             border-radius: 5px;
             display: flex;
             align-items: center;
+            flex-wrap: wrap;
             span {
                 color: #fff;
                 display: block;
+                white-space: nowrap;
             }
         }
         &__video {

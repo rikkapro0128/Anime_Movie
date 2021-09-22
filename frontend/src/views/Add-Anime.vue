@@ -21,6 +21,7 @@
 
 <script>
     import { reactive, ref, watchEffect } from 'vue';
+    import { useStore } from 'vuex';
 
     export default {
         setup() {
@@ -48,12 +49,14 @@
                 },
             });
             const stateDone = ref('');
+            const store = useStore();
             watchEffect(() => {
                 !data.name ? stateValidate.name.state = true : stateValidate.name.state = false;
                 !data.desc ? stateValidate.desc.state = true : stateValidate.desc.state = false;
             });
             return {
                 data,
+                store,
                 formAddMovie,
                 stateSending,
                 stateValidate,
@@ -61,24 +64,16 @@
             }
         },
         methods: {
-            sendMovie() {
+            async sendMovie() {
                 if(!this.stateValidate.name.state && !this.stateValidate.desc.state) {
                     this.stateSending = 'Đang Tạo Phim!';
                     this.stateDone = '';
-                    fetch('http://localhost:5000/admin/create-movie', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify(this.data),
-                    })
-                    .then((response) => response.json())
-                    .then(() => { 
+                    const res = await this.store.dispatch('createMovie', { data: this.data });
+                    if(res.message === 'SUCCESSFUL!') {
                         this.aleart('Tạo Phim Thành Công!');
-                    })
-                    .catch(() => {
+                    }else {
                         this.aleart('Có Lỗi Tạo Phim');
-                    })
+                    }
                 }
             },
             aleart(message) {

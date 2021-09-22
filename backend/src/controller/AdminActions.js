@@ -19,7 +19,7 @@ class Admin {
             label,
         });
         await Movie.save();
-        res.status(301).json({ message: 'success!' });
+        res.status(301).json({ message: 'SUCCESSFUL!' });
     }
     async updateMovie(req, res, next) {
         const { label_ani } = req.params;
@@ -51,13 +51,13 @@ class Admin {
                 });
             }
         }
-        res.status(301).json({ message: 'success!' });
+        res.status(301).json({ message: 'SUCCESSFUL!' });
     }
     async imageMovie(req, res, next) {
         const { label_ani } = req.query;
         const nameImage = await uploadFile(req, process.env.PATH_MOVIES_IMAGE, label_ani, 'image');
         await MovieModel.findOneAndUpdate({ label: label_ani }, { image: `/img-mv/${nameImage}` });
-        res.status(301).json({ message: 'success!' });
+        res.status(301).json({ message: 'SUCCESSFUL!' });
     }
     async postVideoByLabel(req, res, next) {
         const { label_ani } = req.query;
@@ -81,7 +81,7 @@ class Admin {
             await Movie.save();
             await Video.save();
         }
-        res.status(301).json({ message: 'success!' });
+        res.status(301).json({ message: 'SUCCESSFUL!' });
     }
     async removeVideoByLabel(req, res, next) {
         const { label_ani } = req.params;
@@ -104,7 +104,7 @@ class Admin {
                 })
             }
         }
-        res.status(301).json({ message: 'success!' });
+        res.status(301).json({ message: 'SUCCESSFUL!' });
     }
     async removeMovieByLabel(req, res, next) {
         const { label_ani } = req.params;
@@ -120,7 +120,7 @@ class Admin {
                     fs.rmSync(`${process.env.PATH_MOVIE}\\${label_ani}`, { recursive: true, force: true });
                 }
             }
-            res.status(301).json({ message: 'success!' });
+            res.status(301).json({ message: 'SUCCESSFUL!' });
         } catch (error) {
             console.log(error)
             res.status(401).json({ message: error });
