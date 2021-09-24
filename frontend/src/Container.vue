@@ -1,7 +1,12 @@
 <template>
     <div class="container">
         <Header />
-        <router-view></router-view>
+        <router-view v-slot="{ Component, route }">
+            <!-- Use any custom transition and fallback to `fade` -->
+            <transition :name="route.meta.transition || 'fade'">
+                <component :is="Component" />
+            </transition>
+        </router-view>
         <Footer />
     </div>
 </template>
@@ -17,3 +22,7 @@
         },
     }
 </script>
+
+<style scoped lang="scss">
+    
+</style>

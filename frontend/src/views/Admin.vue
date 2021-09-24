@@ -6,12 +6,15 @@
                 <div class="box__sd--pink" v-for="(option, index) in optionSideBar" :key="index">
                     <router-link :to="`/admin/${option.path}`">{{ option.name }}</router-link>
                 </div>
+                <!-- <input type="file" accept="image/*" :multiple="false" @change="addFile($event)"> -->
             </div>
             <div class="admin__sidebar--right">
-                <router-view name="ListAnime"></router-view>
-                <router-view name="ReportAnime"></router-view>
-                <router-view name="AddAnime"></router-view>
-                <router-view name="DetailAnime"></router-view>
+                <router-view v-slot="{ Component, route }">
+                    <!-- Use any custom transition and fallback to `fade` -->
+                    <transition :name="route.meta.transition || 'fade'">
+                        <component :is="Component" />
+                    </transition>
+                </router-view>
             </div>
         </div>
     </div>
@@ -40,7 +43,7 @@
         if(!isAdmin) {
             next({ name: '404-not-found' });
         }else { next() }
-    }
+    },
 }
 </script>
 

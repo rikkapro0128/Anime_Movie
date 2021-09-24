@@ -20,10 +20,10 @@
                 Faceook
             </button>
         </div>
+        <Overlay :toggle="loading || showPopup" :color_ol="'#00000059'" @changeToggle="showPopup = !showPopup" /> 
+        <Loading :toggle="loading" />
+        <Popup :toggle="showPopup" :message="message" @changeToggle="showPopup = !showPopup" />
     </div>
-    <Overlay :toggle="loading || showPopup" :color_ol="'#00000059'" @changeToggle="showPopup = !showPopup" /> 
-    <Loading :toggle="loading" />
-    <Popup :toggle="showPopup" :message="message" @changeToggle="showPopup = !showPopup" />
 </template>
 
 <script>

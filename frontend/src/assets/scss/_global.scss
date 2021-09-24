@@ -1,5 +1,7 @@
+// transition for template route navigation
+@include faded;
+
 html {
-    height: fit-content;
     scroll-behavior: smooth;
 }
 

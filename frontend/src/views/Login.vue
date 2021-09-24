@@ -22,10 +22,10 @@
                 Facebook
             </button>
         </div>
+        <Overlay :toggle="loading || statePopup" :color_ol="'#00000059'" @changeToggle="statePopup = !statePopup" /> 
+        <Loading :toggle="loading" />
+        <Popup :toggle="statePopup" :message="messagePopup" @changeToggle="statePopup = !statePopup" />
     </section>
-    <Overlay :toggle="loading || statePopup" :color_ol="'#00000059'" @changeToggle="statePopup = !statePopup" /> 
-    <Loading :toggle="loading" />
-    <Popup :toggle="statePopup" :message="messagePopup" @changeToggle="statePopup = !statePopup" />
 </template>
 
 <script>

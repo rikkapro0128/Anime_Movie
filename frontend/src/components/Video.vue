@@ -80,6 +80,9 @@ export default {
     this.$refs.player_ani.player.on('loadstart waiting', () => {
       this.state = true;
     });
+    // this.$refs.player_ani.player.on('loaded', () => {
+    //   console.log('loading...!')
+    // });
   },
   method: {
 

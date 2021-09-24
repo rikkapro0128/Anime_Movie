@@ -16,9 +16,9 @@ import MovieByLabel from '../views/MovieByLabel';
 import ViewMovie from '../views/View-Movie';
 
 const routes = [
-    { path: '/', name: 'trang-chu', component: Home },
-    { path: '/dang-nhap', name: 'dang-nhap', component: Login },
-    { path: '/dang-ky', name: 'dang-ky', component: Register },
+    { path: '/', name: 'trang-chu', component: Home, },
+    { path: '/dang-nhap', name: 'dang-nhap', component: Login, },
+    { path: '/dang-ky', name: 'dang-ky', component: Register, },
     { 
       path: '/movie/:label_anime',
       name: 'movie-by-label',
@@ -40,21 +40,21 @@ const routes = [
         {
           path: 'danh-sach-anime',
           name: 'danh-sach-anime',
-          components: { ListAnime },
+          component: ListAnime,
         },
         {
           path: 'danh-sach-anime/:label_anime',
           name: 'detail-anime',
-          components: { DetailAnime },
+          component: DetailAnime ,
         },
         {
           path: 'phan-hoi',
           name: 'phan-hoi',
-          components: { ReportAnime },
+          component: ReportAnime,
         },
         {
           path: 'them-anime',
-          components: { AddAnime },
+          component: AddAnime,
         }
       ],
     },
@@ -80,6 +80,16 @@ const routes = [
 const router = createRouter({
     history: createWebHistory(),
     routes,
+    scrollBehavior(to, from, savedPosition) {
+      if (savedPosition) {
+        return savedPosition
+      } else if(to.hash) {
+        return {
+          el: to.hash,
+          behavior: 'smooth',  
+        }
+      }
+    },
 })
 
 router.beforeEach(async () => {
