@@ -52,18 +52,18 @@ export default {
     return {
       store,
       dataCard,
-      changeDataCard,
+      changeDataCard
     };
   },
   methods: {
     async removeMovie(label) {
       await this.store.dispatch("removeMovieByLabel", {
         label,
-        options: { select: "" },
+        options: { select: "" }
       });
       this.changeDataCard = !this.changeDataCard;
-    },
-  },
+    }
+  }
 };
 </script>
 

@@ -1,5 +1,10 @@
 <template>
-  <div class="card box__sd">
+  <div
+    class="card box__sd"
+    @mouseenter="showTooltip = true"
+    @mouseleave="showTooltip = false"
+    @mousemove="readCoordinate($event)"
+  >
     <router-link
       class="card__directly"
       :to="`/movie/${movie.label}`"
@@ -21,18 +26,38 @@
           : 0
         : 0
     }}</span>
+    <TooltipMovie :coordinate="coordinate" :movie="movie" v-if="showTooltip" />
   </div>
 </template>
 
 <script>
+import TooltipMovie from "./TooltipMovie.vue";
+import { ref, reactive } from "vue";
 export default {
-  data() {
+  name: "Card",
+  props: {
+    movie: {
+      type: Object
+    }
+  },
+  emits: ["changeStateTooltip", "changeCoordinateTooltip"],
+  components: { TooltipMovie },
+  setup() {
+    const showTooltip = ref(false);
+    const host = ref(process.env.VUE_APP_HOST_SERVER);
+    const coordinate = reactive({ x: 0, y: 0 });
     return {
-      host: process.env.VUE_APP_HOST_SERVER,
+      host,
+      coordinate,
+      showTooltip
     };
   },
-  name: "Card",
-  props: ["movie"],
+  methods: {
+    readCoordinate(e) {
+      this.coordinate.x = e.pageX;
+      this.coordinate.y = e.pageY;
+    }
+  }
 };
 </script>
 

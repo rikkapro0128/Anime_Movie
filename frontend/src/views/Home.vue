@@ -12,18 +12,16 @@
       />
     </div>
   </section>
-  <TooltipMovie />
 </template>
 
 <script>
 import Card from "../components/Card.vue";
-import TooltipMovie from "../components/TooltipMovie.vue";
 import { ref } from "vue";
 import { useStore } from "vuex";
 
 export default {
   name: "Content",
-  components: { Card, TooltipMovie },
+  components: { Card },
   setup() {
     const store = useStore();
     const movies = ref([]);
@@ -32,9 +30,10 @@ export default {
       movies.value = store.state.movies;
     })();
     return {
-      movies,
+      movies
     };
   },
+  methods: {}
 };
 </script>
 
