@@ -1,8 +1,8 @@
-import express from 'express';
+import express from "express";
 const router = express.Router();
 // import controller
-import User from '../../controller/UserActions.js';
+import User from "../../controller/UserActions.js";
 
-router.get('/test', User.test);
+router.post("/active-comment", User.ActiveComment);
 
 export default router;

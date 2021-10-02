@@ -15,10 +15,7 @@ const port = 5000;
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
 dotenv.config();
-app.use(cors({
-    origin: ['http://localhost:8080'],
-    methods: ['GET', 'POST', 'DELETE'],
-}));
+app.use(cors());
 app.use(methodOverride('_method'));
 app.use(express.static(path.join(__dirname, 'src', 'public')))
 app.use('/video', express.static(process.env.PATH_MOVIE))

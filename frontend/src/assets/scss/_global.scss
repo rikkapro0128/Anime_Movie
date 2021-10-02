@@ -2,335 +2,349 @@
 @include faded;
 
 html {
-    scroll-behavior: smooth;
+  scroll-behavior: smooth;
 }
 
 body {
-    background: url('~@/assets/img/bg_pattern1.png');
-    user-select: none;
-    -webkit-user-drag: none;
-    animation: bg_body 50s 4s infinite ease-in-out;
-    position: relative;
+  background: url("~@/assets/img/bg_pattern1.png");
+  user-select: none;
+  -webkit-user-drag: none;
+  animation: bg_body 50s 4s infinite ease-in-out;
+  position: relative;
 }
 
 .container {
-    max-width: 1200px;
-    margin: 0 auto;
-    font-family: 'Patrick Hand', cursive !important;
-    font-size: 1.2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  font-family: "Patrick Hand", cursive !important;
+  font-size: 1.2rem;
+  position: relative;
+  section {
     position: relative;
-    section {
-        position: relative;
-    }
+  }
 }
 
 .loading {
-    font-size: 1.2rem;
-    color: $base-color;
-    display: block;
-    text-align: center;
-    margin: 1rem 0;
-    &--failed {
-        color: red;
-    }
+  font-size: 1.2rem;
+  color: $base-color;
+  display: block;
+  text-align: center;
+  margin: 1rem 0;
+  &--failed {
+    color: red;
+  }
 }
 
 .tl-ani {
-    font-size: 1rem;
+  font-size: 1rem;
+  color: $main-color;
+  font-style: italic;
+  transition: color 0.1s ease-in-out;
+  &.tl-ani-hov:hover {
     color: $main-color;
-    font-style: italic;
-    transition: color 0.1s ease-in-out;
-    &.tl-ani-hov:hover {
-        color: $main-color;
-    }
+  }
 }
 
 .t-error {
-    color: $error;
+  color: $error;
 }
 
 .t-success {
-    color: $success;
+  color: $success;
 }
 
 .t-warning {
-    color: $warning;
+  color: $warning;
 }
 
 .t-shadow-pink {
-    text-shadow: 0 0 5px $main-color;
+  text-shadow: 0 0 5px $main-color;
 }
 
 table {
-    width: 100%;
-    margin-top: 0.8rem;
-    color: $base-color;
-    box-shadow: 0 0 10px $main-color;
-    box-sizing: border-box;
-    border-radius: 10px;
-    overflow: hidden;
-    background-color: rgba(255, 255, 255, 0.575);
-    tr {
-        transition: background-color 0.1s ease-in-out;
-        position: relative;
-        th {
-            padding: 0.8rem;
-            background-color: $main-color;
-            color: #fff;
-        }
-        td {
-            transition: color 0.1s ease-in-out;
-            padding: 0.8rem;
-            text-align: center;
-            &.name {
-                display: block;
-                overflow: hidden;
-                white-space: nowrap;
-                text-overflow: ellipsis;
-                text-align: left;
-            }
-            &.stt {
-                text-align: center;
-            }
-            &.eps {
-                text-align: center;
-            }
-            &.remove {
-                position: relative;
-            }
-            &:last-child {
-                display: block;
-            }
-        }
-        &:not(:first-child):hover {
-            background-color: $main-color;
-            cursor: pointer;
-            td {
-                color: #fff;
-            }
-        }
-        a {
-            display: block;
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
-        }
+  width: 100%;
+  margin-top: 0.8rem;
+  color: $base-color;
+  box-shadow: 0 0 10px $main-color;
+  box-sizing: border-box;
+  border-radius: 10px;
+  overflow: hidden;
+  background-color: rgba(255, 255, 255, 0.575);
+  tr {
+    transition: background-color 0.1s ease-in-out;
+    position: relative;
+    th {
+      padding: 0.8rem;
+      background-color: $main-color;
+      color: #fff;
     }
+    td {
+      transition: color 0.1s ease-in-out;
+      padding: 0.8rem;
+      text-align: center;
+      &.name {
+        display: block;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        text-align: left;
+      }
+      &.stt {
+        text-align: center;
+      }
+      &.eps {
+        text-align: center;
+      }
+      &.remove {
+        position: relative;
+      }
+      &:last-child {
+        display: block;
+      }
+    }
+    &:not(:first-child):hover {
+      background-color: $main-color;
+      cursor: pointer;
+      td {
+        color: #fff;
+      }
+    }
+    a {
+      display: block;
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+    }
+  }
 }
 
 a {
-    text-decoration: none;
-    color: inherit;
-    white-space: nowrap;
+  text-decoration: none;
+  color: inherit;
+  white-space: nowrap;
 }
 
 button {
-    white-space: nowrap;
-    font-family: 'Patrick Hand', cursive !important;
-    font-size: 1.2rem;
+  white-space: nowrap;
+  font-family: "Patrick Hand", cursive !important;
+  font-size: 1.2rem;
 }
 
 img {
-    -webkit-user-drag: none;
-    -webkit-backface-visibility: hidden; 
-    -ms-transform: translateZ(0); /* IE 9 */
-    -webkit-transform: translateZ(0); /* Chrome, Safari, Opera */
-    transform: translateZ(0);
-    image-rendering: pixelated;
-    image-rendering: -moz-crisp-edges;         /* Firefox */
-    image-rendering:   -o-crisp-edges;         /* Opera */
-    image-rendering: -webkit-optimize-contrast;/* Webkit (non-standard naming) */
-    image-rendering: crisp-edges;
-    -ms-interpolation-mode: nearest-neighbor;
+  -webkit-user-drag: none;
+  -webkit-backface-visibility: hidden;
+  -ms-transform: translateZ(0); /* IE 9 */
+  -webkit-transform: translateZ(0); /* Chrome, Safari, Opera */
+  transform: translateZ(0);
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges; /* Firefox */
+  image-rendering: -o-crisp-edges; /* Opera */
+  image-rendering: -webkit-optimize-contrast; /* Webkit (non-standard naming) */
+  image-rendering: crisp-edges;
+  -ms-interpolation-mode: nearest-neighbor;
 }
 
 video {
-    &::-webkit-media-controls {
-        visibility: hidden;
-    }
-    &::-webkit-media-controls-enclosure {
-        visibility: visible;
-    }
+  &::-webkit-media-controls {
+    visibility: hidden;
+  }
+  &::-webkit-media-controls-enclosure {
+    visibility: visible;
+  }
 }
 
 ::-webkit-scrollbar {
-    width: 5px;
+  width: 5px;
 }
-  
+
 /* Track */
 ::-webkit-scrollbar-track {
-    background: #d4d4d4; 
+  background: #d4d4d4;
 }
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-    background-color: $main-color; 
-    border-radius: 10px;
+  background-color: $main-color;
+  border-radius: 10px;
 }
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-    
 }
 
 .btn {
-    display: block;
-    background-color: $main-color;
-    color: #fff;
-    border: none;
-    border-radius: 10px;
-    padding: 0.6rem;
-    cursor: pointer;
-    font-size: 1rem;
-    border: 2px solid $main-color;
-    transition: all 0.2s ease-in-out;
-    width: fit-content;
-    white-space: nowrap;
-    height: fit-content;
-    font-family: inherit;
+  display: block;
+  background-color: $main-color;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  padding: 0.6rem;
+  cursor: pointer;
+  font-size: 1rem;
+  border: 2px solid $main-color;
+  transition: all 0.2s ease-in-out;
+  width: fit-content;
+  white-space: nowrap;
+  height: fit-content;
+  font-family: inherit;
+  &:hover {
+    color: $main-color;
+    background-color: #fff;
+  }
+  &--esp {
+    background-color: $bg-esp;
+    color: $base-color;
+    border: 2px solid $base-color;
+    margin: 0.2rem;
+    box-shadow: 0 0 5px $base-color;
+    padding: 0.8rem 1rem;
     &:hover {
-        color: $main-color;
-        background-color: #fff;
+      border-color: $bg-esp;
+      color: $bg-esp;
+      background-color: $base-color;
+      box-shadow: 0 0 5px $border-esp;
     }
-    &--esp {
-        background-color: $bg-esp;
-        color: $base-color;
-        border: 2px solid $base-color;
-        margin: 0.2rem;
-        box-shadow: 0 0 5px $base-color;
-        padding: 0.8rem 1rem;
-        &:hover {
-            border-color: $bg-esp;
-            color: $bg-esp;
-            background-color: $base-color;
-            box-shadow: 0 0 5px $border-esp;
-        }
+  }
+  &--tool {
+    background-color: $bg-esp;
+    color: $base-color;
+    border: 2px solid $base-color;
+    margin: 0 0.2rem;
+    box-shadow: 0 0 5px $base-color;
+    padding: 0.5rem;
+    display: inline-block;
+    &:hover {
+      border-color: $bg-esp;
+      color: $bg-esp;
+      background-color: $base-color;
+      box-shadow: 0 0 5px $border-esp;
     }
-    &--tool {
-        background-color: $bg-esp;
-        color: $base-color;
-        border: 2px solid $base-color;
-        margin: 0 0.2rem;
-        box-shadow: 0 0 5px $base-color;
-        padding: 0.5rem;
-        display: inline-block;
-        &:hover {
-            border-color: $bg-esp;
-            color: $bg-esp;
-            background-color: $base-color;
-            box-shadow: 0 0 5px $border-esp;
-        }
-    }
+  }
 }
 
 input {
-    font-family: inherit;
+  font-family: inherit;
 }
 
 .box__sd {
+  box-shadow: 0 0 10px $main-color;
+  &--pink {
     box-shadow: 0 0 10px $main-color;
-    &--pink {
-        box-shadow: 0 0 10px $main-color;
-    }
-    &--green {
-        box-shadow: 0 0 10px $bg-green;
-    }
+  }
+  &--green {
+    box-shadow: 0 0 10px $bg-green;
+  }
 }
 
 .hov-remove {
-    transition: background-color 0.1s ease-in-out;
-    &:hover {
-        background-color: $bg-green;
-    }
+  transition: background-color 0.1s ease-in-out;
+  &:hover {
+    background-color: $bg-green;
+  }
 }
 
 @keyframes login_scale {
-    0% {
-        opacity: 0;
-    }
-    100% {
-        opacity: 1;
-    }
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
 }
 
 @keyframes ani_char {
-    0% {
-        transform: scale(1) rotate(0deg);
-    }
-    50% {
-        transform: scale(1.01) rotate(1deg);
-    }
-    100% {
-        transform: scale(1) rotate(0deg);
-    }
+  0% {
+    transform: scale(1) rotate(0deg);
+  }
+  50% {
+    transform: scale(1.01) rotate(1deg);
+  }
+  100% {
+    transform: scale(1) rotate(0deg);
+  }
 }
 
 @keyframes ani_char_left_side {
-    0% {
-        transform: translate3d(-40%, 0, 0);
-        opacity: 0;
-    }
-    100% {
-        transform: translate3d(0%, 0, 0);
-        opacity: 1;
-    }
+  0% {
+    transform: translate3d(-40%, 0, 0);
+    opacity: 0;
+  }
+  100% {
+    transform: translate3d(0%, 0, 0);
+    opacity: 1;
+  }
 }
 
 @keyframes ani_char_right_side {
-    0% {
-        transform: translate3d(40%, 0, 0);
-        opacity: 0;
-    }
-    100% {
-        transform: translate3d(0%, 0, 0);
-        opacity: 1;
-    }
+  0% {
+    transform: translate3d(40%, 0, 0);
+    opacity: 0;
+  }
+  100% {
+    transform: translate3d(0%, 0, 0);
+    opacity: 1;
+  }
 }
 
 @keyframes bg_body {
-    0% {
-        background-position: 0px 0px;
-    }
-    50% {
-        background-position: 0px 500px;
-    }
-    100% {
-        background-position: 0px 0px;
-    }
+  0% {
+    background-position: 0px 0px;
+  }
+  50% {
+    background-position: 0px 500px;
+  }
+  100% {
+    background-position: 0px 0px;
+  }
 }
 
 @keyframes spin {
-    0% {
-        transform: rotate(0deg) scale(1);  
-    }
-    45% {
-        transform: rotate(20deg) scale(1.1);  
-    }
-    75% {
-        transform: rotate(-20deg) scale(1.1);  
-    }
-    100% {
-        transform: rotate(0deg) scale(1);  
-    }
+  0% {
+    transform: rotate(0deg) scale(1);
+  }
+  45% {
+    transform: rotate(20deg) scale(1.1);
+  }
+  75% {
+    transform: rotate(-20deg) scale(1.1);
+  }
+  100% {
+    transform: rotate(0deg) scale(1);
+  }
 }
 
 @keyframes toast {
-    0% {
-        transform: skew(-8deg, 0) translateX(calc(100% + 20px));
-        opacity: 0;
-    }
-    20% {
-        transform: skew(-8deg, 0) translateX(0%);
-        opacity: 1;
-    }
-    70% {
-        transform: skew(-8deg, 0) translateX(0%);
-        opacity: 1;
-    }
-    100% {
-        transform: skew(-8deg, 0) translateX(calc(100% + 20px));
-        opacity: 0;
-    }
+  0% {
+    transform: skew(-8deg, 0) translateX(calc(100% + 20px));
+    opacity: 0;
+  }
+  20% {
+    transform: skew(-8deg, 0) translateX(0%);
+    opacity: 1;
+  }
+  70% {
+    transform: skew(-8deg, 0) translateX(0%);
+    opacity: 1;
+  }
+  100% {
+    transform: skew(-8deg, 0) translateX(calc(100% + 20px));
+    opacity: 0;
+  }
+}
+
+@keyframes popupZoomIn {
+  0% {
+    transform: scale(0) translate(-50%, -50%);
+  }
+  40% {
+    transform: scale(1.05) translate(-50%, -50%);
+  }
+  50% {
+    transform: scale(1) translate(-50%, -50%);
+  }
+  100% {
+    transform: scale(1) translate(-50%, -50%);
+  }
 }

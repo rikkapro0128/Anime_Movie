@@ -1,20 +1,17 @@
 <template>
-    <div class="user">
-        <span class="tl-ani">Thông tin</span>
-    </div>
+  <div class="user">
+    <span class="tl-ani">Thông tin</span>
+  </div>
 </template>
 
 <script>
 export default {
-    setup() {
-        
-    },
-}
+  setup() {},
+};
 </script>
 
 <style lang="scss" scoped>
-    .user {
-        margin: 0;
-        
-    }
+.user {
+  margin: 0;
+}
 </style>

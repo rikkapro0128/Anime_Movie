@@ -10,7 +10,7 @@
         playsinline
         preload="auto"
         size="720"
-        :src="`http://localhost:5000${link_mv.currentLink}`"
+        :src="`${host}${link_mv.currentLink}`"
         type="video/*"
         data-poster="https://i.pinimg.com/originals/23/d6/12/23d6122575e29debe94262e54d1ec09b.png"
       >
@@ -57,6 +57,7 @@ export default {
     const showOverlayDark = ref(false);
     const showModalTakePicture = ref(false);
     const idVideo = ref('video_ani');
+    const host = ref(process.env.VUE_APP_HOST_SERVER);
     watch(() => route.query.esp, (esp) => {
         if(!esp && route.name === 'view-movie') {
           showPopup.value = true;
@@ -65,6 +66,7 @@ export default {
         }
     })
     return {
+      host,
       state,
       idVideo,
       turnWatch,
