@@ -38,6 +38,7 @@ export default {
     const dataCard = ref([]);
     const store = useStore();
     const changeDataCard = ref(false);
+    const numPage = ref(1);
     watch(
       () => changeDataCard.value,
       () => {
@@ -46,7 +47,10 @@ export default {
     );
     getDataCard();
     async function getDataCard() {
-      await store.dispatch("getMovies");
+      await store.dispatch("getMovies", {
+        page: numPage.value,
+        range: store.state.pagination.range
+      });
       dataCard.value = store.state.movies;
     }
     return {

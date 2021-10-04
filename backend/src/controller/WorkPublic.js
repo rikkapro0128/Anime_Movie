@@ -34,6 +34,32 @@ class WorkPublic {
       res.status(401).json({ message: error });
     }
   }
+  async getMoviesByRange(req, res, next) {
+    try {
+      const { page, range } = req.query;
+      const skip = parseInt(page) * parseInt(range);
+      const limit = parseInt(range);
+      console.log(skip, range);
+      // const movies = await MovieModel.aggregate([
+      //   { $skip: skip },
+      //   { $limit: limit },
+      // ])
+      const movies = await MovieModel.find()
+        .skip(skip)
+        .limit(limit)
+        .populate("videos");
+      console.log(movies.length);
+      res.status(301).json({ message: "SUCCESSFUL!", movies });
+    } catch (error) {}
+  }
+  async getLengthMovies(req, res, next) {
+    try {
+      const length = await MovieModel.count({});
+      res.status(301).json({ message: "SUCCESSFUL!", length });
+    } catch (error) {
+      res.status(401).json({ message: error });
+    }
+  }
 }
 
 export default new WorkPublic();

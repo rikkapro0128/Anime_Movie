@@ -20,11 +20,7 @@
     <img class="card__play" src="~@/assets/img/playOv.png" alt="" />
     <span class="card__name">{{ movie.name }}</span>
     <span class="spin">{{
-      Object.keys(movie).includes("videos")
-        ? movie.videos.length
-          ? movie.videos[movie.videos.length - 1].esp
-          : 0
-        : 0
+      movie?.videos ? movie.videos[movie.videos.length - 1]?.esp || 0 : 0
     }}</span>
     <TooltipMovie :coordinate="coordinate" :movie="movie" v-if="showTooltip" />
   </div>
