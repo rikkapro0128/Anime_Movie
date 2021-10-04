@@ -1,6 +1,8 @@
 import express from "express";
 import cors from "cors";
 import path from "path";
+import fs from "fs";
+import https from "https";
 import dotenv from "dotenv";
 import morgan from "morgan";
 import mongoose from "mongoose";
@@ -30,6 +32,14 @@ RouterManager(app);
 //config Database
 DbConfig(mongoose);
 
-app.listen(port, () => {
-  console.log(`Server running on port ${port}`);
-});
+https
+  .createServer(
+    {
+      key: fs.readFileSync("server.key"),
+      cert: fs.readFileSync("server.cert"),
+    },
+    app
+  )
+  .listen(port, "0.0.0.0", () => {
+    console.log(`Server running on port ${port}`);
+  });
