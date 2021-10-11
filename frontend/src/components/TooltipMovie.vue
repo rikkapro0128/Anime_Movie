@@ -27,7 +27,10 @@
 </template>
 
 <script>
-import { watch } from "vue";
+import {
+  // watch,
+  watchEffect
+} from "vue";
 export default {
   props: {
     coordinate: {
@@ -39,15 +42,10 @@ export default {
   },
   setup() {},
   mounted() {
-    watch(
-      () => {
-        return { x: this.coordinate.x, y: this.coordinate.y };
-      },
-      newCoordinate => {
-        this.$refs.tooltip.style.left = newCoordinate.x + "px";
-        this.$refs.tooltip.style.top = newCoordinate.y + "px";
-      }
-    );
+    watchEffect(() => {
+      this.$refs.tooltip.style.left = this.coordinate.x + "px";
+      this.$refs.tooltip.style.top = this.coordinate.y + "px";
+    });
   }
 };
 </script>

@@ -73,11 +73,10 @@ export default {
     const store = useStore();
     const movie = ref({});
     const host = ref(process.env.VUE_APP_HOST_SERVER);
-    const client = ref(process.env.VUE_APP_HOST_CLIENT);
     (async () => {
       await store.dispatch("getMovieByLabel", {
         label: label.value,
-        options: { esp: "all" },
+        options: { esp: "all" }
       });
       await store.dispatch("getCommentByLabel", { label_ani: label.value });
       movie.value = store.state.movie;
@@ -86,10 +85,9 @@ export default {
       host,
       label,
       store,
-      movie,
-      client,
+      movie
     };
-  },
+  }
 };
 </script>
 

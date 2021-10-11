@@ -22,12 +22,12 @@
     <span class="spin">{{
       movie?.videos ? movie.videos[movie.videos.length - 1]?.esp || 0 : 0
     }}</span>
-    <TooltipMovie :coordinate="coordinate" :movie="movie" v-if="showTooltip" />
+    <!-- <TooltipMovie :coordinate="coordinate" :movie="movie" v-if="showTooltip" /> -->
   </div>
 </template>
 
 <script>
-import TooltipMovie from "./TooltipMovie.vue";
+// import TooltipMovie from "./TooltipMovie.vue";
 import { ref, reactive } from "vue";
 export default {
   name: "Card",
@@ -37,7 +37,7 @@ export default {
     }
   },
   emits: ["changeStateTooltip", "changeCoordinateTooltip"],
-  components: { TooltipMovie },
+  // components: { TooltipMovie },
   setup() {
     const showTooltip = ref(false);
     const host = ref(process.env.VUE_APP_HOST_SERVER);
