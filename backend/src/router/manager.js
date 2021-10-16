@@ -6,6 +6,9 @@ import API_System_Test from "./api/SystemTest.js";
 import helpSign from "../utils/sign.js";
 
 export default function (app) {
+  app.get("/", function(req, res, next) {
+    res.json({ message: 'get data!' });
+  })
   app.use("/admin", helpSign.checkPermission(["admin"]), API_Admin_Action);
   app.use(
     "/user",

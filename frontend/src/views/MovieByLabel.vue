@@ -55,7 +55,10 @@
         <span v-else>Vẫn chưa cập nhật tập nào!</span>
       </div>
     </div>
-    <Comments :label="label" :comments="store.state.comments" />
+    <hr>
+    <h1>Giao diện comment vẫn chưa hoàn tất!</h1>
+    <hr>
+    <Comments :label="label" />
   </div>
 </template>
 
@@ -78,7 +81,6 @@ export default {
         label: label.value,
         options: { esp: "all" }
       });
-      await store.dispatch("getCommentByLabel", { label_ani: label.value });
       movie.value = store.state.movie;
     })();
     return {

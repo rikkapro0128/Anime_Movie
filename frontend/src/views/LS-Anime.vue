@@ -1,6 +1,11 @@
 <template>
   <div class="ls-ani">
     <h1 class="tl-ani">Danh Sách Anime</h1>
+    <Navigation
+      :navLength="initLoadLength"
+      :navPresent="initLoadIndex"
+      @changeIndexOfNav="handleChangeIndexOfNav"
+    />
     <table>
       <tr>
         <th>STT</th>
@@ -8,8 +13,10 @@
         <th>Tập hiện tại</th>
         <th>Xoá</th>
       </tr>
-      <tr v-for="(data, index) in dataCard" :key="index">
-        <td class="stt">{{ index }}</td>
+      <tr v-for="(data, index) in $store.state.movies" :key="index">
+        <td class="stt">
+          {{ (initLoadIndex - 1) * initRange + 1 + index }}
+        </td>
         <td class="name">{{ data.name }}</td>
         <td class="eps">
           {{
@@ -24,39 +31,42 @@
         </td>
       </tr>
     </table>
-
-    <h1 class="loading" v-if="!dataCard.length">Đang tải danh sách...!</h1>
+    <h1 class="loading" v-if="!$store.state.movies.length">
+      Đang tải danh sách...!
+    </h1>
   </div>
 </template>
 
 <script>
-import { ref, watch } from "vue";
+import { ref } from "vue";
 import { useStore } from "vuex";
+import Navigation from "../components/Navigation.vue";
 
 export default {
+  components: { Navigation },
+  props: {},
   setup() {
-    const dataCard = ref([]);
     const store = useStore();
-    const changeDataCard = ref(false);
-    const numPage = ref(1);
-    watch(
-      () => changeDataCard.value,
-      () => {
-        getDataCard();
+    const initLoadIndex = ref(1);
+    const initLoadLength = ref(10);
+    const initRange = ref(15);
+    (async () => {
+      if (!store.state.pagination.lengthMovies) {
+        await store.dispatch("getLengthMovies");
       }
-    );
-    getDataCard();
-    async function getDataCard() {
       await store.dispatch("getMovies", {
-        page: numPage.value,
-        range: store.state.pagination.range
+        page: initLoadIndex.value - 1,
+        range: initRange.value
       });
-      dataCard.value = store.state.movies;
-    }
+      initLoadLength.value = Math.ceil(
+        store.state.pagination.lengthMovies / initRange.value
+      );
+    })();
     return {
       store,
-      dataCard,
-      changeDataCard
+      initRange,
+      initLoadIndex,
+      initLoadLength
     };
   },
   methods: {
@@ -66,6 +76,13 @@ export default {
         options: { select: "" }
       });
       this.changeDataCard = !this.changeDataCard;
+    },
+    async handleChangeIndexOfNav({ index }) {
+      this.initLoadIndex = index;
+      await this.store.dispatch("getMovies", {
+        page: this.initLoadIndex - 1,
+        range: this.initRange
+      });
     }
   }
 };

@@ -27,21 +27,18 @@
 </template>
 
 <script>
-import { onMounted, ref } from "vue";
+import { ref } from "vue";
 export default {
   setup() {
     const routedemo = ref(null);
     const optionSideBar = ref([
       { name: "Danh sách anime", path: "danh-sach-anime" },
       { name: "Phản hồi", path: "phan-hoi" },
-      { name: "Thêm Phim", path: "them-anime" },
+      { name: "Thêm Phim", path: "them-anime" }
     ]);
-    onMounted(() => {
-      console.log();
-    });
     return {
       routedemo,
-      optionSideBar,
+      optionSideBar
     };
   },
   beforeRouteEnter(to, from, next) {
@@ -52,6 +49,7 @@ export default {
       next();
     }
   },
+  methods: {}
 };
 </script>
 

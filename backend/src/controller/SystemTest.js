@@ -3,7 +3,6 @@ import uniqid from 'uniqid';
 
 class SystemTest {
     uploadImage(req, res, next) {
-        console.log(req)
         const storeImage = 'd:/test/upload-image';
         const checkStore = fs.existsSync(storeImage);
         if(!checkStore) {

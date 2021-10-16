@@ -8,6 +8,7 @@ const movie = new Schema({
     label: { type: String, required: true },
     image: { type: String, default: '' },
     videos: [{ type: Schema.Types.ObjectId, ref: 'videos' }],
+    comments: [{ type: Schema.Types.ObjectId, ref: 'comment' }]
 });
 
 const videos = new Schema({

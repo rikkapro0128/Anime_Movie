@@ -141,14 +141,35 @@ const movie = createStore({
 		async createMovie(_, { data }) {
 			return await fetchApi.POST("admin/create-movie", data);
 		},
-		async activeComment(_, { data }) {
-			return await fetchApi.POST("user/active-comment", data);
+		async createComment(_, { data }) {
+			return await fetchApi.POST("user/create-comment", data);
+		},
+		async createReply(_, { id_comment, content_reply }) {
+			return await fetchApi.POST("user/reply-comment", { id_comment, content_reply });
+		},
+		async likeComment(_, { id_comment }) {
+			return await fetchApi.POST(`user/like-comment/${id_comment}`);
 		},
 		async getCommentByLabel({ commit }, { label_ani }) {
 			const data = await fetchApi.GET(`common/take-comment/${label_ani}`);
 			if (data.message === "SUCCESSFUL!") {
 				commit("setComments", data.comments);
 				return true;
+			}
+			return false;
+		},
+		async getReplysByComment({ commit }, { id_comment }) {
+			const data = await fetchApi.GET(`common/get-replys-comment/${id_comment}`);
+			if (data.message === "SUCCESSFUL!") {
+				commit("setComments", data.comments);
+				return true;
+			}
+			return false;
+		},
+		async getLikesByComment(_, { id_comment }) {
+			const data = await fetchApi.GET(`common/get-like-comment/${id_comment}`);
+			if (data.message === "SUCCESSFUL!") {
+				return data.likeTotal;
 			}
 			return false;
 		},

@@ -86,7 +86,6 @@ class Admin {
     async removeVideoByLabel(req, res, next) {
         const { label_ani } = req.params;
         const { esp, id_esp } = req.query;
-        console.log(id_esp)
         if(label_ani) {
             if(esp === 'all') {
                 await VideoModel.deleteMany({ label: label_ani }).exec();
@@ -122,7 +121,6 @@ class Admin {
             }
             res.status(301).json({ message: 'SUCCESSFUL!' });
         } catch (error) {
-            console.log(error)
             res.status(401).json({ message: error });
         }
     }

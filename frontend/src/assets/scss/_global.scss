@@ -9,7 +9,7 @@ body {
   background: url("~@/assets/img/bg_pattern1.png");
   user-select: none;
   -webkit-user-drag: none;
-  animation: bg_body 50s 4s infinite ease-in-out;
+  // animation: bg_body 50s 4s infinite ease-in-out;
   position: relative;
 }
 
@@ -215,8 +215,10 @@ video {
     box-shadow: 0 0 5px $base-color;
     padding: 0.5rem;
     display: inline-block;
+    min-width: 1.2rem;
+    text-align: center;
     &:hover {
-      border-color: $bg-esp;
+      // border-color: $bg-esp;
       color: $bg-esp;
       background-color: $base-color;
       box-shadow: 0 0 5px $border-esp;

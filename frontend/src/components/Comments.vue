@@ -21,26 +21,11 @@
   >
     Bình luận!
   </button>
-  <div class="show--comments">
-    <!-- loop many cooment in here -->
-    <div class="comment" v-for="(comment, index) in comments" :key="index">
-      <div class="comment__if--left">
-        <img
-          :src="
-            comment.img
-              ? comment.img
-              : 'https://i.pinimg.com/736x/59/18/d8/5918d8e9040516b65f93c75a9c5b8175.jpg'
-          "
-          alt="avatar"
-        />
-      </div>
-      <div class="comment__if--right">
-        <span class="comment__if--right-name">{{ comment.name }}</span>
-        <span class="comment__if--right-contents">{{ comment.content }}</span>
-      </div>
-    </div>
-    <!-- loop many cooment in here -->
-  </div>
+  <Comment
+    v-for="(comment, index) in comments"
+    :key="index"
+    :comment="comment"
+  />
   <Popup
     :message="message"
     :dontCallHome="dontCallHome"
@@ -50,29 +35,33 @@
 </template>
 
 <script>
+import Comment from "./Comment.vue";
 import Popup from "./Popup.vue";
 import { ref } from "vue";
 import { useStore } from "vuex";
 export default {
-  components: { Popup },
+  components: { Popup, Comment },
   props: {
-    comments: {
-      type: Array,
-    },
     label: {
-      type: String,
-    },
+      type: String
+    }
   },
-  setup() {
+  setup(props) {
     const message = ref("");
     const notify = ref(false);
     const dontCallHome = ref(true);
+    const comments = ref([]);
     const store = useStore();
+    (async () => {
+      await store.dispatch("getCommentByLabel", { label_ani: props.label });
+      comments.value = store.state.comments;
+    })();
     return {
       store,
       notify,
       message,
-      dontCallHome,
+      comments,
+      dontCallHome
     };
   },
   methods: {
@@ -91,13 +80,14 @@ export default {
         this.notify = true;
         return;
       }
-      await this.store.dispatch("activeComment", {
-        data: { comment, label_ani: this.label },
+      await this.store.dispatch("createComment", {
+        data: { comment, label_ani: this.label }
       });
       await this.store.dispatch("getCommentByLabel", { label_ani: this.label });
+      this.comments = this.store.state.comments;
       this.$refs.elementComment.value = "";
-    },
-  },
+    }
+  }
 };
 </script>
 
@@ -144,34 +134,5 @@ button {
   display: block;
   float: right;
   margin: 0.5rem 0;
-}
-.show--comments {
-  clear: both;
-  .comment {
-    display: flex;
-    margin: 0.5rem 0;
-    &__if--left {
-      width: 4.375rem;
-      height: 4.375rem;
-      img {
-        width: 100%;
-        object-fit: cover;
-        border-radius: 10px;
-      }
-    }
-    &__if--right {
-      width: 100%;
-      margin-left: 0.4rem;
-      span {
-        display: block;
-      }
-      &-name {
-        color: $main-color;
-      }
-      &-contents {
-        color: $base-color;
-      }
-    }
-  }
 }
 </style>
