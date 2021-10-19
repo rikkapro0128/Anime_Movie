@@ -19,17 +19,17 @@
       </button>
       <h4>Ngoài Ra</h4>
       <h1>|= Bạn cũng có thể đăng nhập bằng =|</h1>
-      <h2>
-        Hoặc đăng ký tài khoản <router-link to="/dang-ky">tại đây</router-link>
-      </h2>
-      <button class="google">
-        <i class="fab fa-google"></i>
-        Google
-      </button>
-      <button class="facebook">
+      <button @click="loginFaceBook()" class="facebook">
         <i class="fab fa-facebook"></i>
         Facebook
       </button>
+      <h2>
+        Hoặc đăng ký tài khoản <router-link to="/dang-ky">tại đây</router-link>
+      </h2>
+      <!-- <button class="google">
+        <i class="fab fa-google"></i>
+        Google
+      </button> -->
     </div>
     <Overlay
       :toggle="loading || statePopup"
@@ -54,6 +54,7 @@ import helper from "../utils/helperLocalStorage.js";
 import { reactive, ref } from "vue";
 import { useStore } from "vuex";
 import { useRouter } from "vue-router";
+import { initFbsdk } from "../utils/loginFacebook.js";
 export default {
   components: { Input, Overlay, Loading, Popup },
   setup() {
@@ -61,24 +62,25 @@ export default {
       {
         labelName: "Email của bạn là gì?",
         inputName: "email",
-        type: "text",
+        type: "text"
       },
       {
         labelName: "Nhập mật khẩu vào bên dưới nhé?",
         inputName: "password",
-        type: "password",
-      },
+        type: "password"
+      }
     ]);
     const dataForm = reactive({
       email: "",
       password: "",
-      type: "sign-in",
+      type: "sign-in"
     });
     const store = useStore();
     const router = useRouter();
     const loading = ref(false);
     const statePopup = ref(false);
     const messagePopup = ref("");
+    initFbsdk();
     return {
       store,
       router,
@@ -86,10 +88,35 @@ export default {
       setInput,
       dataForm,
       statePopup,
-      messagePopup,
+      messagePopup
     };
   },
   methods: {
+    loginFaceBook() {
+      const context = this;
+      window.FB.getLoginStatus(function(res) {
+        if (res.status !== "connected") {
+          window.FB.login(
+            async ({ authResponse }) => {
+              // call API sen accessToken
+              this.loading = true;
+              const state = await context.store.dispatch("getAuthFacebook", {
+                accessToken: authResponse.accessToken
+              });
+              if (Object.keys(state).length) {
+                this.loading = false;
+                localStorage.setItem("authType", JSON.stringify("facebook"));
+                helper.signLocalStorage(state);
+                context.$router.push("/");
+              } else {
+                this.loading = false;
+              }
+            },
+            { scope: "public_profile, email" }
+          );
+        }
+      });
+    },
     changeValue(inputValue) {
       this.dataForm[inputValue.field] = inputValue.value;
     },
@@ -99,7 +126,7 @@ export default {
       if (this.dataForm.email && this.dataForm.password) {
         this.loading = true;
         const value = await this.store.dispatch("sendDataSign", {
-          dataForm: this.dataForm,
+          dataForm: this.dataForm
         });
         if (Object.keys(value).length) {
           this.loading = false;
@@ -114,7 +141,7 @@ export default {
           "Bạn không thể đăng nhập khi chưa nhập thông tin tài khoản!";
         this.statePopup = true;
       }
-    },
+    }
   },
   beforeRouteEnter(to, from, next) {
     const isLogin = JSON.parse(localStorage.getItem("isLogin"));
@@ -123,7 +150,7 @@ export default {
     } else {
       next();
     }
-  },
+  }
 };
 </script>
 

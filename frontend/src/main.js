@@ -6,7 +6,6 @@ import VuePlyr from 'vue-plyr'
 import 'vue-plyr/dist/vue-plyr.css'
 
 const app = createApp(Container);
-
 app.use(router);
 app.use(movie);
 app.use(VuePlyr, { 

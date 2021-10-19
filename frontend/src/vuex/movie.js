@@ -35,6 +35,32 @@ const movie = createStore({
 			const data = await fetchApi.GET(`admin/path-dir-upload`);
 			return data.path ? data.path : "";
 		},
+		async getAuthFacebook(_, { accessToken }) {
+			const data = await fetchApi.GET(`st-sign/auth/facebook?access_token=${accessToken}`);
+			// return data.message === 'SUCCESSFUL!' ? data.state : null;
+      if (data.message === "SUCCESSFUL!") {
+        const decode_token = jwt_decode(data.token);
+        const decode_refToken = jwt_decode(data.refToken);
+        // console.log(exp_token, exp_refToken)
+        VueCookies.set(
+          "token",
+          data.token,
+          new Date(decode_token.exp * 1000)
+        );
+        VueCookies.set(
+          "ref_token",
+          data.refToken,
+          new Date(decode_refToken.exp * 1000)
+        );
+        // (time * 1000 - new Date().getTime()) / 1000) to remain second expire token
+        return {
+          type: decode_refToken.type,
+          name: decode_refToken.name,
+          _id: decode_refToken._id
+        };
+			}
+			return false;
+		},
 		async getMovies({ commit }, { page, range }) {
 			const data = await fetchApi.GET(
 				`common/take-movie/range?page=${page}&range=${range}`

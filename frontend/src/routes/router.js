@@ -95,17 +95,16 @@ const router = createRouter({
 });
 
 router.beforeEach(async () => {
-	const message = await helper.checkTokenIsExpire();
-	// console.log(message)
-	if (message === "NEXT!") {
-		return true;
-	}
-	if (message === "SESSION EXPIRE!") {
-		helper.resetLogin();
-		return "/";
-	} else {
-		return false;
-	}
+  const message = await helper.checkTokenIsExpire();
+  if (message === "NEXT!") {
+    return true;
+  }
+  if (message === "SESSION EXPIRE!") {
+    helper.resetLogin();
+    return "/";
+  } else {
+    return false;
+  }
 });
 
 export default router;

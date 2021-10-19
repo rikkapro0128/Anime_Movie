@@ -43,8 +43,19 @@
           @mouseleave="turnUserTool = false"
         >
           <div class="brigde" @mouseenter="turnUserTool = true"></div>
-          <router-link :to="'/user'+ select.path" :class="{ 'first': index === 0, 'last':  userSelectOption.length === index }" v-for="(select, index) in userSelectOption" :key="index">{{ select.name }}</router-link>
-          <button @click="logout(), turnUserTool = false" class="last">Đăng xuất</button>
+          <router-link
+            :to="'/user' + select.path"
+            :class="{
+              first: index === 0,
+              last: userSelectOption.length === index
+            }"
+            v-for="(select, index) in userSelectOption"
+            :key="index"
+            >{{ select.name }}</router-link
+          >
+          <button @click="logout(), (turnUserTool = false)" class="last">
+            Đăng xuất
+          </button>
         </div>
       </li>
     </ul>
@@ -55,7 +66,7 @@
 import { ref, watch } from "vue";
 import { useStore } from "vuex";
 import { useRoute, useRouter } from "vue-router";
-import helper from '../utils/helperToken.js';
+import helper from "../utils/helperToken.js";
 export default {
   name: "Header",
   setup() {
@@ -67,34 +78,48 @@ export default {
     const nameUser = ref(JSON.parse(localStorage.getItem("nameUser")));
     const turnUserTool = ref(false);
     const logout = async () => {
-        await store.dispatch('sendDataSign', { dataForm: { id_user: JSON.parse(localStorage.getItem("id_user")), type: 'sign-out' }});
-        localStorage.clear();
-        helper.clearToken();
-        router.push('/');
-        isLogin.value = false;
-    }
-    watch(
-        () => route.path,
-        () => {
-            isLogin.value = JSON.parse(localStorage.getItem("isLogin"));
-            isAdmin.value = JSON.parse(localStorage.getItem("isAdmin"));
-            nameUser.value = JSON.parse(localStorage.getItem("nameUser"));
+      const authType = JSON.parse(localStorage.getItem("authType"));
+      await store.dispatch("sendDataSign", {
+        dataForm: {
+          id_user: JSON.parse(localStorage.getItem("id_user")),
+          type: "sign-out"
         }
-    )
+      });
+      console.log(authType);
+      if (authType === "facebook") {
+        window.FB.getLoginStatus(function(res) {
+          if (res.status === "connected") {
+            window.FB.logout();
+          }
+        });
+      }
+      localStorage.clear();
+      helper.clearToken();
+      router.push("/");
+      isLogin.value = false;
+    };
+    watch(
+      () => route.path,
+      () => {
+        isLogin.value = JSON.parse(localStorage.getItem("isLogin"));
+        isAdmin.value = JSON.parse(localStorage.getItem("isAdmin"));
+        nameUser.value = JSON.parse(localStorage.getItem("nameUser"));
+      }
+    );
     const lsChoose = ref([
       { name: "Trang Chủ", path: "" },
       { name: "Thể Loại", path: "the-loai" },
       { name: "Top Anime", path: "top-anime" },
       { name: "Lịch Chiếu", path: "lich-chieu" },
-      { name: "Thông Tin", path: "thong-tin" },
+      { name: "Thông Tin", path: "thong-tin" }
     ]);
     const userSelectOption = ref([
-      { name: 'Thông tin của bạn', path: '/thong-tin-cua-ban' },
-      { name: 'Tin nhắn', path: '/' },
-      { name: 'Đổi mật khẩu', path: '/' },
-      { name: 'Nhóm Chat', path: '/' },
-      { name: 'Hộp phim', path: '/' },
-    ])
+      { name: "Thông tin của bạn", path: "/thong-tin-cua-ban" },
+      { name: "Tin nhắn", path: "/" },
+      { name: "Đổi mật khẩu", path: "/" },
+      { name: "Nhóm Chat", path: "/" },
+      { name: "Hộp phim", path: "/" }
+    ]);
     return {
       store,
       logout,
@@ -103,9 +128,9 @@ export default {
       nameUser,
       lsChoose,
       turnUserTool,
-      userSelectOption,
+      userSelectOption
     };
-  },
+  }
 };
 </script>
 
@@ -177,6 +202,7 @@ header {
         padding: 1rem 1rem;
         z-index: 2;
         transition: color 0.15s ease-in-out;
+        white-space: nowrap;
       }
       &--scan {
         position: absolute;
@@ -239,7 +265,8 @@ header {
             border-top-right-radius: 10px;
             border-bottom-right-radius: 10px;
           }
-          a, button {
+          a,
+          button {
             display: block;
             background-color: $main-color;
             transition: all 0.1s ease-in-out;
@@ -251,7 +278,7 @@ header {
             }
           }
           button {
-              border: none;
+            border: none;
           }
         }
       }
