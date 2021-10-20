@@ -41,7 +41,7 @@ class SystemSign {
       // find email in db
       const account = await AccountModel.findOne({ email });
       if (!account) {
-        res.status(401).json({ message: "Account Invalid!" });
+        return res.status(401).json({ message: "Account Invalid!" });
       }
       // check password
       const checkPassword = await helpSign.comparePassword(
@@ -49,7 +49,7 @@ class SystemSign {
         account.hashPassword
       );
       if (!checkPassword) {
-        res.status(401).json({ message: "Account Invalid!" });
+        return res.status(401).json({ message: "Account Invalid!" });
       }
       // generrate token and refreshToken to res for client
       // payload is [_id, name, email, type]
@@ -98,6 +98,50 @@ class SystemSign {
       }
     } catch (error) {
         res.status(401).json({ message: error.message });
+    }
+  }
+  async loginFacebook(req, res, next) {
+    try {
+      const { displayName, id, provider, photos, gender, emails } = req.user;
+      let token, refToken, isNew, payload;
+      const checkAccountFacebook = await AccountModel.findOne({ idFaceBook: id });
+      if(!checkAccountFacebook) {
+        isNew = true;
+        const newUserFaceBook = new AccountModel({
+          name: displayName,
+          authType: provider,
+          idFaceBook: id,
+          email: emails[0].value,
+          gender: gender || 'Nam',
+          avatar: photos[0].value,
+        });
+        payload = {
+          _id: newUserFaceBook._id,
+          name: newUserFaceBook.name,
+          email: newUserFaceBook.email,
+          type: newUserFaceBook.type,
+        };
+      }else {
+        payload = {
+          _id: checkAccountFacebook._id,
+          name: checkAccountFacebook.name,
+          email: checkAccountFacebook.email,
+          type: checkAccountFacebook.type,
+        };
+      }
+      token = await helpSign.getToken(payload);
+      refToken = await helpSign.getRefToken(payload);
+      if(isNew) {
+        newUserFaceBook.refToken.push(refToken);
+        await newUserFaceBook.save();
+      }else {
+        checkAccountFacebook.refToken.push(refToken);
+        await checkAccountFacebook.save();
+      }
+      res.status(301).json({ message: 'SUCCESSFUL!', token, refToken, avatarFacebook: isNew ? photos[0].value : checkAccountFacebook.avatar });
+    } catch (error) {
+      console.log(error);
+      res.status(401).json({ message: error });
     }
   }
 }

@@ -2,7 +2,10 @@
   <div class="comments">
     <div class="comments__avatar">
       <img
-        src="https://i.pinimg.com/736x/59/18/d8/5918d8e9040516b65f93c75a9c5b8175.jpg"
+        :src="
+          avatar ||
+            'https://i.pinimg.com/736x/59/18/d8/5918d8e9040516b65f93c75a9c5b8175.jpg'
+        "
         alt="avatar"
       />
     </div>
@@ -52,12 +55,14 @@ export default {
     const dontCallHome = ref(true);
     const comments = ref([]);
     const store = useStore();
+    const avatar = ref(JSON.parse(localStorage.getItem("avatar")));
     (async () => {
       await store.dispatch("getCommentByLabel", { label_ani: props.label });
       comments.value = store.state.comments;
     })();
     return {
       store,
+      avatar,
       notify,
       message,
       comments,
@@ -102,12 +107,11 @@ export default {
     margin: 0 auto;
     color: $main-color;
     border: 2px solid $main-color;
-    border-radius: 12px;
-    box-shadow: 0 0 10px $main-color;
+    border-radius: 50%;
+    overflow: hidden;
     img {
       width: 100%;
       object-fit: cover;
-      border-radius: 10px;
     }
   }
   &__contents {
@@ -122,7 +126,6 @@ export default {
       border: 2px solid $main-color;
       border-radius: 10px;
       outline: none;
-      box-shadow: 0 0 10px $main-color;
       padding: 0.5rem;
       font-size: 1.2rem;
       font-family: "Patrick Hand", cursive;

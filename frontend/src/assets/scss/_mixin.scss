@@ -1,218 +1,221 @@
 @mixin card {
-    .card {
-        width: 12rem;
-        height: 16rem;
-        position: relative;
-        border: 1px solid $border-card;
-        overflow: hidden;
-        border-radius: 5px;
-        margin: 0.5rem;
-        &__directly {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            z-index: 2;
-        }
-        & > .spin {
-            position: absolute;
-            width: 50px;
-            height: 50px;
-            left: 0.5rem;
-            top: 0.5rem;
-            background-image: url('~@/assets/img/main_date_bg.png');
-            background-size: 100%;
-            animation: spin 1.5s infinite ease-in;
-            text-align: center;
-            line-height: 50px;
-            color: #fff;
-        }
-        &__img {
-            width: inherit;
-            height: inherit;
-            object-fit: cover;
-            transition: all 0.3s ease-in-out;
-        }
-        &__play {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            opacity: 0;
-            transition: opacity 0.4s ease-in-out;
-        }
-        &__rate {
-            width: 100px;
-            height: 100px;
-            position: absolute;
-            background-image: url('~@/assets/img/label_goods.png');
-            background-repeat: no-repeat;
-            right: 0;
-            top: -1px;
-            background-size: 80%;
-            background-position: 24px 0px;
-            font-size: 1.2rem;
-            font-weight: 400;
-            text-align: end;
-            padding-right: 0.8rem;
-            padding-top: 0.6rem;
-            color: $rate-card;
-        }
-        &__name {
-            display: block;
-            position: absolute;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            font-size: 1.2rem;
-            color: $name-card;
-            padding: 1rem;
-            background: rgb(0,0,0);
-            background: linear-gradient(0deg, $main-color 0%, rgba(255,255,255,0) 100%);
-            text-transform: capitalize;
-            transition: all 1s ease-in-out;
-        }
-        &:hover {
-            .card__img {
-                transform: scale(1.1) rotate(4deg);
-                opacity: 0.85;
-            }
-            .card__play {
-                opacity: 1;
-            }
-            .card__name {
-                
-            }
-        }
+  .card {
+    width: 12rem;
+    height: 16rem;
+    position: relative;
+    border: 2px solid $border-card;
+    overflow: hidden;
+    border-radius: $bor-radius-card;
+    margin: 0.5rem;
+    &__directly {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      z-index: 2;
     }
+    & > .spin {
+      position: absolute;
+      width: 50px;
+      height: 50px;
+      left: 0.5rem;
+      top: 0.5rem;
+      background-image: url("~@/assets/img/main_date_bg.png");
+      background-size: 100%;
+      animation: spin 1.5s infinite ease-in;
+      text-align: center;
+      line-height: 50px;
+      color: #fff;
+    }
+    &__img {
+      width: inherit;
+      height: inherit;
+      object-fit: cover;
+      transition: all 0.3s ease-in-out;
+    }
+    &__play {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      opacity: 0;
+      transition: opacity 0.4s ease-in-out;
+    }
+    &__rate {
+      width: 100px;
+      height: 100px;
+      position: absolute;
+      background-image: url("~@/assets/img/label_goods.png");
+      background-repeat: no-repeat;
+      right: 0;
+      top: -1px;
+      background-size: 80%;
+      background-position: 24px 0px;
+      font-size: 1.2rem;
+      font-weight: 400;
+      text-align: end;
+      padding-right: 0.8rem;
+      padding-top: 0.6rem;
+      color: $rate-card;
+    }
+    &__name {
+      display: block;
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      font-size: 1.2rem;
+      color: $name-card;
+      padding: 1rem;
+      background: rgb(0, 0, 0);
+      background: linear-gradient(
+        0deg,
+        $main-color 0%,
+        rgba(255, 255, 255, 0) 100%
+      );
+      text-transform: capitalize;
+      transition: all 1s ease-in-out;
+    }
+    &:hover {
+      .card__img {
+        transform: scale(1.1) rotate(4deg);
+        opacity: 0.85;
+      }
+      .card__play {
+        opacity: 1;
+      }
+      .card__name {
+      }
+    }
+  }
 }
 
 @mixin tl-ani {
-    .tl-ani {
-        background-repeat: no-repeat;
-        background-size: 1%;
-        color: $main-color;
-        font-size: 1.6rem;
-        font-style: italic;
-        span {
-            text-transform: capitalize;
-        }
+  .tl-ani {
+    background-repeat: no-repeat;
+    background-size: 1%;
+    color: $main-color;
+    font-size: 1.6rem;
+    font-style: italic;
+    span {
+      text-transform: capitalize;
     }
+  }
 }
 
 @mixin sign {
-    .sign {
-        width: 100%;
-        margin: 5rem 0;
-        &__form {
-            width: 30rem;
-            margin: 0 auto;
-            background-color: $light;
-            box-sizing: border-box;
-            padding: 1rem;
-            box-shadow: 0 0 10px $main-color;
-            border-radius: 10px;
-            position: relative;
-            // animation: login_scale 1s 1 ease-in-out;
-            span {
-                color: $main-color;
-                line-height: 1.4rem;
-            }
-            h1, h4, h2, h3 {
-                text-align: center;
-                color: $base-color;
-                font-size: 1rem;
-                margin: 0.5rem 0;
-            }
-            h4 {
-                font-size: 1.2rem;
-                color: $main-color;
-            }
-            h2 > a {
-                color: $main-color;
-                &:hover {
-                    text-decoration: underline;
-                }
-            }
-            h3 {
-                font-size: 1.6rem;
-                color: $main-color;
-            }
-            button {
-                display: block;
-                font-size: 1.4rem;
-                color: #fff;
-                border: none;
-                text-align: center;
-                width: 100%;
-                padding: 0.6rem 0;
-                border-radius: 10px;
-                margin: 0.5rem 0;
-                cursor: pointer;
-                transition: all 0.2s ease-in-out;
-                box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-                position: relative;
-                z-index: 1;
-                &:hover {
-                    opacity: 0.8;
-                }
-            }
-            .log {
-                background-color: $main-color;
-                box-shadow: 0 0 10px rgba(255, 0, 157, 0.5);
-            }
-            .google {
-                background-color: #25bd25;
-                box-shadow: 0 0 10px rgba(0, 255, 85, 0.5);
-            }
-            .facebook {
-                background-color: #5f1dff;
-                box-shadow: 0 0 10px rgba(97, 24, 192, 0.5);
-
-            }
-            &::before {
-                content: '';
-                display: block;
-                position: absolute;
-                width: 20rem;
-                height: 36rem;
-                left: 80%;
-                top: 0%;
-                background-size: 100%;
-                background-image: url('~@/assets/img/login_right.png');
-                background-repeat: no-repeat;
-                animation: 
-                ani_char_right_side 1s 1s 1 ease-in-out both,
-                ani_char 4s 2s infinite ease-in-out;
-            }
-            &::after {
-                content: '';
-                display: block;
-                position: absolute;
-                width: 20rem;
-                height: 38.1rem;
-                right: 78%;
-                bottom: 0%;
-                background-size: 100%;
-                background-image: url('~@/assets/img/login_left.png');
-                background-repeat: no-repeat;
-                animation: 
-                ani_char_left_side 1s 1s 1 ease-in-out both,
-                ani_char 4s 2s infinite ease-in-out;
-            }
+  .sign {
+    width: 100%;
+    margin: 5rem 0;
+    &__form {
+      width: 30rem;
+      margin: 0 auto;
+      background-color: $light;
+      box-sizing: border-box;
+      padding: 1rem;
+      box-shadow: 0 0 10px $main-color;
+      border-radius: 10px;
+      position: relative;
+      // animation: login_scale 1s 1 ease-in-out;
+      span {
+        color: $main-color;
+        line-height: 1.4rem;
+      }
+      h1,
+      h4,
+      h2,
+      h3 {
+        text-align: center;
+        color: $base-color;
+        font-size: 1rem;
+        margin: 0.5rem 0;
+      }
+      h4 {
+        font-size: 1.2rem;
+        color: $main-color;
+      }
+      h2 > a {
+        color: $main-color;
+        &:hover {
+          text-decoration: underline;
         }
+      }
+      h3 {
+        font-size: 1.6rem;
+        color: $main-color;
+      }
+      button {
+        display: block;
+        font-size: 1.4rem;
+        color: #fff;
+        border: none;
+        text-align: center;
+        width: 100%;
+        padding: 0.6rem 0;
+        border-radius: 10px;
+        margin: 0.5rem 0;
+        cursor: pointer;
+        transition: all 0.2s ease-in-out;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+        position: relative;
+        z-index: 1;
+        &:hover {
+          opacity: 0.8;
+        }
+      }
+      .log {
+        background-color: $main-color;
+        box-shadow: 0 0 10px rgba(255, 0, 157, 0.5);
+      }
+      .google {
+        background-color: #25bd25;
+        box-shadow: 0 0 10px rgba(0, 255, 85, 0.5);
+      }
+      .facebook {
+        background-color: #5f1dff;
+        box-shadow: 0 0 10px rgba(97, 24, 192, 0.5);
+      }
+      &::before {
+        content: "";
+        display: block;
+        position: absolute;
+        width: 20rem;
+        height: 36rem;
+        left: 80%;
+        top: 0%;
+        background-size: 100%;
+        background-image: url("~@/assets/img/login_right.png");
+        background-repeat: no-repeat;
+        animation: ani_char_right_side 1s 1s 1 ease-in-out both,
+          ani_char 4s 2s infinite ease-in-out;
+      }
+      &::after {
+        content: "";
+        display: block;
+        position: absolute;
+        width: 20rem;
+        height: 38.1rem;
+        right: 78%;
+        bottom: 0%;
+        background-size: 100%;
+        background-image: url("~@/assets/img/login_left.png");
+        background-repeat: no-repeat;
+        animation: ani_char_left_side 1s 1s 1 ease-in-out both,
+          ani_char 4s 2s infinite ease-in-out;
+      }
     }
+  }
 }
 
 // transition for template route navigation
 @mixin faded {
-    .fade-enter-active {
-        transition: opacity 0.4s ease-in-out;
-    }
-    .fade-leave-active {
-        transition: opacity 0.1s ease-in-out;
-    }
-    .fade-enter-from,
-    .fade-leave-to {
-        opacity: 0;
-    }
+  .fade-enter-active {
+    transition: opacity 0.4s ease-in-out;
+  }
+  .fade-leave-active {
+    transition: opacity 0.1s ease-in-out;
+  }
+  .fade-enter-from,
+  .fade-leave-to {
+    opacity: 0;
+  }
 }

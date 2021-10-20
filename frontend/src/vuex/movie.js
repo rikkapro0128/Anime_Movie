@@ -56,7 +56,8 @@ const movie = createStore({
         return {
           type: decode_refToken.type,
           name: decode_refToken.name,
-          _id: decode_refToken._id
+          _id: decode_refToken._id,
+          avatarFacebook: data.avatarFacebook,
         };
 			}
 			return false;
@@ -206,7 +207,14 @@ const movie = createStore({
 				return true;
 			}
 			return false;
-		}
+		},
+    async searchAnime(_, { keys }) {
+      const data = await fetchApi.GET(`common/search/anime?keys=${keys}`);
+			if (data.message === "SUCCESSFUL!") {
+				return data.lookMovie;
+			}
+			return false;
+    }
 	},
 	getters: {}
 });

@@ -28,7 +28,8 @@ class WorkPublic {
   async getCommentByLabel(req, res, next) {
     try {
       const { label_ani } = req.params;
-      const comments = await MovieModel.findOne({ label: label_ani }, 'comments').populate('comments');
+      const comments = await MovieModel.findOne({ label: label_ani }, 'comments').populate({ path: 'comments', populate: { path: 'userId', select: 'type avatar name' }, options: { sort: { 'createAt': -1 } } }).exec();
+      // console.log(comments)
       res.status(301).json({ message: "SUCCESSFUL!", comments: comments.comments });
     } catch (error) {
       res.status(401).json({ message: error });
@@ -37,7 +38,8 @@ class WorkPublic {
   async getComment(req, res, next) {
     try {
       const { id_comment } = req.params;
-      const comment = await CommentModel.findById(id_comment, 'replys').populate('replys').exec();
+      const comment = await CommentModel.findById(id_comment, 'replys').populate({ path: 'replys', populate: { path: 'userId', select: 'type avatar name' } }).exec();
+      // console.log(comment)
       res.status(301).json({ message: "SUCCESSFUL!", comments: comment.replys });
     } catch (error) {
       res.status(401).json({ message: error });
@@ -68,6 +70,20 @@ class WorkPublic {
     try {
       const length = await MovieModel.count({});
       res.status(301).json({ message: "SUCCESSFUL!", length });
+    } catch (error) {
+      res.status(401).json({ message: error });
+    }
+  }
+  async searchAnime(req, res, next) {
+    try {
+      let { keys, limit } = req.query;
+      let lookMovie;
+      keys = keys ? keys : null;
+      if(keys == null) { lookMovie = [] }
+      else {
+        lookMovie = await MovieModel.find({ name: { $regex: keys, $options: 'i' } }, 'name desc label image').limit(limit || 5).exec();
+      }
+      res.status(301).json({ message: "SUCCESSFUL!", lookMovie });
     } catch (error) {
       res.status(401).json({ message: error });
     }

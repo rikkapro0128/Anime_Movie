@@ -18,6 +18,9 @@
         >{{ video.esp }}</router-link
       >
     </div>
+    <div class="movie-view__comments">
+      <Comments :label="label" />
+    </div>
   </div>
 </template>
 
@@ -26,9 +29,11 @@ import { useRoute } from "vue-router";
 import { useStore } from "vuex";
 import { ref, reactive, watch } from "vue";
 import Video from "../components/Video.vue";
+import Comments from "../components/Comments.vue";
 export default {
   components: {
     Video,
+    Comments
   },
   setup() {
     const route = useRoute();
@@ -40,7 +45,7 @@ export default {
     async function runNow() {
       await store.dispatch("getMovieByLabel", {
         label: label.value,
-        options: { esp: "all" },
+        options: { esp: "all" }
       });
       data.movie = store.state.movie;
       data.videos = data.movie.videos;
@@ -61,7 +66,7 @@ export default {
     }
     watch(
       () => route.query.esp,
-      (newEsp) => {
+      newEsp => {
         runNow();
         getLink(newEsp);
         if (newEsp) {
@@ -73,9 +78,9 @@ export default {
       esp,
       data,
       label,
-      linkVideo,
+      linkVideo
     };
-  },
+  }
 };
 </script>
 
@@ -110,6 +115,9 @@ export default {
     background-color: $main-color;
     border-radius: 5px;
     margin: 1rem 0;
+  }
+  &__comments {
+    margin-top: 1rem;
   }
 }
 </style>

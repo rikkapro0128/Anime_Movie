@@ -6,18 +6,19 @@ $tl-color-hov: rgb(221, 26, 91);
 $bg-sidebar: #fff;
 $rate-card: #fff;
 $name-card: #ffffff;
-$border-card: #ffa9be;
+$border-card: $base-color;
 $light: #fff;
 $error: #ff2b2b;
 $success: #25bd25;
 $warning: #fffb00;
-$main-color: #ffa9be;
+$main-color: #777790;
 $main-color-tspa: #ffa9bfe5;
 $border-esp: #fff;
 $box-sd-esp: #fff;
-$border-avatar: #ffa9be;
+$border-avatar: $base-color;
 $bg-esp: #fff;
 $color-toast: #fff;
+$bor-radius-card: 1rem;
 :root {
   --plyr-color-main: #ffa9be;
 }

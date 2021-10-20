@@ -1,5 +1,6 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import { AccountModel } from '../model/account.js'
 
 class helpSign {
   getToken(payload, timeExpires = 60 * 2) {

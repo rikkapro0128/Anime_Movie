@@ -5,22 +5,28 @@
       <div class="comment__top--if-left">
         <img
           :src="
-            comment.img
-              ? comment.img
+            comment?.userId?.avatar
+              ? comment?.userId?.avatar
               : 'https://i.pinimg.com/736x/59/18/d8/5918d8e9040516b65f93c75a9c5b8175.jpg'
           "
           alt="avatar"
         />
       </div>
       <div class="comment__top--if-right">
-        <span class="comment__top--if-right-name">{{ comment.name }}</span>
+        <span class="comment__top--if-right-name"
+          >{{ comment?.userId?.name || comment.name }}
+          {{ comment?.userId ? "" : "(Tài khoản đã Isekai!)" }}
+          {{ comment?.userId?.type === "admin" ? " (Master)" : "" }}
+        </span>
         <span class="comment__top--if-right-contents">{{
           comment.content
         }}</span>
       </div>
     </div>
     <div class="comment__tool">
-      <span @click="actionLikeComment(comment._id)">({{ totalLike }}) Thích</span>
+      <span @click="actionLikeComment(comment._id)"
+        >({{ totalLike }}) Thích</span
+      >
       <span @click="showCompilation = !showCompilation">Trả lời</span>
       <span>Báo cáo</span>
     </div>
@@ -91,6 +97,7 @@ export default {
     const contentReply = ref("");
     const dontCallHome = ref(true);
     const totalLike = ref(null);
+    // console.log(props.comment);
     (async () => {
       totalLike.value = await store.dispatch("getLikesByComment", {
         id_comment: props.comment._id
@@ -169,7 +176,7 @@ export default {
         border: 1px solid $main-color;
         width: 100%;
         object-fit: cover;
-        border-radius: 10px;
+        border-radius: 50%;
       }
     }
     &--if-right {

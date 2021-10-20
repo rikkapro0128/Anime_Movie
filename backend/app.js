@@ -7,6 +7,7 @@ import dotenv from "dotenv";
 import morgan from "morgan";
 import mongoose from "mongoose";
 import bodyParser from "body-parser";
+import passport from "passport";
 import methodOverride from "method-override";
 import { dirname } from "path";
 import { fileURLToPath } from "url";
@@ -18,6 +19,7 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 
 dotenv.config();
 app.use(cors());
+app.use(passport.initialize());
 app.use(methodOverride("_method"));
 app.use(express.static(path.join(__dirname, "src", "public")));
 app.use("/video", express.static(process.env.PATH_MOVIE));
@@ -32,6 +34,9 @@ RouterManager(app);
 //config Database
 DbConfig(mongoose);
 
-app.listen(port, () => {
+https.createServer({
+  key: fs.readFileSync('key.pem'),
+  cert: fs.readFileSync('cert.pem'),
+}, app).listen(port, () => {
   console.log(`Server running on port ${port}`);
 });

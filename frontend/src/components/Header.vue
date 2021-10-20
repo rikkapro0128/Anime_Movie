@@ -9,11 +9,35 @@
       </li>
     </ul>
     <div class="space">
-      <input type="text" placeholder="Tên anime?" />
+      <input type="text" v-model="keywords" placeholder="Tên anime?" />
       <button class="btn">
         Tìm kiếm
         <i class="fas fa-search"></i>
       </button>
+      <div class="result--search" v-if="keywords">
+        <span class="result--search__none" v-if="!searchAnimed.length"
+          >Website hiện không có Anime này!</span
+        >
+        <div class="result" v-for="(item, index) in searchAnimed" :key="index">
+          <hr v-if="index" />
+          <div
+            class="result--info"
+            :class="{
+              first: index === 0,
+              last: index === searchAnimed.length - 1
+            }"
+          >
+            <div class="result--info__image">
+              <img :src="host + item.image" :alt="item.name" />
+            </div>
+            <div class="result--info__details">
+              <span class="result--info__details-name">{{ item.name }}</span>
+              <span class="result--info__details-desc">{{ item.desc }}</span>
+            </div>
+          </div>
+        </div>
+        <div class="result--search__close" @click="cancelSearch()">X</div>
+      </div>
     </div>
     <ul class="nav">
       <li class="nav__item" v-if="!isLogin">
@@ -67,6 +91,7 @@ import { ref, watch } from "vue";
 import { useStore } from "vuex";
 import { useRoute, useRouter } from "vue-router";
 import helper from "../utils/helperToken.js";
+import { initFbsdk } from "../utils/loginFacebook.js";
 export default {
   name: "Header",
   setup() {
@@ -77,6 +102,10 @@ export default {
     const isAdmin = ref(JSON.parse(localStorage.getItem("isAdmin")) || false);
     const nameUser = ref(JSON.parse(localStorage.getItem("nameUser")));
     const turnUserTool = ref(false);
+    const keywords = ref("");
+    const searchAnimed = ref([]);
+    const host = ref(process.env.VUE_APP_HOST_SERVER);
+    initFbsdk();
     const logout = async () => {
       const authType = JSON.parse(localStorage.getItem("authType"));
       await store.dispatch("sendDataSign", {
@@ -85,7 +114,6 @@ export default {
           type: "sign-out"
         }
       });
-      console.log(authType);
       if (authType === "facebook") {
         window.FB.getLoginStatus(function(res) {
           if (res.status === "connected") {
@@ -106,6 +134,15 @@ export default {
         nameUser.value = JSON.parse(localStorage.getItem("nameUser"));
       }
     );
+    watch(
+      () => keywords.value,
+      async () => {
+        const lsAnime = await store.dispatch("searchAnime", {
+          keys: keywords.value
+        });
+        searchAnimed.value = lsAnime;
+      }
+    );
     const lsChoose = ref([
       { name: "Trang Chủ", path: "" },
       { name: "Thể Loại", path: "the-loai" },
@@ -121,15 +158,24 @@ export default {
       { name: "Hộp phim", path: "/" }
     ]);
     return {
+      host,
       store,
       logout,
       isAdmin,
       isLogin,
+      keywords,
       nameUser,
       lsChoose,
+      searchAnimed,
       turnUserTool,
       userSelectOption
     };
+  },
+  methods: {
+    cancelSearch() {
+      this.searchAnimed = [];
+      this.keywords = "";
+    }
   }
 };
 </script>
@@ -176,6 +222,103 @@ header {
       padding: 0.5rem;
       border-top-left-radius: 20px;
       border-bottom-right-radius: 20px;
+    }
+    .result--search {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      width: 100%;
+      background-color: $light;
+      border: 2px solid $main-color;
+      border-radius: 1rem;
+      transform: translateY(1rem);
+      box-sizing: border-box;
+      .result .first {
+        border-top-left-radius: 0.8rem;
+        border-top-right-radius: 0.8rem;
+      }
+      .result .last {
+        border-bottom-left-radius: 0.8rem;
+        border-bottom-right-radius: 0.8rem;
+      }
+      .result {
+        hr {
+          width: 95%;
+        }
+        &--info {
+          display: flex;
+          padding: 0.5rem;
+          transition: all 0.1s ease-in-out;
+          cursor: pointer;
+          &:hover {
+            background-color: rgb(241, 241, 241);
+          }
+          &__image {
+            width: 4rem;
+            img {
+              width: 4rem;
+              border-radius: 0.8rem;
+              border: 1px solid $main-color;
+              object-fit: cover;
+            }
+          }
+          &__details {
+            margin-left: 0.5rem;
+            span {
+              display: block;
+            }
+            &-name {
+            }
+            &-desc {
+              width: 100%;
+              font-size: 1rem;
+              font-style: italic;
+              display: -webkit-box !important;
+              -webkit-line-clamp: 4;
+              -webkit-box-orient: vertical;
+              overflow: hidden;
+            }
+          }
+        }
+      }
+      &__none {
+        display: block;
+        padding: 1.5rem;
+        text-align: center;
+        color: $base-color;
+      }
+      &__close {
+        position: absolute;
+        width: 4rem;
+        height: 4rem;
+        border: 2px solid $main-color;
+        background-color: $light;
+        border-radius: 50%;
+        left: 100%;
+        top: 50%;
+        transform: translate(1rem, -50%);
+        font-family: "Roboto", sans-serif;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 500;
+        font-size: 2rem;
+        color: $base-color;
+        cursor: pointer;
+        &::before {
+          content: "";
+          display: block;
+          position: absolute;
+          width: 3.5rem;
+          height: 3.5rem;
+          background-color: transparent;
+          top: 50%;
+          left: 50%;
+          border: 2px dotted $main-color;
+          border-radius: 50%;
+          animation: spin-infinite infinite 4s linear;
+        }
+      }
     }
   }
   .nav {
@@ -248,7 +391,7 @@ header {
           bottom: calc(-100% - 10px);
           right: 0;
           display: flex;
-          border-radius: 10px;
+          border-radius: 0.8rem;
           transform: skew(-8deg, 0);
           .brigde {
             width: 100%;
@@ -258,12 +401,12 @@ header {
             top: -10px;
           }
           .first {
-            border-top-left-radius: 10px;
-            border-bottom-left-radius: 10px;
+            border-top-left-radius: 0.6rem;
+            border-bottom-left-radius: 0.6rem;
           }
           .last {
-            border-top-right-radius: 10px;
-            border-bottom-right-radius: 10px;
+            border-top-right-radius: 0.6rem;
+            border-bottom-right-radius: 0.6rem;
           }
           a,
           button {

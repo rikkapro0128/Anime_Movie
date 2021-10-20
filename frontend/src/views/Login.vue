@@ -95,6 +95,7 @@ export default {
     loginFaceBook() {
       const context = this;
       window.FB.getLoginStatus(function(res) {
+        console.log(res);
         if (res.status !== "connected") {
           window.FB.login(
             async ({ authResponse }) => {
@@ -106,6 +107,10 @@ export default {
               if (Object.keys(state).length) {
                 this.loading = false;
                 localStorage.setItem("authType", JSON.stringify("facebook"));
+                localStorage.setItem(
+                  "avatar",
+                  JSON.stringify(state.avatarFacebook)
+                );
                 helper.signLocalStorage(state);
                 context.$router.push("/");
               } else {
