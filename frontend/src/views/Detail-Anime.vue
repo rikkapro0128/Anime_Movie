@@ -122,6 +122,7 @@
 import { ref, reactive } from "vue";
 import { useStore } from "vuex";
 import { useRoute } from "vue-router";
+import { capitalize, capitalizeFirstLetter } from "../utils/common.js";
 
 export default {
   name: "Detail Anime",
@@ -139,16 +140,16 @@ export default {
     const host = ref(process.env.VUE_APP_HOST_SERVER);
     const textImage = reactive({
       message: "Tải ảnh",
-      state: false,
+      state: false
     });
     const state = reactive({
       editDesc: false,
-      editName: false,
+      editName: false
     });
     (async () => {
       await store.dispatch("getMovieByLabel", {
         label: labelAnime.value,
-        options: { esp: "all" },
+        options: { esp: "all" }
       });
       pathDirStorage.value = await store.dispatch("getPathDirStorage");
       detailAnimeData.value = store.state.movie;
@@ -166,7 +167,7 @@ export default {
       labelAnime,
       pathDirStorage,
       detailAnimeData,
-      stateButtonSaveImage,
+      stateButtonSaveImage
     };
   },
   methods: {
@@ -183,7 +184,7 @@ export default {
       const state = await this.$store.dispatch("sendImage", {
         fieldImage: "image",
         url: `admin/up-img-mv/options?label_ani=${this.labelAnime}`,
-        file: this.fileImage,
+        file: this.fileImage
       });
       if (state) {
         this.imageLocal = "";
@@ -198,7 +199,7 @@ export default {
       }
       const state = await this.$store.dispatch("sendNameVideo", {
         url: `admin/post-video?label_ani=${this.labelAnime}`,
-        pathVideo: arrayPath,
+        pathVideo: arrayPath
       });
       event.target.value = null;
       if (state) {
@@ -208,16 +209,21 @@ export default {
     async removeVideo(esp, id_esp) {
       const result = await this.$store.dispatch("removeVideoByLabel", {
         label: this.labelAnime,
-        options: { esp: esp, id_esp: id_esp },
+        options: { esp: esp, id_esp: id_esp }
       });
       if (result) {
         this.reLoadData();
       }
     },
     async saveInfo(value, type) {
+      if (type === "name") {
+        value = capitalize(value).trim();
+      } else if (type === "desc") {
+        value = capitalizeFirstLetter(value).trim();
+      }
       const result = await this.$store.dispatch("updateMovie", {
         label: this.labelAnime,
-        options: { data: value, type },
+        options: { data: value, type }
       });
       if (result) {
         this.reLoadData();
@@ -228,12 +234,12 @@ export default {
     async reLoadData() {
       await this.$store.dispatch("getMovieByLabel", {
         label: this.labelAnime,
-        options: { esp: "all" },
+        options: { esp: "all" }
       });
       this.detailAnimeData = this.store.state.movie;
       this.imageLink = this.detailAnimeData.image;
-    },
-  },
+    }
+  }
 };
 </script>
 

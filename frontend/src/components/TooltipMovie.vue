@@ -1,6 +1,9 @@
 <template>
   <teleport to="body">
-    <div ref="tooltip" class="tooltip--movie">
+    <div
+      :style="{ top: coordinate.y + 'px', left: coordinate.x + 'px' }"
+      class="tooltip--movie"
+    >
       <span class="tooltip--movie__name">
         <p>Tên:</p>
         {{ movie.name }}</span
@@ -27,10 +30,6 @@
 </template>
 
 <script>
-import {
-  // watch,
-  watchEffect
-} from "vue";
 export default {
   props: {
     coordinate: {
@@ -40,13 +39,7 @@ export default {
       type: Object
     }
   },
-  setup() {},
-  mounted() {
-    watchEffect(() => {
-      this.$refs.tooltip.style.left = this.coordinate.x + "px";
-      this.$refs.tooltip.style.top = this.coordinate.y + "px";
-    });
-  }
+  setup() {}
 };
 </script>
 
@@ -62,6 +55,8 @@ export default {
   border-radius: 10px;
   position: absolute;
   display: block;
+  z-index: 2;
+  pointer-events: none;
   // transition: all 0.5s ease-in-out;
   span {
     display: block;

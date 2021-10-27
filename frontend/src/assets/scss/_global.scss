@@ -6,10 +6,13 @@ html {
 }
 
 body {
-  background: url("~@/assets/img/bg_pattern1.png");
+  width: 100%;
+  height: 100vh;
+  background: url("~@/assets/img/bg_pattern1.png"),
+    no-repeat url("~@/assets/img/main_visual_pc.jpg");
+  background-size: auto, cover;
   user-select: none;
   -webkit-user-drag: none;
-  // animation: bg_body 50s 4s infinite ease-in-out;
   position: relative;
 }
 
@@ -156,7 +159,7 @@ video {
 }
 
 ::-webkit-scrollbar {
-  width: 5px;
+  width: 0px;
 }
 
 /* Track */

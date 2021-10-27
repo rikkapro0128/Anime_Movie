@@ -5,18 +5,16 @@
 </template>
 
 <script>
-// import { ref } from "vue";
+// import { ref, reactive } from "vue";
 // import { useStore } from "vuex";
 import LsMovie from "../components/LS-Movie.vue";
 export default {
   name: "Content",
-  components: { LsMovie },
-  setup() {},
-  methods: {}
+  components: {
+    LsMovie
+  },
+  setup() {
+    return {};
+  }
 };
 </script>
-
-<style lang="scss" scoped>
-.content {
-}
-</style>

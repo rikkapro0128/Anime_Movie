@@ -95,7 +95,6 @@ export default {
     loginFaceBook() {
       const context = this;
       window.FB.getLoginStatus(function(res) {
-        console.log(res);
         if (res.status !== "connected") {
           window.FB.login(
             async ({ authResponse }) => {

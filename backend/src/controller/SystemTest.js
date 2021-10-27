@@ -1,5 +1,6 @@
 import fs from 'fs';
 import uniqid from 'uniqid';
+import { MovieModel } from "../model/movie.js"
 
 class SystemTest {
     uploadImage(req, res, next) {

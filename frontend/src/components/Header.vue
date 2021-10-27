@@ -22,13 +22,31 @@
           <hr v-if="index" />
           <div
             class="result--info"
+            @click="
+              this.$router.push({
+                name: 'movie-by-label',
+                params: {
+                  label_anime: item.label
+                }
+              }),
+                cancelSearch()
+            "
             :class="{
               first: index === 0,
               last: index === searchAnimed.length - 1
             }"
           >
             <div class="result--info__image">
-              <img :src="host + item.image" :alt="item.name" />
+              <img
+                v-if="item.image"
+                :src="host + item.image"
+                :alt="item.name"
+              />
+              <img
+                v-else
+                :src="host + '/res-image/no_image.png'"
+                alt="no-image"
+              />
             </div>
             <div class="result--info__details">
               <span class="result--info__details-name">{{ item.name }}</span>
@@ -36,7 +54,9 @@
             </div>
           </div>
         </div>
-        <div class="result--search__close" @click="cancelSearch()">X</div>
+        <div class="result--search__close zoom" @click="cancelSearch()">
+          X
+        </div>
       </div>
     </div>
     <ul class="nav">
@@ -92,6 +112,8 @@ import { useStore } from "vuex";
 import { useRoute, useRouter } from "vue-router";
 import helper from "../utils/helperToken.js";
 import { initFbsdk } from "../utils/loginFacebook.js";
+import { capitalize } from "../utils/common.js";
+// import anime from "animejs";
 export default {
   name: "Header",
   setup() {
@@ -105,6 +127,20 @@ export default {
     const keywords = ref("");
     const searchAnimed = ref([]);
     const host = ref(process.env.VUE_APP_HOST_SERVER);
+    const lsChoose = ref([
+      { name: "Trang Chủ", path: "" },
+      { name: "Thể Loại", path: "the-loai" },
+      { name: "Top Anime", path: "top-anime" },
+      { name: "Lịch Chiếu", path: "lich-chieu" },
+      { name: "Thông Tin", path: "thong-tin" }
+    ]);
+    const userSelectOption = ref([
+      { name: "Thông tin của bạn", path: "/thong-tin-cua-ban" },
+      { name: "Tin nhắn", path: "/" },
+      { name: "Đổi mật khẩu", path: "/" },
+      { name: "Nhóm Chat", path: "/" },
+      { name: "Hộp phim", path: "/" }
+    ]);
     initFbsdk();
     const logout = async () => {
       const authType = JSON.parse(localStorage.getItem("authType"));
@@ -138,25 +174,11 @@ export default {
       () => keywords.value,
       async () => {
         const lsAnime = await store.dispatch("searchAnime", {
-          keys: keywords.value
+          keys: capitalize(keywords.value)
         });
         searchAnimed.value = lsAnime;
       }
     );
-    const lsChoose = ref([
-      { name: "Trang Chủ", path: "" },
-      { name: "Thể Loại", path: "the-loai" },
-      { name: "Top Anime", path: "top-anime" },
-      { name: "Lịch Chiếu", path: "lich-chieu" },
-      { name: "Thông Tin", path: "thong-tin" }
-    ]);
-    const userSelectOption = ref([
-      { name: "Thông tin của bạn", path: "/thong-tin-cua-ban" },
-      { name: "Tin nhắn", path: "/" },
-      { name: "Đổi mật khẩu", path: "/" },
-      { name: "Nhóm Chat", path: "/" },
-      { name: "Hộp phim", path: "/" }
-    ]);
     return {
       host,
       store,
@@ -175,7 +197,8 @@ export default {
     cancelSearch() {
       this.searchAnimed = [];
       this.keywords = "";
-    }
+    },
+    moveBox() {}
   }
 };
 </script>
@@ -305,6 +328,10 @@ header {
         font-size: 2rem;
         color: $base-color;
         cursor: pointer;
+        transition: transform 0.1s ease-in-out;
+        &:hover {
+          transform: translate(1rem, -50%) scale(1.05);
+        }
         &::before {
           content: "";
           display: block;
@@ -314,9 +341,9 @@ header {
           background-color: transparent;
           top: 50%;
           left: 50%;
+          transform: translate(-50%, -50%);
           border: 2px dotted $main-color;
           border-radius: 50%;
-          animation: spin-infinite infinite 4s linear;
         }
       }
     }

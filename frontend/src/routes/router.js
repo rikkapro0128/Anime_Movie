@@ -24,12 +24,12 @@ const routes = [
 	{
 		path: "/movie/:label_anime",
 		name: "movie-by-label",
-		component: MovieByLabel
+		component: MovieByLabel,
 	},
 	{
 		path: "/view-movie/:label_anime",
 		name: "view-movie",
-		component: ViewMovie
+		component: ViewMovie,
 	},
 	{
 		path: "/admin",

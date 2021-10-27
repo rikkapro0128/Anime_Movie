@@ -3,7 +3,7 @@
     width: 12rem;
     height: 16rem;
     position: relative;
-    border: 2px solid $border-card;
+    border: 2px solid #15bb89;
     overflow: hidden;
     border-radius: $bor-radius-card;
     margin: 0.5rem;
@@ -19,12 +19,12 @@
       height: 50px;
       left: 0.5rem;
       top: 0.5rem;
-      background-image: url("~@/assets/img/main_date_bg.png");
+      background: linear-gradient(90deg, #007991 0%, #78ffd6 100%);
       background-size: 100%;
-      animation: spin 1.5s infinite ease-in;
       text-align: center;
       line-height: 50px;
       color: #fff;
+      border-radius: 50%;
     }
     &__img {
       width: inherit;
@@ -41,21 +41,25 @@
       transition: opacity 0.4s ease-in-out;
     }
     &__rate {
-      width: 100px;
-      height: 100px;
       position: absolute;
-      background-image: url("~@/assets/img/label_goods.png");
-      background-repeat: no-repeat;
+      z-index: 2;
       right: 0;
-      top: -1px;
-      background-size: 80%;
-      background-position: 24px 0px;
+      top: 0;
       font-size: 1.2rem;
       font-weight: 400;
       text-align: end;
       padding-right: 0.8rem;
       padding-top: 0.6rem;
       color: $rate-card;
+    }
+    &__label {
+      width: 110px;
+      transform: rotate(39deg) translate(0%, -76%);
+      height: 100px;
+      position: absolute;
+      right: 0;
+      top: 0;
+      background: linear-gradient(90deg, #007991 0%, #78ffd6 100%);
     }
     &__name {
       display: block;
@@ -66,11 +70,11 @@
       font-size: 1.2rem;
       color: $name-card;
       padding: 1rem;
-      background: rgb(0, 0, 0);
       background: linear-gradient(
         0deg,
-        $main-color 0%,
-        rgba(255, 255, 255, 0) 100%
+        rgba(0, 0, 0, 1) 0%,
+        rgba(0, 0, 0, 0.7511379551820728) 30%,
+        rgba(120, 255, 214, 0) 100%
       );
       text-transform: capitalize;
       transition: all 1s ease-in-out;

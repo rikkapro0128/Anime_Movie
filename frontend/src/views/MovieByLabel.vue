@@ -55,9 +55,9 @@
         <span v-else>Vẫn chưa cập nhật tập nào!</span>
       </div>
     </div>
-    <hr>
+    <hr />
     <h1>Giao diện comment vẫn chưa hoàn tất!</h1>
-    <hr>
+    <hr />
     <Comments :label="label" />
   </div>
 </template>

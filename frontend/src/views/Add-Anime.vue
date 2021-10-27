@@ -41,6 +41,7 @@
 <script>
 import { reactive, ref, watchEffect } from "vue";
 import { useStore } from "vuex";
+import { capitalize, capitalizeFirstLetter } from "../utils/common.js";
 
 export default {
   setup() {
@@ -50,22 +51,22 @@ export default {
         name: "Tên",
         attr: "name",
         data: "",
-        type: "text",
-      },
+        type: "text"
+      }
     ]);
     const data = reactive({
       name: "",
-      desc: "",
+      desc: ""
     });
     const stateValidate = reactive({
       name: {
         mess: "Bạn chưa nhập tên mà!",
-        state: false,
+        state: false
       },
       desc: {
         mess: "Bạn chưa nhập mô tả mà!",
-        state: false,
-      },
+        state: false
+      }
     });
     const stateDone = ref("");
     const store = useStore();
@@ -83,7 +84,7 @@ export default {
       formAddMovie,
       stateSending,
       stateValidate,
-      stateDone,
+      stateDone
     };
   },
   methods: {
@@ -91,8 +92,10 @@ export default {
       if (!this.stateValidate.name.state && !this.stateValidate.desc.state) {
         this.stateSending = "Đang Tạo Phim!";
         this.stateDone = "";
+        this.data.name = capitalize(this.data.name);
+        this.data.desc = capitalizeFirstLetter(this.data.desc);
         const res = await this.store.dispatch("createMovie", {
-          data: this.data,
+          data: this.data
         });
         if (res.message === "SUCCESSFUL!") {
           this.aleart("Tạo Phim Thành Công!");
@@ -109,8 +112,8 @@ export default {
       setTimeout(() => {
         this.stateDone = "";
       }, 4000);
-    },
-  },
+    }
+  }
 };
 </script>
 
