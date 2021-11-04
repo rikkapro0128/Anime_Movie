@@ -13,11 +13,13 @@
           :type="item.type"
           :name="item.attr"
           :id="item.attr"
-          v-model="data.name"
+          v-model="movieInfo.name"
+					@blur="checkInput('name')"
+					@input="checkInput('name')"
         />
       </div>
-      <span class="validate-field" v-if="stateValidate.name.state">{{
-        stateValidate.name.mess
+      <span class="validate-field" v-if="message.name">{{
+					message.name
       }}</span>
       <div class="form-input">
         <label for="desc">Mô tả</label>
@@ -25,27 +27,31 @@
           class="box-sd"
           name="desc"
           id="desc"
-          v-model="data.desc"
+          v-model="movieInfo.desc"
+					@blur="checkInput('desc')"
+					@input="checkInput('desc')"
         ></textarea>
       </div>
-      <span class="validate-field" v-if="stateValidate.desc.state">{{
-        stateValidate.desc.mess
+      <span class="validate-field" v-if="message.desc">{{
+					message.desc
       }}</span>
       <button class="box-sd">Đăng</button>
-      <span v-if="stateSending" class="status-send">{{ stateSending }}</span>
-      <span v-if="stateDone" class="status-done">{{ stateDone }}</span>
+      <span v-if="stateSending" class="status-send">đang tạo phim vui lòng chờ!</span>
+      <span v-if="stateDone" class="status-done">tạo phim thành công</span>
     </form>
   </div>
 </template>
 
 <script>
-import { reactive, ref, watchEffect } from "vue";
+import { reactive, ref } from "vue";
 import { useStore } from "vuex";
-import { capitalize, capitalizeFirstLetter } from "../utils/common.js";
 
 export default {
   setup() {
-    const stateSending = ref("");
+    const stateSending = ref(false);
+		const permitSend = ref(false);
+    const stateDone = ref(false);
+    const message = reactive({ name: undefined, desc: undefined });
     const formAddMovie = reactive([
       {
         name: "Tên",
@@ -54,65 +60,66 @@ export default {
         type: "text"
       }
     ]);
-    const data = reactive({
+    const movieInfo = reactive({
       name: "",
       desc: ""
     });
-    const stateValidate = reactive({
-      name: {
-        mess: "Bạn chưa nhập tên mà!",
-        state: false
-      },
-      desc: {
-        mess: "Bạn chưa nhập mô tả mà!",
-        state: false
-      }
-    });
-    const stateDone = ref("");
     const store = useStore();
-    watchEffect(() => {
-      !data.name
-        ? (stateValidate.name.state = true)
-        : (stateValidate.name.state = false);
-      !data.desc
-        ? (stateValidate.desc.state = true)
-        : (stateValidate.desc.state = false);
-    });
     return {
-      data,
       store,
+			message,
+			movieInfo,
+      stateDone,
+			permitSend,
       formAddMovie,
       stateSending,
-      stateValidate,
-      stateDone
     };
   },
   methods: {
     async sendMovie() {
-      if (!this.stateValidate.name.state && !this.stateValidate.desc.state) {
-        this.stateSending = "Đang Tạo Phim!";
-        this.stateDone = "";
-        this.data.name = capitalize(this.data.name);
-        this.data.desc = capitalizeFirstLetter(this.data.desc);
-        const res = await this.store.dispatch("createMovie", {
-          data: this.data
-        });
-        if (res.message === "SUCCESSFUL!") {
-          this.aleart("Tạo Phim Thành Công!");
-        } else {
-          this.aleart("Có Lỗi Tạo Phim");
-        }
-      }
+			['name', 'desc'].forEach((item) => {
+				if(!this.checkInput(item)) {
+					this.permitSend = false;
+					return false;
+				}
+			});
+			if(!this.permitSend) {
+				this.stateSending = true;
+				const res = await this.store.dispatch("createMovie", {
+					data: this.movieInfo,
+				});
+				if(res.message === 'SUCCESSFUL!') {
+					this.aleart();
+				}
+			}
     },
-    aleart(message) {
-      this.stateDone = message;
-      this.stateSending = "";
-      this.data.name = "";
-      this.data.desc = "";
+    aleart() {
+			this.stateDone = true;
+			this.stateSending = false;
       setTimeout(() => {
-        this.stateDone = "";
+        this.stateDone = false;
       }, 4000);
-    }
+    },
+		checkInput(field) {
+			if(field === 'name') {
+				if(this.movieInfo.name === "") {
+					this.message.name = "bạn chưa nhập tên anime";
+					this.permitSend = false;
+				}else {
+					this.message.name = undefined;
+				}
+			}else if(field === 'desc') {
+				if(this.movieInfo.desc === "") {
+					this.message.desc = "bạn chưa nhập tên mô tả anime";
+					this.permitSend = false;
+				}else {
+					this.message.desc = undefined;
+				}
+			}else {
+				this.permitSend = true;
+			}
+			return this.permitSend;
+		}
   }
 };
 </script>

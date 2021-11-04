@@ -12,9 +12,10 @@ class Admin {
     }
     async createMovie(req, res, next) {
         const { name, desc } = req.body;
-        const label = generrateLink(name);
+        const label = generrateLink(String(name));
+        const parseName = String(name).toLowerCase();
         const Movie = new MovieModel({
-            name,
+            name: parseName,
             desc,
             label,
         });

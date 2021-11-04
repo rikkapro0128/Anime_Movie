@@ -75,15 +75,18 @@ export default {
         label,
         options: { select: "" }
       });
-      this.changeDataCard = !this.changeDataCard;
+			await this.reloadData();
     },
     async handleChangeIndexOfNav({ index }) {
       this.initLoadIndex = index;
-      await this.store.dispatch("getMovies", {
-        page: this.initLoadIndex - 1,
-        range: this.initRange
-      });
-    }
+      await this.reloadData();
+    },
+		async reloadData() {
+			await this.store.dispatch("getMovies", {
+				page: this.initLoadIndex - 1,
+				range: this.initRange
+			});
+		}
   }
 };
 </script>
