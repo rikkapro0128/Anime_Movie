@@ -6,7 +6,7 @@
       @click="stateOpenSelect = !stateOpenSelect"
     >
       <span class="content">{{ selectvalue ?? name }}</span>
-      <i class="fas fa-chevron-up"></i>
+      <i class="fas fa-caret-up"></i>
       <div class="select--name__popup" :class="{ active: stateOpenSelect }">
         <span @click="getvalueSelect(null)">bỏ chọn</span>
         <span

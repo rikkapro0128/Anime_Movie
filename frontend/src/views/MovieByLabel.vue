@@ -30,13 +30,11 @@
       <div class="ls-btn">
         <router-link
           class="btn box__sd--pink"
-          :to="
-            `${
-              !movie.videos?.length
-                ? '/'
-                : `/view-movie/${label}?esp=${movie.videos?.[0]?.esp}`
-            }`
-          "
+          :to="`${
+            !movie.videos?.length
+              ? '/'
+              : `/view-movie/${label}?esp=${movie.videos?.[0]?.esp}`
+          }`"
           >Xem Anime</router-link
         >
         <router-link class="btn box__sd--pink" to="/">Xem Trailer</router-link>
@@ -79,7 +77,7 @@ export default {
     (async () => {
       await store.dispatch("getMovieByLabel", {
         label: label.value,
-        options: { esp: "all" }
+        options: { esp: "all" },
       });
       movie.value = store.state.movie;
     })();
@@ -87,9 +85,9 @@ export default {
       host,
       label,
       store,
-      movie
+      movie,
     };
-  }
+  },
 };
 </script>
 

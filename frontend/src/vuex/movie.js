@@ -125,9 +125,9 @@ const movie = createStore({
 				data: { value: options.data, type: options.type }
 			});
 			if (data.message === "SUCCESSFUL!") {
-				return true;
+				return data.newLabel;
 			}
-			return false;
+			return null;
 		},
 		async sendDataSign(_, { dataForm }) {
 			let data;
