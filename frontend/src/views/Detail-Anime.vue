@@ -83,7 +83,10 @@
         <h1>lịch chiếu:</h1>
         <div>
           <span>mỗi: </span>
-          <Select
+					<Select
+						@selectFieldActive="handleSelectAll"
+						ref="date"
+						:stateSelect="false"
             order="4"
             field="date"
             :name="'chọn thứ'"
@@ -100,6 +103,9 @@
           />
           <span>hàng: </span>
           <Select
+						@selectFieldActive="handleSelectAll"
+						ref="loop"
+						:stateSelect="false"
             order="4"
             field="loop"
             :name="'chọn phiên lặp'"
@@ -108,16 +114,86 @@
           />
         </div>
       </div>
-      <div class="detail-ani__options--show-state">
-        <h1>trạng thái:</h1>
-        <Select
-          order="3"
-          field="state-movie"
-          :name="'tuỳ chọn'"
-          :dataSelect="['hoàn tất', 'đang cập nhật']"
-          @changeSelect="getValueSelect"
-        />
-      </div>
+			<div class="wrap--select">
+				<div class="wrap--select__options--show-state">
+					<h1>trạng thái:</h1>
+					<Select
+						@selectFieldActive="handleSelectAll"
+						ref="state-movie"
+						:stateSelect="false"
+						order="3"
+						field="state-movie"
+						:name="'tuỳ chọn'"
+						:dataSelect="['hoàn tất', 'đang cập nhật']"
+						@changeSelect="getValueSelect"
+					/>
+				</div>
+				<div class="wrap--select__options--nation">
+					<h1>quốc gia:</h1>
+					<Select
+						@selectFieldActive="handleSelectAll"
+						ref="nation"
+						:stateSelect="false"
+						order="3"
+						field="nation"
+						:name="'tuỳ chọn'"
+						:dataSelect="['nhật bản', 'trung quốc', 'hàn quốc']"
+						@changeSelect="getValueSelect"
+					/>
+				</div>
+				<div class="wrap--select__options--quality">
+					<h1>chất lượng:</h1>
+					<Select
+						@selectFieldActive="handleSelectAll"
+						ref="quality"
+						:stateSelect="false"
+						order="3"
+						field="quality"
+						:name="'tuỳ chọn'"
+						:dataSelect="['360p', '480p', '720p', '1080p']"
+						@changeSelect="getValueSelect"
+					/>
+				</div>
+				<div class="wrap--select__options--time-esp">
+					<h1>thời lượng:</h1>
+					<Select
+						@selectFieldActive="handleSelectAll"
+						ref="time"
+						:stateSelect="false"
+						order="3"
+						field="time"
+						:name="'tuỳ chọn'"
+						:dataSelect="[12, 24]"
+						@changeSelect="getValueSelect"
+					/>
+				</div>
+				<div class="wrap--select__options--season">
+					<h1>season:</h1>
+					<Select
+						@selectFieldActive="handleSelectAll"
+						ref="season"
+						:stateSelect="false"
+						order="3"
+						field="season"
+						:name="'tuỳ chọn'"
+						:dataSelect="['mùa xuân', 'mùa hạ', 'mùa thu', 'mùa đông']"
+						@changeSelect="getValueSelect"
+					/>
+				</div>
+				<div class="wrap--select__options--translate">
+					<h1>loại translate:</h1>
+					<Select
+						@selectFieldActive="handleSelectAll"
+						ref="translate"
+						:stateSelect="false"
+						order="3"
+						field="translate"
+						:name="'tuỳ chọn'"
+						:dataSelect="['vietsub', 'lồng tiếng']"
+						@changeSelect="getValueSelect"
+					/>
+				</div>
+			</div>
       <div class="detail-ani__options--genre">
         <h1>thể loại:</h1>
         <div class="detail-ani__options--genre--wraps">
@@ -149,56 +225,6 @@
           name="studio"
           placeholder="studio thực hiện..."
           @changeValueInput="getValueInput"
-        />
-      </div>
-      <div class="detail-ani__options--nation">
-        <h1>quốc gia:</h1>
-        <Select
-          order="3"
-          field="nation"
-          :name="'tuỳ chọn'"
-          :dataSelect="['nhật bản', 'trung quốc', 'hàn quốc']"
-          @changeSelect="getValueSelect"
-        />
-      </div>
-      <div class="detail-ani__options--quality">
-        <h1>chất lượng:</h1>
-        <Select
-          order="2"
-          field="quality"
-          :name="'tuỳ chọn'"
-          :dataSelect="['360p', '480p', '720p', '1080p']"
-          @changeSelect="getValueSelect"
-        />
-      </div>
-      <div class="detail-ani__options--time-esp">
-        <h1>thời lượng:</h1>
-        <Select
-          order="1"
-          field="time"
-          :name="'tuỳ chọn'"
-          :dataSelect="[12, 24]"
-          @changeSelect="getValueSelect"
-        />
-      </div>
-      <div class="detail-ani__options--season">
-        <h1>season:</h1>
-        <Select
-          order="0"
-          field="season"
-          :name="'tuỳ chọn'"
-          :dataSelect="['mùa xuân', 'mùa hạ', 'mùa thu', 'mùa đông']"
-          @changeSelect="getValueSelect"
-        />
-      </div>
-      <div class="detail-ani__options--translate">
-        <h1>loại translate:</h1>
-        <Select
-          order="0"
-          field="translate"
-          :name="'tuỳ chọn'"
-          :dataSelect="['vietsub', 'lồng tiếng']"
-          @changeSelect="getValueSelect"
         />
       </div>
     </div>
@@ -282,13 +308,16 @@ export default {
     const pathDirStorage = ref("");
     const nameVideo = ref(null);
     const imageLink = ref("");
-    const manageSelect = reactive({
-      showTimes: {
-        date: undefined,
-        loop: undefined,
-      },
-      state: undefined,
-    });
+    const manageSelect = reactive([
+			'date',
+			'loop',
+      'state-movie',
+      'time',
+      'season',
+      'translate',
+      'quality',
+      'nation',
+    ]);
     const genres = reactive([
       {
         field: "Action",
@@ -585,6 +614,14 @@ export default {
       //console.log(this.store.state.movie);
       this.imageLink = `${this.detailAnimeData.image}?${Date.now()}`;
     },
+		handleSelectAll(field) {
+			// this.manageSelect.forEach((item) => {
+			// 	if(item !== field) {
+			// 		this.$refs[item].stateOpenSelect = false;
+			// 	}
+			// })
+			console.log(this.$refs[field])
+		}
   },
 };
 </script>
@@ -771,6 +808,52 @@ export default {
     border-radius: 10px;
     border: 2px solid $main-color;
     margin-top: 1rem;
+		.wrap--select {
+			display: flex;
+			flex-wrap: wrap;
+			&__options--show-state {
+				display: flex;
+				align-items: center;
+				h1 {
+					text-transform: capitalize;
+				}
+			}
+			&__options--quality {
+				display: flex;
+				align-items: center;
+				h1 {
+					text-transform: capitalize;
+				}
+			}
+			&__options--season {
+				display: flex;
+				align-items: center;
+				h1 {
+					text-transform: capitalize;
+				}
+			}
+			&__options--translate {
+				display: flex;
+				align-items: center;
+				h1 {
+					text-transform: capitalize;
+				}
+			}
+			&__options--time-esp {
+				display: flex;
+				align-items: center;
+				h1 {
+					text-transform: capitalize;
+				}
+			}
+			&__options--nation {
+				display: flex;
+				align-items: center;
+				h1 {
+					text-transform: capitalize;
+				}
+			}
+		}
     &--show-times {
       h1 {
         font-size: 1.2rem;
@@ -784,48 +867,6 @@ export default {
         span {
           text-transform: capitalize;
         }
-      }
-    }
-    &--show-state {
-      display: flex;
-      align-items: center;
-      h1 {
-        text-transform: capitalize;
-      }
-    }
-    &--quality {
-      display: flex;
-      align-items: center;
-      h1 {
-        text-transform: capitalize;
-      }
-    }
-    &--season {
-      display: flex;
-      align-items: center;
-      h1 {
-        text-transform: capitalize;
-      }
-    }
-    &--translate {
-      display: flex;
-      align-items: center;
-      h1 {
-        text-transform: capitalize;
-      }
-    }
-    &--time-esp {
-      display: flex;
-      align-items: center;
-      h1 {
-        text-transform: capitalize;
-      }
-    }
-    &--nation {
-      display: flex;
-      align-items: center;
-      h1 {
-        text-transform: capitalize;
       }
     }
     &--genre {

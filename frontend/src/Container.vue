@@ -22,6 +22,9 @@ export default {
     Header,
     Footer,
     Tool
-  }
+  },
 };
 </script>
+
+<style lang="scss" scoped>
+</style>

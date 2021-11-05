@@ -18,7 +18,7 @@ export default {
 <style lang="scss" scoped>
 footer {
   width: 100%;
-  background: linear-gradient(360deg, #007991 0%, #78ffd6 100%);
+  background-color: $main-color;
   text-align: center;
   border-top-left-radius: 1rem;
   border-top-right-radius: 1rem;

@@ -12,10 +12,10 @@ class Admin {
     }
     async createMovie(req, res, next) {
         const { name, desc } = req.body;
-        const label = generrateLink(String(name));
-        const parseName = String(name).toLowerCase();
+        const nameParse = String(name).toLowerCase();
+        const label = generrateLink(nameParse);
         const Movie = new MovieModel({
-            name: parseName,
+            name: nameParse,
             desc,
             label,
         });
@@ -165,8 +165,17 @@ class Admin {
                 }else {
                     await MovieModel.findOneAndDelete({ label: label_ani }).populate('videos').exec(async function(err, result) {
                         await VideoModel.deleteMany({ label: label_ani });
+                        const pathVideo = `${process.env.PATH_MOVIE}\\${result.label}`;
+                        const pathImage = `${process.env.PATH_MOVIES_IMAGE}\\${String(result.image).split('/img-mv')[1]}`;
+                        const checkPathVideo = fs.existsSync(pathVideo);
+                        const checkPathImage = fs.existsSync(pathImage);
+                        if(checkPathVideo) {
+                            fs.rmSync(pathVideo, { recursive: true, force: true });
+                        }
+                        if(checkPathImage) {
+                            fs.rmSync(pathImage, { recursive: true, force: true });
+                        }
                     });
-                    fs.rmSync(`${process.env.PATH_MOVIE}\\${label_ani}`, { recursive: true, force: true });
                 }
             }
             res.status(301).json({ message: 'SUCCESSFUL!' });

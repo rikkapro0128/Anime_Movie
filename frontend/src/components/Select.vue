@@ -39,7 +39,7 @@ export default {
       type: String,
     },
   },
-  setup(props) {
+  setup(props, { emit }) {
     const stateOpenSelect = ref(false);
     const selectvalue = ref(undefined);
     const doneSelect = ref(false);
@@ -47,6 +47,7 @@ export default {
       () => stateOpenSelect.value,
       (oldState) => {
         if (oldState) {
+					emit('selectFieldActive', props.field);
           activeSelect();
         } else {
           unActiveSelect();

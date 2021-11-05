@@ -10,7 +10,7 @@
         playsinline
         preload="auto"
         size="720"
-        :src="`${host}${link_mv.currentLink}`"
+        :src="`${host}${link_mv.currentLink}?${Date.now()}`"
         type="video/*"
         data-poster="https://i.pinimg.com/originals/23/d6/12/23d6122575e29debe94262e54d1ec09b.png"
       >
