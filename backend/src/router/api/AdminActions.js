@@ -5,6 +5,7 @@ import Admin from '../../controller/AdminActions.js';
 
 router.get('/path-dir-upload', Admin.getPathDir);
 router.post('/up-img-mv/options', Admin.imageMovie);
+router.post('/update/info-anime', Admin.updateInfoAnime);
 router.post('/update-movie/:label_ani/options', Admin.updateMovie);
 router.post('/create-movie', Admin.createMovie);
 router.post('/post-video', Admin.postVideoByLabel);

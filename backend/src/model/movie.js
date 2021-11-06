@@ -7,6 +7,19 @@ const movie = new Schema({
     desc: { type: String, default: '' },
     label: { type: String, required: true },
     image: { type: String, default: '' },
+    infomation: {
+        'date': { type: String, default: '' },
+        'loop': { type: String, default: '' },
+        'state-movie': { type: String, default: '' },
+        'time': { type: String, default: '' },
+        'season': { type: String, default: '' },
+        'translate': { type: String, default: '' },
+        'quality': { type: String, default: '' },
+        'nation': { type: String, default: '' },
+        'genres': { type: Array, default: [] },
+        'author': { type: String, default: '' },
+        'studio': { type: String, default: '' },
+    },
     videos: [{ type: Schema.Types.ObjectId, ref: 'videos' }],
     comments: [{ type: Schema.Types.ObjectId, ref: 'comment' }]
 });

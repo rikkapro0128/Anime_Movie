@@ -214,7 +214,14 @@ const movie = createStore({
 				return data.lookMovie;
 			}
 			return false;
-    }
+    },
+		async saveAnimeInfomation(_, { data }) {
+			const res = await fetchApi.POST('admin/update/info-anime', data);
+			if (res !== "CANT'T FETCH API!") {
+				return true;
+			}
+			return false;
+		}
 	},
 	getters: {}
 });

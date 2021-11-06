@@ -84,10 +84,9 @@
         <div>
           <span>mỗi: </span>
 					<Select
-						@selectFieldActive="handleSelectAll"
+						:defaultValue="manageData['date'].value"
+						@selectActive="handleSelectAll"
 						ref="date"
-						:stateSelect="false"
-            order="4"
             field="date"
             :name="'chọn thứ'"
             :dataSelect="[
@@ -103,10 +102,9 @@
           />
           <span>hàng: </span>
           <Select
-						@selectFieldActive="handleSelectAll"
+						:defaultValue="manageData['loop'].value"
+						@selectActive="handleSelectAll"
 						ref="loop"
-						:stateSelect="false"
-            order="4"
             field="loop"
             :name="'chọn phiên lặp'"
             :dataSelect="['tuần', 'tháng', 'năm']"
@@ -118,10 +116,9 @@
 				<div class="wrap--select__options--show-state">
 					<h1>trạng thái:</h1>
 					<Select
-						@selectFieldActive="handleSelectAll"
+						:defaultValue="manageData['state-movie'].value"
+						@selectActive="handleSelectAll"
 						ref="state-movie"
-						:stateSelect="false"
-						order="3"
 						field="state-movie"
 						:name="'tuỳ chọn'"
 						:dataSelect="['hoàn tất', 'đang cập nhật']"
@@ -131,10 +128,9 @@
 				<div class="wrap--select__options--nation">
 					<h1>quốc gia:</h1>
 					<Select
-						@selectFieldActive="handleSelectAll"
+						:defaultValue="manageData['nation'].value"
+						@selectActive="handleSelectAll"
 						ref="nation"
-						:stateSelect="false"
-						order="3"
 						field="nation"
 						:name="'tuỳ chọn'"
 						:dataSelect="['nhật bản', 'trung quốc', 'hàn quốc']"
@@ -144,10 +140,9 @@
 				<div class="wrap--select__options--quality">
 					<h1>chất lượng:</h1>
 					<Select
-						@selectFieldActive="handleSelectAll"
+						:defaultValue="manageData['quality'].value"
+						@selectActive="handleSelectAll"
 						ref="quality"
-						:stateSelect="false"
-						order="3"
 						field="quality"
 						:name="'tuỳ chọn'"
 						:dataSelect="['360p', '480p', '720p', '1080p']"
@@ -157,23 +152,21 @@
 				<div class="wrap--select__options--time-esp">
 					<h1>thời lượng:</h1>
 					<Select
-						@selectFieldActive="handleSelectAll"
+						:defaultValue="manageData['time'].value"
+						@selectActive="handleSelectAll"
 						ref="time"
-						:stateSelect="false"
-						order="3"
 						field="time"
 						:name="'tuỳ chọn'"
-						:dataSelect="[12, 24]"
+						:dataSelect="['12', '24']"
 						@changeSelect="getValueSelect"
 					/>
 				</div>
 				<div class="wrap--select__options--season">
 					<h1>season:</h1>
 					<Select
-						@selectFieldActive="handleSelectAll"
+						:defaultValue="manageData['season'].value"
+						@selectActive="handleSelectAll"
 						ref="season"
-						:stateSelect="false"
-						order="3"
 						field="season"
 						:name="'tuỳ chọn'"
 						:dataSelect="['mùa xuân', 'mùa hạ', 'mùa thu', 'mùa đông']"
@@ -183,10 +176,9 @@
 				<div class="wrap--select__options--translate">
 					<h1>loại translate:</h1>
 					<Select
-						@selectFieldActive="handleSelectAll"
+						:defaultValue="manageData['translate'].value"
+						@selectActive="handleSelectAll"
 						ref="translate"
-						:stateSelect="false"
-						order="3"
 						field="translate"
 						:name="'tuỳ chọn'"
 						:dataSelect="['vietsub', 'lồng tiếng']"
@@ -198,10 +190,11 @@
         <h1>thể loại:</h1>
         <div class="detail-ani__options--genre--wraps">
           <Checkbox
-            v-for="(genre, index) in genres"
+            v-for="(value, name, index) in manageData['genres']"
+						:type-anime="name"
             :key="index"
-            :name="genre.field"
-            :value="genre.value"
+            :name="name"
+            :value="value"
             :checkboxPos="index"
             @ChangeCheckBox="getValuecheckBox"
           />
@@ -209,24 +202,13 @@
       </div>
       <div class="detail-ani__options--author">
         <h1>tác giả:</h1>
-        <Input
-          type="text"
-          :setTitle="false"
-          name="author"
-          placeholder="tên tác giả..."
-          @changeValueInput="getValueInput"
-        />
+				<input name="author" v-model="manageData['author']" type="text" placeholder="Tên tác giả..." />
       </div>
       <div class="detail-ani__options--studio">
         <h1>studio:</h1>
-        <Input
-          type="text"
-          :setTitle="false"
-          name="studio"
-          placeholder="studio thực hiện..."
-          @changeValueInput="getValueInput"
-        />
+				<input name="studio" v-model="manageData['studio']" type="text" placeholder="Tên Studio thực hiện..." />
       </div>
+			<button @click="saveAnimeInfomation" class="btn--anime">lưu thông tin</button>
     </div>
     <div class="detail-ani__add-movie">
       <h1>
@@ -288,14 +270,13 @@ import { useStore } from "vuex";
 import { useRoute } from "vue-router";
 import { capitalize, capitalizeFirstLetter } from "../utils/common.js";
 import Select from "../components/Select.vue";
-import Input from "../components/Input_2.vue";
 import Checkbox from "../components/Checkbox.vue";
 import moment from "moment";
 import "moment/locale/vi";
 
 export default {
   name: "Detail Anime",
-  components: { Select, Checkbox, Input },
+  components: { Select, Checkbox },
   setup() {
     const route = useRoute();
     const store = useStore();
@@ -308,194 +289,65 @@ export default {
     const pathDirStorage = ref("");
     const nameVideo = ref(null);
     const imageLink = ref("");
-    const manageSelect = reactive([
-			'date',
-			'loop',
-      'state-movie',
-      'time',
-      'season',
-      'translate',
-      'quality',
-      'nation',
-    ]);
-    const genres = reactive([
-      {
-        field: "Action",
-        value: false,
-      },
-      {
-        field: "Adventure",
-        value: false,
-      },
-      {
-        field: "Cartoon",
-        value: false,
-      },
-      {
-        field: "Comedy",
-        value: false,
-      },
-      {
-        field: "Dementia",
-        value: false,
-      },
-      {
-        field: "Demons",
-        value: false,
-      },
-      {
-        field: "Drama",
-        value: false,
-      },
-      {
-        field: "Ecchi",
-        value: false,
-      },
-      {
-        field: "Fantasy",
-        value: false,
-      },
-      {
-        field: "Game",
-        value: false,
-      },
-      {
-        field: "Harem",
-        value: false,
-      },
-      {
-        field: "Historical",
-        value: false,
-      },
-      {
-        field: "Horror",
-        value: false,
-      },
-      {
-        field: "Josei",
-        value: false,
-      },
-      {
-        field: "Kids",
-        value: false,
-      },
-      {
-        field: "Live Action",
-        value: false,
-      },
-      {
-        field: "Magic",
-        value: false,
-      },
-      {
-        field: "Martial Arts",
-        value: false,
-      },
-      {
-        field: "Mecha",
-        value: false,
-      },
-      {
-        field: "Military",
-        value: false,
-      },
-      {
-        field: "Music",
-        value: false,
-      },
-      {
-        field: "Mystery",
-        value: false,
-      },
-      {
-        field: "Parody",
-        value: false,
-      },
-      {
-        field: "Police",
-        value: false,
-      },
-      {
-        field: "Psychological",
-        value: false,
-      },
-      {
-        field: "Romance",
-        value: false,
-      },
-      {
-        field: "Samurai",
-        value: false,
-      },
-      {
-        field: "School",
-        value: false,
-      },
-      {
-        field: "Sci-Fi",
-        value: false,
-      },
-      {
-        field: "Seinen",
-        value: false,
-      },
-      {
-        field: "Shoujo",
-        value: false,
-      },
-      {
-        field: "Shoujo Ai",
-        value: false,
-      },
-      {
-        field: "Shounen",
-        value: false,
-      },
-      {
-        field: "Shounen Ai",
-        value: false,
-      },
-      {
-        field: "Slice of Life",
-        value: false,
-      },
-      {
-        field: "Space",
-        value: false,
-      },
-      {
-        field: "Sports",
-        value: false,
-      },
-      {
-        field: "Super Power",
-        value: false,
-      },
-      {
-        field: "Supernatural",
-        value: false,
-      },
-      {
-        field: "Thriller",
-        value: false,
-      },
-      {
-        field: "Tokusatsu",
-        value: false,
-      },
-      {
-        field: "Vampire",
-        value: false,
-      },
-      {
-        field: "Yaoi",
-        value: false,
-      },
-      {
-        field: "Yuri",
-        value: false,
-      },
-    ]);
+		const stateWaitSaveInfomation = ref(false);
+    const manageData = reactive({
+			'date': { value: null },
+			'loop': { value: null },
+			'state-movie': { value: null },
+			'time': { value: null },
+			'season': { value: null },
+			'translate': { value: null },
+			'quality': { value: null },
+			'nation': { value: null },
+			'genres': {
+				'Action' : false,
+				'Adventure' : false,
+				'Cartoon' : false,
+				'Comedy' : false,
+				'Dementia' : false,
+				'Demons' : false,
+				'Drama' : false,
+				'Ecchi' : false,
+				'Fantasy' : false,
+				'Game' : false,
+				'Harem' : false,
+				'Historical' : false,
+				'Horror' : false,
+				'Josei' : false,
+				'Kids' : false,
+				'Live Action' : false,
+				'Magic' : false,
+				'Martial Arts' : false,
+				'Mecha' : false,
+				'Military' : false,
+				'Music' : false,
+				'Mystery' : false,
+				'Parody' : false,
+				'Police' : false,
+				'Psychological' : false,
+				'Romance' : false,
+				'Samurai' : false,
+				'School' : false,
+				'Sci-Fi' : false,
+				'Seinen' : false,
+				'Shoujo' : false,
+				'Shoujo Ai' : false,
+				'Shounen' : false,
+				'Shounen Ai' : false,
+				'Slice of Life' : false,
+				'Space' : false,
+				'Sports' : false,
+				'Super Power' : false,
+				'Supernatural' : false,
+				'Thriller' : false,
+				'Tokusatsu' : false,
+				'Vampire' : false,
+				'Yaoi' : false,
+				'Yuri' : false,
+			},
+			'author': null,
+			'studio': null,
+    });
     const host = ref(process.env.VUE_APP_HOST_SERVER);
     const textImage = reactive({
       message: "Tải ảnh",
@@ -519,7 +371,6 @@ export default {
       host,
       store,
       state,
-      genres,
       moment,
       imageLink,
       fileImage,
@@ -527,18 +378,23 @@ export default {
       textImage,
       imageLocal,
       labelAnime,
-      manageSelect,
+			manageData,
       pathDirStorage,
       detailAnimeData,
       stateButtonSaveImage,
+			stateWaitSaveInfomation,
     };
   },
   methods: {
     getValuecheckBox(content) {
-      console.log(content);
+			this.manageData.genres[content.name] = content.value;
     },
     getValueSelect(content) {
-      console.log(content);
+			for(let item in this.manageData) {
+				if(item === content.type && this.manageData[item].value !== content.value) {
+					this.manageData[item].value = content.value;
+				}
+			}
     },
     getValueInput(content) {
       console.log(content);
@@ -615,12 +471,21 @@ export default {
       this.imageLink = `${this.detailAnimeData.image}?${Date.now()}`;
     },
 		handleSelectAll(field) {
-			// this.manageSelect.forEach((item) => {
-			// 	if(item !== field) {
-			// 		this.$refs[item].stateOpenSelect = false;
-			// 	}
-			// })
-			console.log(this.$refs[field])
+			// close all select
+			for(let item in this.manageData) {
+				if(item !== field && !(['genres', 'author', 'studio'].includes(item))) {
+					this.$refs[item].stateOpenSelect = false;
+					this.$refs[item].order = 0;
+				}
+			}
+			// set show option for select active
+			this.$refs[field].stateOpenSelect = true;
+			this.$refs[field].order = 1;
+		},
+		async saveAnimeInfomation() {
+			this.stateWaitSaveInfomation = true;
+			await this.store.dispatch('saveAnimeInfomation', { data: { information: this.manageData, label: this.labelAnime } });
+			this.stateWaitSaveInfomation = false;
 		}
   },
 };
@@ -885,18 +750,64 @@ export default {
     &--author {
       display: flex;
       align-items: center;
+			width: 100%;
+			margin-bottom: 0.5rem;
       h1 {
         text-transform: capitalize;
         white-space: nowrap;
       }
+			input {
+				margin-left: 1rem;
+				width: 100%;
+				padding: 0.5rem;
+				border: 2px solid $border-input;
+				border-radius: 10px;
+				box-shadow: 2px 2px 0px $main-color;
+				outline: none;
+				position: relative;
+				font-size: 1rem;
+				width: inherit;
+				box-sizing: border-box;
+				&:focus {
+					box-shadow: 0px 0px 0px $main-color;
+					left: 1px;
+					top: 1px;
+				}
+				&::placeholder {
+					text-transform: capitalize;
+				}
+			} // scss loop
     }
     &--studio {
       display: flex;
       align-items: center;
+			width: 100%;
+			margin-bottom: 0.5rem;
       h1 {
         text-transform: capitalize;
         white-space: nowrap;
       }
+			input {
+				margin-left: 1rem;
+				width: 100%;
+				padding: 0.5rem;
+				border: 2px solid $border-input;
+				border-radius: 10px;
+				box-shadow: 2px 2px 0px $main-color;
+				outline: none;
+				position: relative;
+				font-size: 1rem;
+				width: inherit;
+				box-sizing: border-box;
+				&:focus {
+					box-shadow: 0px 0px 0px $main-color;
+					left: 1px;
+					top: 1px;
+				}
+				&::placeholder {
+					text-transform: capitalize;
+				}
+			} // scss loop
     }
   }
   &__add-movie {

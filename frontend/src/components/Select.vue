@@ -5,7 +5,7 @@
       :style="{ 'z-index': order }"
       @click="stateOpenSelect = !stateOpenSelect"
     >
-      <span class="content">{{ selectvalue ?? name }}</span>
+      <span class="content">{{ selectvalue ?? setDefaultValue ?? name }}</span>
       <i class="fas fa-caret-up"></i>
       <div class="select--name__popup" :class="{ active: stateOpenSelect }">
         <span @click="getvalueSelect(null)">bỏ chọn</span>
@@ -35,19 +35,21 @@ export default {
     field: {
       type: String,
     },
-    order: {
-      type: String,
-    },
+		defaultValue: {
+			type: String || Number,
+		}
   },
   setup(props, { emit }) {
+		const setDefaultValue = ref(props.defaultValue);
     const stateOpenSelect = ref(false);
     const selectvalue = ref(undefined);
     const doneSelect = ref(false);
+		const order = ref(0);
     watch(
       () => stateOpenSelect.value,
       (oldState) => {
         if (oldState) {
-					emit('selectFieldActive', props.field);
+					emit('selectActive', props.field);
           activeSelect();
         } else {
           unActiveSelect();
@@ -79,16 +81,17 @@ export default {
       });
     }
     return {
+			order,
       doneSelect,
       selectvalue,
       stateOpenSelect,
+			setDefaultValue,
     };
   },
   methods: {
     getvalueSelect(value) {
-      if (value === null) {
-        this.selectvalue = undefined;
-      } else if (this.selectvalue !== value) {
+			if (this.selectvalue !== value) {
+				if(this.setDefaultValue !== null) { this.setDefaultValue = null }
         this.selectvalue = value;
         this.$emit("changeSelect", { type: this.$props.field, value });
       }
@@ -101,7 +104,6 @@ export default {
 .select {
   position: relative;
   margin: 0.5rem;
-  transition: box-shadow top left 0.2s ease-in-out;
   &.active {
     & > div {
       box-shadow: 0px 0px 0px $main-color;

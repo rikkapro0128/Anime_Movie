@@ -38,6 +38,23 @@ body {
   }
 }
 
+.btn--anime {
+  transition: position 0.2s ease-in-out;
+  cursor: pointer;
+  position: relative;
+  padding: 0.5rem;
+  background-color: $main-color;
+  color: $light;
+  border-radius: 10px;
+  border: 2px solid $border-btn;
+  box-shadow: 2px 2px 0px $main-color;
+  &:active {
+    box-shadow: 0px 0px 0px $main-color;
+    top: 1px;
+    left: 1px;
+  }
+}
+
 .tl-ani {
   font-size: 1rem;
   color: $main-color;
