@@ -5,7 +5,7 @@
       :style="{ 'z-index': order }"
       @click="stateOpenSelect = !stateOpenSelect"
     >
-      <span class="content">{{ selectvalue ?? setDefaultValue ?? name }}</span>
+      <span class="content">{{ selectvalue ?? defaultValue ?? name }}</span>
       <i class="fas fa-caret-up"></i>
       <div class="select--name__popup" :class="{ active: stateOpenSelect }">
         <span @click="getvalueSelect(null)">bỏ chọn</span>
@@ -40,7 +40,6 @@ export default {
 		}
   },
   setup(props, { emit }) {
-		const setDefaultValue = ref(props.defaultValue);
     const stateOpenSelect = ref(false);
     const selectvalue = ref(undefined);
     const doneSelect = ref(false);
@@ -85,13 +84,11 @@ export default {
       doneSelect,
       selectvalue,
       stateOpenSelect,
-			setDefaultValue,
     };
   },
   methods: {
     getvalueSelect(value) {
 			if (this.selectvalue !== value) {
-				if(this.setDefaultValue !== null) { this.setDefaultValue = null }
         this.selectvalue = value;
         this.$emit("changeSelect", { type: this.$props.field, value });
       }

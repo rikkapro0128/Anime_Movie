@@ -365,6 +365,23 @@ export default {
       pathDirStorage.value = await store.dispatch("getPathDirStorage");
       detailAnimeData.value = store.state.movie;
       imageLink.value = detailAnimeData.value.image;
+			for(let item in manageData) {
+				if(manageData[item]?.hasOwnProperty('value')) {
+					manageData[item].value = detailAnimeData.value.infomation[item];
+					continue;
+				}
+				if(manageData[item] === null) {
+					manageData[item] = detailAnimeData.value.infomation[item];
+					continue;
+				}
+				if(item === 'genres') {
+					for(let typeAnime in manageData[item]) {
+						if((detailAnimeData.value.infomation?.['genres']).includes(String(typeAnime).toLowerCase())) {
+							manageData[item][typeAnime] = true;
+						}
+					}
+				}
+			}
     })();
     return {
       demo,
@@ -485,6 +502,7 @@ export default {
 		async saveAnimeInfomation() {
 			this.stateWaitSaveInfomation = true;
 			await this.store.dispatch('saveAnimeInfomation', { data: { information: this.manageData, label: this.labelAnime } });
+			await this.reLoadData();
 			this.stateWaitSaveInfomation = false;
 		}
   },

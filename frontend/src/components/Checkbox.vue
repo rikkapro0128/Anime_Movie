@@ -1,9 +1,9 @@
 <template>
   <div
     class="check-box"
-    :class="{ active: stateCheck }"
+    :class="{ active: stateCheck ?? value }"
     :position-checkbox="checkboxPos"
-    @click="(stateCheck = !stateCheck), changeCheckBox(stateCheck)"
+    @click="(stateCheck = !doneDefault ? false : !stateCheck), changeCheckBox(stateCheck), doneDefault = true"
   >
     <i class="fas fa-plus"></i>
     <span class="check-box__name" :title="name">{{ name }}</span>
@@ -26,9 +26,10 @@ export default {
       type: Boolean,
     },
   },
-  setup(props) {
-    const stateCheck = ref(props.value);
-    return { stateCheck };
+	setup(props) {
+    const stateCheck = ref(null);
+    const doneDefault = ref(false);
+    return { stateCheck, doneDefault };
   },
   methods: {
     changeCheckBox(value) {
