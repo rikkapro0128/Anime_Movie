@@ -194,7 +194,7 @@
 						:type-anime="name"
             :key="index"
             :name="name"
-            :value="value"
+            :valueCheckBox="value"
             :checkboxPos="index"
             @ChangeCheckBox="getValuecheckBox"
           />
@@ -268,7 +268,7 @@
 import { ref, reactive } from "vue";
 import { useStore } from "vuex";
 import { useRoute } from "vue-router";
-import { capitalize, capitalizeFirstLetter } from "../utils/common.js";
+import { capitalizeFirstLetter } from "../utils/common.js";
 import Select from "../components/Select.vue";
 import Checkbox from "../components/Checkbox.vue";
 import moment from "moment";
@@ -366,10 +366,6 @@ export default {
       detailAnimeData.value = store.state.movie;
       imageLink.value = detailAnimeData.value.image;
 			for(let item in manageData) {
-				if(manageData[item]?.hasOwnProperty('value')) {
-					manageData[item].value = detailAnimeData.value.infomation[item];
-					continue;
-				}
 				if(manageData[item] === null) {
 					manageData[item] = detailAnimeData.value.infomation[item];
 					continue;
@@ -380,7 +376,9 @@ export default {
 							manageData[item][typeAnime] = true;
 						}
 					}
+					continue;
 				}
+				manageData[item].value = detailAnimeData.value.infomation[item];
 			}
     })();
     return {
@@ -463,7 +461,7 @@ export default {
     },
     async saveInfo(value, type) {
       if (type === "name") {
-        value = capitalize(value).trim();
+        value = String(value).toLowerCase().trim();
         this.state.editName = false;
       } else if (type === "desc") {
         value = capitalizeFirstLetter(value).trim();

@@ -1,9 +1,9 @@
 <template>
   <div
     class="check-box"
-    :class="{ active: stateCheck ?? value }"
+    :class="{ active: stateCheck }"
     :position-checkbox="checkboxPos"
-    @click="(stateCheck = !doneDefault ? false : !stateCheck), changeCheckBox(stateCheck), doneDefault = true"
+    @click="stateCheck = !stateCheck, changeCheckBox(stateCheck)"
   >
     <i class="fas fa-plus"></i>
     <span class="check-box__name" :title="name">{{ name }}</span>
@@ -22,11 +22,20 @@ export default {
     name: {
       type: String,
     },
-    value: {
+		valueCheckBox: {
       type: Boolean,
     },
   },
-	setup(props) {
+	watch: {
+		valueCheckBox: function (newValue) {
+			if(!this.doneDefault && newValue) {
+				this.stateCheck = true;
+				this.spinElement(this.stateCheck);
+				this.doneDefault = true;
+			}
+		}
+	},
+	setup() {
     const stateCheck = ref(null);
     const doneDefault = ref(false);
     return { stateCheck, doneDefault };
@@ -34,13 +43,16 @@ export default {
   methods: {
     changeCheckBox(value) {
       // change spin
-      anime({
-        targets: `.check-box[position-checkbox="${this.$props.checkboxPos}"] i`,
-        rotate: value ? 45 : 0,
-      });
+      this.spinElement(value);
       // emit toggle checkbox
       this.$emit("ChangeCheckBox", { name: this.$props.name, value });
     },
+		spinElement(value) {
+			anime({
+				targets: `.check-box[position-checkbox="${this.$props.checkboxPos}"] i`,
+				rotate: value ? 45 : 0,
+			});
+		}
   },
 };
 </script>

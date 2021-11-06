@@ -56,6 +56,36 @@
     <hr />
     <h1>Giao diện comment vẫn chưa hoàn tất!</h1>
     <hr />
+		<div class="info--controls">
+			<div class="tool--select">
+				<span class="tool--select__item info active">
+					thông tin về anime
+					<i class="fas fa-info-circle"></i>
+				</span>
+				<span class="tool--select__item character">
+					nhân vật
+					<i class="fas fa-user-friends"></i>
+				</span>
+				<span class="tool--select__item voiceover">
+					lồng tiếng
+					<i class="fas fa-microphone-alt"></i>
+				</span>
+				<span class="tool--select__item trailer">
+					trailer
+					<i class="fas fa-photo-video"></i>
+				</span>
+				<span class="tool--select__item photos">
+					hình ảnh
+					<i class="fas fa-images"></i>
+				</span>
+				<span class="tool--select__item post">
+					bài đăng
+					<i class="far fa-clipboard"></i>
+				</span>
+			</div>
+			<div class="show--content select--left"></div>
+		</div>
+		<hr />
     <Comments :label="label" />
   </div>
 </template>
@@ -100,6 +130,49 @@ export default {
   border-radius: 10px;
   background-color: $light;
   @include tl-ani;
+	.info--controls {
+		display: flex;
+		flex-direction: column;
+		.tool--select {
+			display: flex;
+			&__item {
+				cursor: pointer;
+				transition: background-color 0.1s ease-in-out, color 0.1s ease-in-out, box-shadow 0.1s ease-in-out;
+				display: flex;
+				align-items: center;
+				color: $main-color;
+				padding: 0.5rem;
+				border-top-left-radius: 10px;
+				border-top-right-radius: 10px;
+				i {
+					margin-left: 0.5rem;
+				}
+				&:hover {
+					background-color: $main-color;
+					box-shadow: 0 0 10px $main-color;
+					color: $light;
+				}
+				&.active {
+					background-color: $main-color;
+					box-shadow: 0 0 10px $main-color;
+					color: $light;
+				}
+			}
+		}
+		.show--content {
+			border-bottom-left-radius: 10px;
+			border-bottom-right-radius: 10px;
+			padding: 4rem;
+			box-shadow: 0 0 10px $main-color;
+			background-color: $main-color;
+			&.select--left {
+				border-top-right-radius: 10px;
+			}
+			&.select--right {
+				border-top-left-radius: 10px;
+			}
+		}
+	}
   &__details {
     display: flex;
     height: 18rem;

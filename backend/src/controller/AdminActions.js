@@ -185,17 +185,23 @@ class Admin {
 	}
 	async updateInfoAnime(req, res, next) {
 		try {
+			// get value in request url: admin/update/info-anime
 			const { information, label } = req.body;
+			// find anime in database
 			const movie = await MovieModel.findOne({ label }).exec();
+			// loop information
 			for(let item in information) {
+				// check property information has key value
 				if(information[item]?.hasOwnProperty('value') && information[item].value) {
 					movie.infomation[item] = String(information[item].value).toLowerCase();
 					continue;
 				}
+				// check information object has item not object
 				if(typeof information[item] !== 'object') {
 					movie.infomation[item] = String(information[item]).toLowerCase();
 					continue;
 				}
+				// check type genres
 				if(item === 'genres') {
 					movie.infomation['genres'] = [];
 					for(let typeAnime in information[item]) {
@@ -207,9 +213,12 @@ class Admin {
 					}
 				}
 			}
+			// save information of movie
 			const state = await movie.save();
+			// res 301 if request pass
 			res.status(301).json({ message: 'SUCCESSFUL!' });
 		} catch (err) {
+			// res 301 if request error
 			res.status(401).json({ message: 'ERROR!' });
 		}
 	}
