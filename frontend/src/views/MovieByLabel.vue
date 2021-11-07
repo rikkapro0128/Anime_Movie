@@ -58,33 +58,99 @@
     <hr />
 		<div class="info--controls">
 			<div class="tool--select">
-				<span ref="toolRun" class="tool--select__run"></span>
-				<span ref="widthInit" @click="clickTool($event)" class="tool--select__item info active">
+				<span ref="toolRun" class="tool--select__run">
+					<div class="shape--left" v-show="leftSelect"></div>
+					<div class="main"></div>
+					<div class="shape--right"></div>
+				</span>
+				<span ref="widthInit" @click="clickTool($event, 0, 'info--anime')" class="tool--select__item info">
 					thông tin về anime
 					<i class="fas fa-info-circle"></i>
 				</span>
-				<span @click="clickTool($event)" class="tool--select__item character">
+				<span @click="clickTool($event, 1, 'info--character')" class="tool--select__item character">
 					nhân vật
 					<i class="fas fa-user-friends"></i>
 				</span>
-				<span @click="clickTool($event)" class="tool--select__item voiceover">
+				<span @click="clickTool($event, 2, 'info--voiceover')" class="tool--select__item voiceover">
 					lồng tiếng
 					<i class="fas fa-microphone-alt"></i>
 				</span>
-				<span @click="clickTool($event)" class="tool--select__item trailer">
+				<span @click="clickTool($event, 3, 'info--voiceover')" class="tool--select__item trailer">
 					trailer
 					<i class="fas fa-photo-video"></i>
 				</span>
-				<span @click="clickTool($event)" class="tool--select__item photos">
+				<span @click="clickTool($event, 4, 'info--trailer')" class="tool--select__item photos">
 					hình ảnh
 					<i class="fas fa-images"></i>
 				</span>
-				<span @click="clickTool($event)" class="tool--select__item post">
+				<span @click="clickTool($event, 5, 'info--posts')" class="tool--select__item post">
 					bài đăng
 					<i class="far fa-clipboard"></i>
 				</span>
 			</div>
-			<div class="show--content select--left"></div>
+			<div ref="controllShowData" class="show--content select--left">
+				<div class="info info--anime">
+					<span class="date">
+						<span>Xem mỗi:</span>
+						<span>{{ infoAnime['date'] }}</span>
+					</span>
+					<span class="loop">
+						<span>mỗi:</span>
+						<span>{{ infoAnime['loop'] }}</span>
+					</span>
+					<span class="state-movie">
+						<span>trạng thái anime:</span>
+						<span>{{ infoAnime['state-movie'] }}</span>
+					</span>
+					<span class="time">
+						<span>dự kiến tổng:</span>
+						<span>{{ infoAnime['time'] + 'tập' }}</span>
+					</span>
+					<span class="season">
+						<span>season:</span>
+						<span>{{ infoAnime['season'] }}</span>
+					</span>
+					<span class="translate">
+						<span>translate:</span>
+						<span>{{ infoAnime['translate'] }}</span>
+					</span>
+					<span class="quality">
+						<span>chất lượng:</span>
+						<span>{{ infoAnime['quality'] }}</span>
+					</span>
+					<span class="nation">
+						<span>quốc gia:</span>
+						<span>{{ infoAnime['nation'] }}</span>
+					</span>
+					<div class="genres">
+						<span>thể loại:</span>
+						<div>
+							<span v-for="(value, index) in infoAnime['genres']" :key="index">{{ (index === 0 ? '' : ', ') + value }}</span>
+						</div>
+					</div>
+					<span class="author">
+						<span>tác giả:</span>
+						<span>{{ infoAnime['author'] }}</span>
+					</span>
+					<span class="studio">
+						<span>studio sản xuất:</span>
+						<span>{{ infoAnime['studio'] }}</span>
+					</span>
+				</div>
+				<div class="info info--character">
+					<div class="char" v-for="(n, index) in 10" :key="index"></div>
+				</div>
+				<div class="info info--voiceover">
+					<div class="voiceover" v-for="(n, index) in 10" :key="index"></div>
+				</div>
+				<div class="info info--trailer">
+					<div>
+						<iframe width="100%" height="auto" src="https://www.youtube.com/embed/5qap5aO4i9A" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+					</div>
+				</div>
+				<div class="info info--photos">5</div>
+				<div class="info info--posts">6</div>
+			</div>
 		</div>
 		<hr />
     <Comments :label="label" />
@@ -106,6 +172,7 @@ export default {
     const label = ref(route.params.label_anime);
     const store = useStore();
     const movie = ref({});
+		const infoAnime = ref(null);
     const host = ref(process.env.VUE_APP_HOST_SERVER);
 		const widthSelect = ref(null);
 		const leftSelect = ref(null);
@@ -114,13 +181,16 @@ export default {
         label: label.value,
         options: { esp: "all" },
       });
+			infoAnime.value = store.state.movie.infomation;
       movie.value = store.state.movie;
     })();
+		console.log(infoAnime)
     return {
       host,
       label,
       store,
       movie,
+			infoAnime,
 			leftSelect,
 			widthSelect,
     };
@@ -129,20 +199,45 @@ export default {
 		this.initPos(this.$refs.widthInit);
 	},
 	methods: {
-		clickTool(e) {
+		moveInfo(number) {
+			this.$refs.controllShowData.scrollLeft = (number * this.$refs.controllShowData.offsetWidth);
+		},
+		clickTool(e, number) {
 			if(e.target.nodeName === 'I') {
 				this.initPos(e.target.parentElement);
 			}else {
 				this.initPos(e.target);
 			}
+			this.moveInfo(number);
+		},
+		setColorElement(ele) {
+			ele.classList.add('active');
+		},
+		resetColor() {
+			for(let item of document.querySelectorAll('.tool--select__item')) {
+				item.classList.remove('active');
+			}
 		},
 		initPos(node) {
+			const context = this;
 			anime({
 				targets: this.$refs.toolRun,
 				easing: 'easeOutExpo',
 				width: node.offsetWidth,
 				left: node.offsetLeft,
+				begin: function() {
+					if(node.offsetLeft !== 0) {
+						context.leftSelect = true;
+						context.$refs.controllShowData.classList.remove('select--left');
+					}else {
+						context.$refs.controllShowData.classList.add('select--left');
+						context.leftSelect = false;
+					}
+				},
+				duration: 500,
 			})
+			this.resetColor();
+			this.setColorElement(node);
 		}
 	}
 };
@@ -168,35 +263,163 @@ export default {
 				height: 100%;
 				top: 0;
 				left: 0;
+				background-color: $main-color;
 				border-top-left-radius: 10px;
 				border-top-right-radius: 10px;
-				background-color: $main-color;
-				box-shadow: 0 0 10px $main-color;
+				.main {
+					width: 100%;
+					height: 100%;
+					position: relative;
+					box-shadow: 0 0 10px $main-color;
+					border-top-left-radius: 10px;
+					border-top-right-radius: 10px;
+					z-index: 1;
+				}
+				//overflow: hidden;
+				.shape--left {
+					background: #777790;
+					width: 35px;
+					height: 35px;
+					position: absolute;
+					bottom: 0;
+					left: 0;
+					transform: translate(-74%, 25%);
+					z-index: 0;
+					&:before {
+						content: '';
+						width: 100%;
+						height: 100%;
+						background: #fff;
+						position: absolute;
+						top: -9px;
+						left: -9px;
+						border-radius: 10px;
+					}
+				}
+				.shape--right {
+					background: #777790;
+					width: 35px;
+					height: 35px;
+					position: absolute;
+					right: 0;
+					bottom: 0;
+					transform: translate(74%, 25%);;
+					z-index: 0;
+					&:before {
+						content: '';
+						width: 100%;
+						height: 100%;
+						background: #fff;
+						position: absolute;
+						top: -9px;
+						right: -9px;
+						border-radius: 10px;
+					}
+				}
 			}
 			&__item {
 				position: relative;
 				cursor: pointer;
-				transition: background-color 0.1s ease-in-out, color 0.1s ease-in-out, box-shadow 0.1s ease-in-out;
+				transition: background-color 0.1s ease-in-out,
+				box-shadow 0.1s ease-in-out,
+				color 0.3s ease-in-out;
 				display: flex;
 				align-items: center;
 				color: #2e2e36;
-				padding: 0.5rem;
+				padding: 0.7rem;
+				&.active {
+					color: #fff;
+				}
 				i {
 					margin-left: 0.5rem;
+					color: inherit;
 				}
 			}
 		}
 		.show--content {
-			border-bottom-left-radius: 10px;
-			border-bottom-right-radius: 10px;
-			padding: 4rem;
+			position: relative;
+			border-radius: 10px;
 			box-shadow: 0 0 10px $main-color;
 			background-color: $main-color;
+			transition: border-radius 0.3s linear;
+			display: flex;
+			overflow-x: scroll;
+			scroll-behavior: smooth;
+			&::-webkit-scrollbar {
+				width: 0px;
+				height: 0px;
+			}
+			.info {
+				display: inline-block;
+				width: 100%;
+				padding: 1rem;
+				box-sizing: border-box;
+				flex-shrink: 0;
+				background-color: $main-color;
+				&.info--anime {
+					& > span {
+						margin: 0 0.5rem;
+						& > span:first-child {
+							color: $light;
+							margin-right: 0.5rem;
+							text-transform: capitalize;
+						}
+						& > span:not(&:first-child) {
+							text-transform: capitalize;
+						}
+					}
+					& > div {
+						display: flex;
+						& > span:first-child {
+							color: $light;
+							margin-right: 0.5rem;
+						}
+						& > div > span:not(&:first-child) {
+							display: inline-block;
+							text-transform: capitalize;
+						}
+					}
+				}
+				&.info--character, &.info--voiceover {
+					display: flex;
+					flex-wrap: wrap;
+					align-self: flex-start;
+					.char, .voiceover {
+						width: 6rem;
+						height: 6rem;
+						background-color: $light;
+						box-shadow: 0 0 10px $main-color;
+						border-radius: 10px;
+						margin: 0.5rem;
+						flex-shrink: 0;
+					}
+				}
+				&.info--trailer {
+					div {
+						width: 50%;
+						display: block;
+						position: relative;
+						padding-top: 28.125%;
+						iframe {
+							border-radius: 10px;
+							display: block;
+							position: absolute;
+							width: 100%;
+							height: 100%;
+							top: 0;
+							left: 0;
+							border: 2px solid yellow;
+						}
+					}
+				}
+			}
 			&.select--left {
 				border-top-right-radius: 10px;
+				border-top-left-radius: 0;
 			}
 			&.select--right {
 				border-top-left-radius: 10px;
+				border-top-right-radius: 0;
 			}
 		}
 	}
