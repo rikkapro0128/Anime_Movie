@@ -58,27 +58,28 @@
     <hr />
 		<div class="info--controls">
 			<div class="tool--select">
-				<span class="tool--select__item info active">
+				<span ref="toolRun" class="tool--select__run"></span>
+				<span ref="widthInit" @click="clickTool($event)" class="tool--select__item info active">
 					thông tin về anime
 					<i class="fas fa-info-circle"></i>
 				</span>
-				<span class="tool--select__item character">
+				<span @click="clickTool($event)" class="tool--select__item character">
 					nhân vật
 					<i class="fas fa-user-friends"></i>
 				</span>
-				<span class="tool--select__item voiceover">
+				<span @click="clickTool($event)" class="tool--select__item voiceover">
 					lồng tiếng
 					<i class="fas fa-microphone-alt"></i>
 				</span>
-				<span class="tool--select__item trailer">
+				<span @click="clickTool($event)" class="tool--select__item trailer">
 					trailer
 					<i class="fas fa-photo-video"></i>
 				</span>
-				<span class="tool--select__item photos">
+				<span @click="clickTool($event)" class="tool--select__item photos">
 					hình ảnh
 					<i class="fas fa-images"></i>
 				</span>
-				<span class="tool--select__item post">
+				<span @click="clickTool($event)" class="tool--select__item post">
 					bài đăng
 					<i class="far fa-clipboard"></i>
 				</span>
@@ -95,6 +96,8 @@ import { useRoute } from "vue-router";
 import { ref } from "vue";
 import { useStore } from "vuex";
 import Comments from "../components/Comments.vue";
+import anime from 'animejs';
+
 export default {
   props: ["name_movie"],
   components: { Comments },
@@ -104,6 +107,8 @@ export default {
     const store = useStore();
     const movie = ref({});
     const host = ref(process.env.VUE_APP_HOST_SERVER);
+		const widthSelect = ref(null);
+		const leftSelect = ref(null);
     (async () => {
       await store.dispatch("getMovieByLabel", {
         label: label.value,
@@ -116,8 +121,30 @@ export default {
       label,
       store,
       movie,
+			leftSelect,
+			widthSelect,
     };
   },
+	mounted() {
+		this.initPos(this.$refs.widthInit);
+	},
+	methods: {
+		clickTool(e) {
+			if(e.target.nodeName === 'I') {
+				this.initPos(e.target.parentElement);
+			}else {
+				this.initPos(e.target);
+			}
+		},
+		initPos(node) {
+			anime({
+				targets: this.$refs.toolRun,
+				easing: 'easeOutExpo',
+				width: node.offsetWidth,
+				left: node.offsetLeft,
+			})
+		}
+	}
 };
 </script>
 
@@ -135,27 +162,27 @@ export default {
 		flex-direction: column;
 		.tool--select {
 			display: flex;
+			position: relative;
+			&__run {
+				position: absolute;
+				height: 100%;
+				top: 0;
+				left: 0;
+				border-top-left-radius: 10px;
+				border-top-right-radius: 10px;
+				background-color: $main-color;
+				box-shadow: 0 0 10px $main-color;
+			}
 			&__item {
+				position: relative;
 				cursor: pointer;
 				transition: background-color 0.1s ease-in-out, color 0.1s ease-in-out, box-shadow 0.1s ease-in-out;
 				display: flex;
 				align-items: center;
-				color: $main-color;
+				color: #2e2e36;
 				padding: 0.5rem;
-				border-top-left-radius: 10px;
-				border-top-right-radius: 10px;
 				i {
 					margin-left: 0.5rem;
-				}
-				&:hover {
-					background-color: $main-color;
-					box-shadow: 0 0 10px $main-color;
-					color: $light;
-				}
-				&.active {
-					background-color: $main-color;
-					box-shadow: 0 0 10px $main-color;
-					color: $light;
 				}
 			}
 		}
