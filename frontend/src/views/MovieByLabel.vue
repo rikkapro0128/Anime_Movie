@@ -104,7 +104,7 @@
 					</span>
 					<span class="time">
 						<span>dự kiến tổng:</span>
-						<span>{{ infoAnime['time'] + 'tập' }}</span>
+						<span>{{ infoAnime['time'] + ' tập' }}</span>
 					</span>
 					<span class="season">
 						<span>season:</span>
@@ -125,7 +125,10 @@
 					<div class="genres">
 						<span>thể loại:</span>
 						<div>
-							<span v-for="(value, index) in infoAnime['genres']" :key="index">{{ (index === 0 ? '' : ', ') + value }}</span>
+							<span v-for="(value, index) in infoAnime['genres']" :key="index">
+								<span v-if="index !== 0">, </span>
+								{{ value }}
+							</span>
 						</div>
 					</div>
 					<span class="author">
@@ -138,18 +141,28 @@
 					</span>
 				</div>
 				<div class="info info--character">
-					<div class="char" v-for="(n, index) in 10" :key="index"></div>
+					<div class="char" v-for="(n, index) in 10" :key="index">
+						<img :src="`${host}/res-image/no_image.png`">
+						<span class="name">no name</span>
+					</div>
 				</div>
 				<div class="info info--voiceover">
-					<div class="voiceover" v-for="(n, index) in 10" :key="index"></div>
+					<div class="voiceover" v-for="(n, index) in 10" :key="index">
+						<img :src="`${host}/res-image/no_image.png`">
+						<span class="name">no name</span>
+					</div>
 				</div>
 				<div class="info info--trailer">
 					<div>
 						<iframe width="100%" height="auto" src="https://www.youtube.com/embed/5qap5aO4i9A" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 					</div>
 				</div>
-				<div class="info info--photos">5</div>
-				<div class="info info--posts">6</div>
+				<div class="info info--photos">
+					<h1>chức năng xem ảnh vẫn đang viết</h1>
+				</div>
+				<div class="info info--posts">
+					<h1>chức năng xem bài đăng vẫn đang viết</h1>
+				</div>
 			</div>
 		</div>
 		<hr />
@@ -328,7 +341,7 @@ export default {
 				color: #2e2e36;
 				padding: 0.7rem;
 				&.active {
-					color: #fff;
+					color: yellow;
 				}
 				i {
 					margin-left: 0.5rem;
@@ -357,26 +370,31 @@ export default {
 				flex-shrink: 0;
 				background-color: $main-color;
 				&.info--anime {
+					display: flex;
+					flex-direction: column;
 					& > span {
-						margin: 0 0.5rem;
+						line-height: 1.2;
 						& > span:first-child {
-							color: $light;
+							color: #96ff58;
 							margin-right: 0.5rem;
 							text-transform: capitalize;
 						}
 						& > span:not(&:first-child) {
 							text-transform: capitalize;
+							color: $light;
 						}
 					}
 					& > div {
 						display: flex;
 						& > span:first-child {
-							color: $light;
+							color: #96ff58;
 							margin-right: 0.5rem;
+							text-transform: capitalize;
 						}
 						& > div > span:not(&:first-child) {
 							display: inline-block;
 							text-transform: capitalize;
+							color: $light;
 						}
 					}
 				}
@@ -385,13 +403,41 @@ export default {
 					flex-wrap: wrap;
 					align-self: flex-start;
 					.char, .voiceover {
+						img {
+							width: 100%;
+							height: 100%;
+							object-fit: cover;
+						}
+						border: 2px solid yellow;
+						overflow: hidden;
+						position: relative;
 						width: 6rem;
-						height: 6rem;
+						max-height: calc(6rem * 1.40);
 						background-color: $light;
 						box-shadow: 0 0 10px $main-color;
 						border-radius: 10px;
 						margin: 0.5rem;
 						flex-shrink: 0;
+						cursor: pointer;
+						& > .name {
+							transition: transform 0.2s ease-in-out, opacity 0.2s ease-in-out;
+							position: absolute;
+							width: 100%;
+							bottom: 0;
+							left: 0;
+							text-align: left;
+							padding: 0.5rem;
+							box-sizing: border-box;
+							transform: translateY(100%);
+							opacity: 0;
+							color: #96ff58;
+							font-size: 0.9rem;
+						}
+						&:hover > .name {
+							transform: translateY(0);
+							opacity: 1;
+							background-color: #2e2e36c7;
+						}
 					}
 				}
 				&.info--trailer {
@@ -411,6 +457,14 @@ export default {
 							border: 2px solid yellow;
 						}
 					}
+				}
+				&.info--photos, &.info--posts {
+					display: flex;
+					justify-content: center;
+					align-self: center;
+					font-size: 1.6rem;
+					color: #fff;
+					text-transform: capitalize;
 				}
 			}
 			&.select--left {
