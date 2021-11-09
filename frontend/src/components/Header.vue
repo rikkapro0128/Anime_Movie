@@ -2,13 +2,18 @@
   <header>
     <ul class="nav">
       <li class="nav__item" v-for="item in lsChoose" v-bind:key="item">
-        <span class="nav__item--scan"></span>
+        <span class="nav__item--scan">
+					<div class="shape--left"></div>
+					<div class="shape--right"></div>
+				</span>
         <router-link :to="'/' + item.path">
           {{ item.name }}
         </router-link>
       </li>
     </ul>
     <div class="space">
+			<div class="shape--left"></div>
+			<div class="shape--right"></div>
       <input type="text" v-model="keywords" placeholder="Tên anime?" />
       <button class="btn">
         Tìm kiếm
@@ -224,6 +229,46 @@ header {
     position: relative;
     display: flex;
     align-items: center;
+		.shape--left {
+			background: $light;
+			width: 35px;
+			height: 35px;
+			position: absolute;
+			top: 0;
+			left: 0;
+			transform: translate(-77%, -6%) rotate(270deg);
+			z-index: 0;
+			&:before {
+				content: '';
+				width: 100%;
+				height: 100%;
+				background: $main-color;
+				position: absolute;
+				top: -8px;
+				left: -8px;
+				border-radius: 10px;
+			}
+		}
+		.shape--right {
+			background: $light;
+			width: 35px;
+			height: 35px;
+			position: absolute;
+			right: 0;
+			top: 0;
+			transform: translate(77%, -6%) rotate(89deg);
+			z-index: 1;
+			&:before {
+				content: '';
+				width: 100%;
+				height: 100%;
+				background: $main-color;
+				position: absolute;
+				top: -8px;
+				right: -8px;
+				border-radius: 10px;
+			}
+		}
     input {
       display: inline-block;
       padding: 0.3rem 1rem;

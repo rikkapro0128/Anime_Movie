@@ -86,7 +86,7 @@ export default {
 			if(!this.permitSend) {
 				this.stateSending = true;
 				const res = await this.store.dispatch("createMovie", {
-					data: this.movieInfo,
+					data: { name: String(this.movieInfo.name).toLowerCase(), desc: String(this.movieInfo.desc).toLowerCase() },
 				});
 				if(res.message === 'SUCCESSFUL!') {
 					this.aleart();

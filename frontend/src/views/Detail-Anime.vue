@@ -268,7 +268,6 @@
 import { ref, reactive } from "vue";
 import { useStore } from "vuex";
 import { useRoute } from "vue-router";
-import { capitalizeFirstLetter } from "../utils/common.js";
 import Select from "../components/Select.vue";
 import Checkbox from "../components/Checkbox.vue";
 import moment from "moment";
@@ -464,7 +463,7 @@ export default {
         value = String(value).toLowerCase().trim();
         this.state.editName = false;
       } else if (type === "desc") {
-        value = capitalizeFirstLetter(value).trim();
+        value = String(value).toLowerCase().trim();
         this.state.editDesc = false;
       }
       const label = await this.$store.dispatch("updateMovie", {
