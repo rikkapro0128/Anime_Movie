@@ -21,15 +21,14 @@ const movie = new Schema({
         'studio': { type: String, default: '' },
     },
     videos: [{ type: Schema.Types.ObjectId, ref: 'videos' }],
-    comments: [{ type: Schema.Types.ObjectId, ref: 'comment' }]
-});
+    comments: [{ type: Schema.Types.ObjectId, ref: 'comment' }],
+}, { timestamps: true });
 
 const videos = new Schema({
     label: { type: String, required: true },
     esp: { type: String, default: '' },
     path: { type: String, default: '' },
-    createAt: { type: Date, default: Date.now() }
-});
+},{ timestamps: true });
 
 // create models
 const VideoModel = mongoose.model('videos', videos);

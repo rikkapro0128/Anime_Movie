@@ -12,9 +12,7 @@ const comment = new Schema({
   type: { type: String, default: "user", enum: ["user", "admin"] },
   content: { type: String, default: "" },
   replys: [{ type: Schema.Types.ObjectId, ref: 'comment' }],
-  createAt: { type: Date, default: Date.now() },
-  updateAt: { type: Date, default: Date.now() },
-});
+},{ timestamps: true });
 
 
 // create models

@@ -16,8 +16,7 @@ const account = new Schema({
   phone: { type: String, default: '000-000-000' },
   refToken: { type: Array, default: [] },
   followMovie: { type: Array, default: [] },
-  createAt: { type: Date, default: Date.now() },
-});
+},{ timestamps: true });
 
 // create models
 const AccountModel = mongoose.model('account', account);

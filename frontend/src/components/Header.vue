@@ -1,11 +1,9 @@
 <template>
   <header>
+		<span class="horizontal--scan">
+		</span>
     <ul class="nav">
       <li class="nav__item" v-for="item in lsChoose" v-bind:key="item">
-        <span class="nav__item--scan">
-					<div class="shape--left"></div>
-					<div class="shape--right"></div>
-				</span>
         <router-link :to="'/' + item.path">
           {{ item.name }}
         </router-link>
@@ -66,19 +64,15 @@
     </div>
     <ul class="nav">
       <li class="nav__item" v-if="!isLogin">
-        <span class="nav__item--scan"></span>
         <router-link to="/dang-nhap">Đăng nhập</router-link>
       </li>
       <li class="nav__item" v-if="!isLogin">
-        <span class="nav__item--scan"></span>
         <router-link to="/dang-ky">Đăng ký</router-link>
       </li>
       <li class="nav__item" v-if="isAdmin">
-        <span class="nav__item--scan"></span>
         <router-link :to="`/admin/danh-sach-anime`">Quản lí</router-link>
       </li>
       <li class="nav__item user__tool last--nav-item" v-if="isLogin">
-        <span class="nav__item--scan"></span>
         <p
           @click="turnUserTool = !turnUserTool"
           @mouseenter="turnUserTool = true"
@@ -220,6 +214,15 @@ header {
   position: sticky;
   top: 0;
   z-index: 3;
+	.horizontal--scan {
+		position: absolute;
+		width: 100%;
+		height: 6px;
+		z-index: 1;
+		transition: height 0.2s ease-in-out;
+		background-color: $light;
+		z-index: 1;
+	}
   .space {
     display: inline-block;
     width: 100%;
@@ -287,7 +290,7 @@ header {
     }
     button {
       margin-right: 0.5rem;
-      padding: 0.5rem;
+      padding: 0.4rem;
       border-top-left-radius: 20px;
       border-bottom-right-radius: 20px;
     }
@@ -419,13 +422,6 @@ header {
         transition: color 0.15s ease-in-out;
         white-space: nowrap;
       }
-      &--scan {
-        position: absolute;
-        width: 100%;
-        height: 6px;
-        z-index: 1;
-        transition: height 0.2s ease-in-out;
-      }
       span {
         background-color: #fff;
       }
@@ -436,7 +432,7 @@ header {
           position: absolute;
           height: 50%;
           width: 1px;
-          background-color: $base-color;
+          background-color: $light;
           top: 0;
           right: -1px;
           transform: translateY(50%);
@@ -449,10 +445,10 @@ header {
           border-bottom-left-radius: 20px;
           border-bottom-right-radius: 20px;
         }
-        a,
-        p {
-          color: $base-color;
-        }
+        //a,
+        //p {
+        //  color: $base-color;
+        //}
       }
       .user__tool {
         position: relative;
