@@ -1,10 +1,15 @@
 <template>
   <footer>
-		<div class="content">
-			<router-link class="name" to="/">anime movie</router-link>
+		<div class="wrap--content">
+			<div class="content">
+				<router-link class="name" to="/">anime movie</router-link>
+			</div>
+			<div>
+				<span class="intro">Mình là một coder quèn thích anime, ngứa tay nên mình code ra website này để xem anime cũng như sưu tầm, mọi người có thể xem anime ở đây thoải mái nhá, có ý kiến gì có thể liên hệ mình hoặc đóng góp tại mục báo cáo trong phần cài đặt</span>
+			</div>
 		</div>
 		<div class="tag--horizontal">
-			<div class="tag--horizontal__name">footer</div>
+			<div class="tag--horizontal__name">website thiết kế bởi miru</div>
 			<div class="tag--horizontal__bg"></div>
 		</div>
 		<div class="overlay--horizontal"></div>
@@ -20,6 +25,14 @@
 				<!--			:to="{ name: 'social-facebook' }"-->
 				<router-link class="contact--text" to="/">
 					<i class="fab fa-facebook-square"></i>
+				</router-link>
+				<!--			:to="{ name: 'social-youtube' }"-->
+				<router-link class="contact--text" to="/">
+					<i class="fab fa-youtube"></i>
+				</router-link>
+				<!--			:to="{ name: 'social-instagram' }"-->
+				<router-link class="contact--text" to="/">
+					<i class="fab fa-instagram"></i>
 				</router-link>
 			</div>
 			<div class="after"></div>
@@ -41,25 +54,73 @@ footer {
 		#fff;
 	min-height: 14rem;
 	position: relative;
-	.content {
-		font-family: "Roboto", sans-serif;
+	margin-top: 4rem;
+	.wrap--content {
+		display: flex;
+		width: 100%;
 		position: relative;
-		z-index: 1;
-		.name {
-			font-size: 2.5rem;
-			text-transform: capitalize;
-			font-weight: 700;
-			display: block;
-			padding: 2rem;
-			font-style: italic;
+		& > div:nth-child(2) {
+			position: relative;
+			&:before {
+				content: '';
+				display: block;
+				position: absolute;
+				width: 2px;
+				height: calc(100% - 5.5rem);
+				background-color: #2e2e36;
+				top: 1.3rem;
+				left: 1.5rem;
+			}
+			& > .intro {
+				position: relative;
+				line-height: 1.3;
+				min-width: 12.625rem;
+				margin: 1rem 24rem 4rem 3rem;
+				max-height: 12rem;
+				overflow: hidden;
+				display: -webkit-box !important;
+				-webkit-line-clamp: 8;
+				-webkit-box-orient: vertical;
+			}
 		}
-		&::before {
-			content: '';
-			display: block;
-			width: 5rem;
-			height: 5rem;
-			//background-color: #2e2e36;
-			position: absolute;
+		.content {
+			font-family: "Roboto", sans-serif;
+			position: relative;
+			z-index: 1;
+			margin-left: 2rem;
+			position: relative;
+			top: 1rem;
+			width: fit-content;
+			height: fit-content;
+			.name {
+				font-size: 2.5rem;
+				text-transform: capitalize;
+				font-weight: 700;
+				display: block;
+				font-style: italic;
+			}
+			&::before {
+				content: '';
+				display: block;
+				width: 10rem;
+				height: 4rem;
+				background: url('~@/assets/img/dot.png');
+				position: absolute;
+				background-size: 5%;
+				bottom: -90%;
+				left: -9%;
+			}
+			&::after {
+				content: '';
+				display: block;
+				width: 4rem;
+				height: 2rem;
+				background: url('~@/assets/img/pluse.png');
+				position: absolute;
+				background-size: 34%;
+				top: -50%;
+				right: -10%;
+			}
 		}
 	}
 	.tag--horizontal {
@@ -79,8 +140,10 @@ footer {
 			position: relative;
 			text-align: center;
 			text-transform: capitalize;
-			border-left: 2px solid #efd3b3;
-			border-top: 2px solid #efd3b3;
+			border-left: 2px solid #24A1A6;
+			border-top: 2px solid #24A1A6;
+			padding: 0 0.5rem;
+			font-style: italic;
 			&::before {
 				content: '';
 				position: absolute;
@@ -90,7 +153,7 @@ footer {
 				background-color: #585858;
 				transform-origin: top left;
 				transform: skew(30deg, -4deg);
-				border-right: 2px solid #efd3b3;
+				border-right: 2px solid #24A1A6;
 				z-index: -1;
 			}
 		}
@@ -100,7 +163,7 @@ footer {
 			width: 100%;
 			height: 1rem;
 			bottom: 0;
-			background-color: #efd3b3;
+			background: linear-gradient(270deg, rgba(13,160,175,1) 0%, rgba(66,254,151,1) 100%);
 			z-index: -2;
 		}
 	}
@@ -148,8 +211,8 @@ footer {
 		background: no-repeat url('~@/assets/img/siesta-footer.png'), no-repeat url('~@/assets/img/siesta-shadow.png');
 		background-size: 20%, 20%;
 		background-position: 76% -6%, 80% -12%;
-		border-left: 2px solid #efd3b3;
-		border-right: 2px solid #efd3b3;
+		border-left: 2px solid #24A1A6;
+		border-right: 2px solid #24A1A6;
 		box-sizing: border-box;
 	}
 }
