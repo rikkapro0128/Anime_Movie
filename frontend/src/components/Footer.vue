@@ -109,6 +109,7 @@ footer {
 				background-size: 5%;
 				bottom: -90%;
 				left: -9%;
+				z-index: -1;
 			}
 			&::after {
 				content: '';

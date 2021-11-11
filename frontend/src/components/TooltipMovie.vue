@@ -46,9 +46,9 @@ export default {
 <style lang="scss" scoped>
 .tooltip--movie {
   width: 12rem;
-  background-color: $main-color-tspa;
-  border: 2px solid $light;
-  box-shadow: 0 0 10px $light;
+  background-color: $tooltip;
+  border: 1px solid $light;
+  //box-shadow: 0 0 10px $light;
   color: $base-color;
   font-family: "Patrick Hand", cursive;
   padding: 1rem;
@@ -65,7 +65,7 @@ export default {
       display: inline;
       font-style: oblique;
       font-weight: 600;
-      color: $base-color;
+      color: #000;
     }
   }
   &__name {

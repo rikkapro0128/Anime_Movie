@@ -1,8 +1,8 @@
 <template>
   <div
     class="card box__sd"
-    @mouseenter="showTooltip = true"
-    @mouseleave="showTooltip = false"
+    @mouseenter="showTooltip = true, isHover = true"
+    @mouseleave="showTooltip = false, isHover = false"
     @mousemove="readCoordinate($event)"
   >
     <router-link
@@ -18,7 +18,12 @@
     />
     <span class="card__rate">9.8</span>
     <span class="card__label"></span>
-    <img class="card__play" src="~@/assets/img/playOv.png" alt="" />
+    <div class="card__play" :class="{ hover: isHover }">
+			<span class="node"></span>
+			<span class="run--auto"></span>
+			<span class="run--auto"></span>
+			<span class="run--auto"></span>
+		</div>
     <span class="card__name">{{ movie.name }}</span>
     <span class="spin">{{
       movie?.videos ? movie.videos[movie.videos.length - 1]?.esp || 0 : 0
@@ -43,8 +48,10 @@ export default {
     const showTooltip = ref(false);
     const host = ref(process.env.VUE_APP_HOST_SERVER);
     const coordinate = reactive({ x: 0, y: 0 });
+		const isHover = ref(false);
     return {
       host,
+			isHover,
       coordinate,
       showTooltip
     };
