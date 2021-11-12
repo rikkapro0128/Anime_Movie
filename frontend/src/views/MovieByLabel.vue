@@ -92,40 +92,40 @@
 				<div class="info info--anime">
 					<span class="date">
 						<span>Xem mỗi:</span>
-						<span>{{ infoAnime['date'] }}</span>
+						<span>{{ infoAnime?.['date'] }}</span>
 					</span>
 					<span class="loop">
 						<span>mỗi:</span>
-						<span>{{ infoAnime['loop'] }}</span>
+						<span>{{ infoAnime?.['loop'] }}</span>
 					</span>
 					<span class="state-movie">
 						<span>trạng thái anime:</span>
-						<span>{{ infoAnime['state-movie'] }}</span>
+						<span>{{ infoAnime?.['state-movie'] }}</span>
 					</span>
 					<span class="time">
 						<span>dự kiến tổng:</span>
-						<span>{{ infoAnime['time'] + ' tập' }}</span>
+						<span>{{ infoAnime?.['time'] + ' tập' }}</span>
 					</span>
 					<span class="season">
 						<span>season:</span>
-						<span>{{ infoAnime['season'] }}</span>
+						<span>{{ infoAnime?.['season'] }}</span>
 					</span>
 					<span class="translate">
 						<span>translate:</span>
-						<span>{{ infoAnime['translate'] }}</span>
+						<span>{{ infoAnime?.['translate'] }}</span>
 					</span>
 					<span class="quality">
 						<span>chất lượng:</span>
-						<span>{{ infoAnime['quality'] }}</span>
+						<span>{{ infoAnime?.['quality'] }}</span>
 					</span>
 					<span class="nation">
 						<span>quốc gia:</span>
-						<span>{{ infoAnime['nation'] }}</span>
+						<span>{{ infoAnime?.['nation'] }}</span>
 					</span>
 					<div class="genres">
 						<span>thể loại:</span>
 						<div>
-							<span v-for="(value, index) in infoAnime['genres']" :key="index">
+							<span v-for="(value, index) in infoAnime?.['genres']" :key="index">
 								<span v-if="index !== 0">, </span>
 								{{ value }}
 							</span>
@@ -133,11 +133,11 @@
 					</div>
 					<span class="author">
 						<span>tác giả:</span>
-						<span>{{ infoAnime['author'] }}</span>
+						<span>{{ infoAnime?.['author'] }}</span>
 					</span>
 					<span class="studio">
 						<span>studio sản xuất:</span>
-						<span>{{ infoAnime['studio'] }}</span>
+						<span>{{ infoAnime?.['studio'] }}</span>
 					</span>
 				</div>
 				<div class="info info--character">
@@ -197,7 +197,6 @@ export default {
 			infoAnime.value = store.state.movie.infomation;
       movie.value = store.state.movie;
     })();
-		console.log(infoAnime)
     return {
       host,
       label,
