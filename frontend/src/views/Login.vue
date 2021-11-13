@@ -54,7 +54,8 @@ import helper from "../utils/helperLocalStorage.js";
 import { reactive, ref } from "vue";
 import { useStore } from "vuex";
 import { useRouter } from "vue-router";
-import { initFbsdk } from "../utils/loginFacebook.js";
+// import { initFbsdk } from "../utils/loginFacebook.js";
+// import router from "@/routes/router";
 export default {
   components: { Input, Overlay, Loading, Popup },
   setup() {
@@ -80,7 +81,6 @@ export default {
     const loading = ref(false);
     const statePopup = ref(false);
     const messagePopup = ref("");
-    initFbsdk();
     return {
       store,
       router,
@@ -93,33 +93,29 @@ export default {
   },
   methods: {
     loginFaceBook() {
-      const context = this;
-      window.FB.getLoginStatus(function(res) {
-        if (res.status !== "connected") {
-          window.FB.login(
-            async ({ authResponse }) => {
-              // call API sen accessToken
-              this.loading = true;
-              const state = await context.store.dispatch("getAuthFacebook", {
-                accessToken: authResponse.accessToken
-              });
-              if (Object.keys(state).length) {
-                this.loading = false;
-                localStorage.setItem("authType", JSON.stringify("facebook"));
-                localStorage.setItem(
-                  "avatar",
-                  JSON.stringify(state.avatarFacebook)
-                );
-                helper.signLocalStorage(state);
-                context.$router.push("/");
-              } else {
-                this.loading = false;
-              }
-            },
-            { scope: "public_profile, email" }
-          );
-        }
-      });
+			const context = this;
+			window.FB.getLoginStatus(function(response) {
+				if (response.status === 'connected') {
+					// The user is logged in and has authenticated your
+					// app, and response.authResponse supplies
+					// the user's ID, a valid access token, a signed
+					// request, and the time the access token
+					// and signed request each expire.
+					// var uid = response.authResponse.userID;
+					// var accessToken = response.authResponse.accessToken;
+				} else if (response.status === 'not_authorized' || response.status === 'unknown') {
+					// The user hasn't authorized your application.  They
+					// must click the Login button, or you must call FB.login
+					// in response to a user gesture, to launch a login dialog.
+					window.FB.login(async function(data) {
+						// handle the response
+						const accessToken = data.authResponse.accessToken;
+						const payload = await context.store.dispatch('getAuthFacebook', { accessToken });
+						helper.signLocalStorage(payload);
+						context.router.push('/');
+					}, { scope: 'email, user_likes' });
+				}
+			});
     },
     changeValue(inputValue) {
       this.dataForm[inputValue.field] = inputValue.value;

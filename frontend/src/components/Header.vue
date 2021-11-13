@@ -96,7 +96,7 @@
             :key="index"
             >{{ select.name }}</router-link
           >
-          <button @click="logout(), (turnUserTool = false)" class="last">
+          <button @click="logoutFaceBook(), (turnUserTool = false)" class="last">
             Đăng xuất
           </button>
         </div>
@@ -110,9 +110,7 @@ import { ref, watch } from "vue";
 import { useStore } from "vuex";
 import { useRoute, useRouter } from "vue-router";
 import helper from "../utils/helperToken.js";
-import { initFbsdk } from "../utils/loginFacebook.js";
 import { capitalize } from "../utils/common.js";
-// import anime from "animejs";
 export default {
   name: "Header",
   setup() {
@@ -140,27 +138,6 @@ export default {
       { name: "Nhóm Chat", path: "/" },
       { name: "Hộp phim", path: "/" }
     ]);
-    initFbsdk();
-    const logout = async () => {
-      const authType = JSON.parse(localStorage.getItem("authType"));
-      await store.dispatch("sendDataSign", {
-        dataForm: {
-          id_user: JSON.parse(localStorage.getItem("id_user")),
-          type: "sign-out"
-        }
-      });
-      if (authType === "facebook") {
-        window.FB.getLoginStatus(function(res) {
-          if (res.status === "connected") {
-            window.FB.logout();
-          }
-        });
-      }
-      localStorage.clear();
-      helper.clearToken();
-      router.push("/");
-      isLogin.value = false;
-    };
     watch(
       () => route.path,
       () => {
@@ -181,7 +158,7 @@ export default {
     return {
       host,
       store,
-      logout,
+			router,
       isAdmin,
       isLogin,
       keywords,
@@ -193,6 +170,27 @@ export default {
     };
   },
   methods: {
+		async logoutFaceBook() {
+			const context = this;
+			window.FB.getLoginStatus(async function(response) {
+				if(response.status === 'connected') {
+					await context.store.dispatch("sendDataSign", {
+						dataForm: {
+							id_user: JSON.parse(localStorage.getItem("id_user")),
+							type: "sign-out"
+						}
+					});
+					window.FB.logout(function() {
+						// user is now logged out
+						console.log('user is now logged out!')
+					});
+				}
+			})
+			localStorage.clear();
+			helper.clearToken();
+			this.router.push("/");
+			this.isLogin = false;
+		},
     cancelSearch() {
       this.searchAnimed = [];
       this.keywords = "";
